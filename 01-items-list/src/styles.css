@@ -3,3 +3,35 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 20px;
+}
+
+.selections {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  width: 250px;
+
+  text-align: center;
+}
+
+.mug-selection {
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+
+.shopping-list {
+  width: 450px;
+  height: 350px;
+  border: 1px solid black;
+}
