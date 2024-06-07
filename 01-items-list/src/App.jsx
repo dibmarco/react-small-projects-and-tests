@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 
-const mugs = [
-  {
-    color: "White",
+const mugs = {
+  white: {
     img: "imgs/white_mug.jpg",
     price: 12.49,
   },
-  {
-    color: "Brown",
+  brown: {
     img: "imgs/brown_mug.jpg",
     price: 12.49,
   },
-  {
-    color: "Black",
+  black: {
     img: "imgs/black_mug.jpg",
     price: 12.49,
   },
-];
+};
 
 function App() {
   return (
@@ -28,14 +25,13 @@ function App() {
 }
 
 function Selections() {
-  const [selectedColor, setSelectedColor] = useState(mugs[0].color);
+  const [selectedColor, setSelectedColor] = useState('white');
 
-  function handleColorSelection(event) {
+  function handleColorChange(event) {
     setSelectedColor(event.target.value);
   };
 
-  const selectedMug = mugs.find((mug) => mug.color === selectedColor);
-  // console.log(selectedMug);
+  const selectedMug = mugs[selectedColor];
 
   return (
     <div className="selections">
@@ -43,16 +39,17 @@ function Selections() {
         <p>Select your Coffee Mug</p>
         <img
           src={selectedMug.img}
-          alt={`${selectedColor} Coffee Mug`}
+          alt={`${selectedColor} coffee mug`}
           className="mug-selection"
         />
       </div>
 
       <label>Color</label>
-      <select value={selectedColor} onChange={handleColorSelection}>
-        {mugs.map((mug, i) => (
-          <option value={mug.color} key={i}>
-            {mug.color}
+      <select value={selectedColor} onChange={handleColorChange}>
+        {/* Object.keys() creates an array containing the keys of a given object */}
+        {Object.keys(mugs).map((color, i) => (
+          <option value={color} key={i}>
+            {color}
           </option>
         ))}
       </select>
