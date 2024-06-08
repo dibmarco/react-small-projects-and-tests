@@ -7,7 +7,7 @@
 .app {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   flex-direction: row;
 
   padding: 20px;
@@ -15,11 +15,12 @@
 
 .selections {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   flex-direction: column;
 
   width: 250px;
+  height: auto;
 
   text-align: center;
 }
@@ -32,6 +33,33 @@
 
 .shopping-list {
   width: 450px;
-  height: 350px;
+  min-height: 350px;
   border: 1px solid black;
+  padding: 10px;
+}
+
+.mug-in-cart {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+
+  width: 100%;
+
+  margin-bottom: 5px;
+}
+
+.mug-in-cart > img {
+  width: 80px;
+  min-height: 80px;
+}
+
+.delete-item {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
 }

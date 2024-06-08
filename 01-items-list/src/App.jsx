@@ -16,21 +16,29 @@ const mugs = {
 };
 
 function App() {
+  const [cart, setCart] = useState([]);
+
+  function handleAddToCart(mugSelections) {
+    setCart((prevCart) => [...prevCart, mugSelections]);
+  }
+
   return (
     <div className="app">
-      <Selections />
-      <ShoppingList />
+      <Selections onAddtoCart={handleAddToCart} />
+      <ShoppingList cart={cart} />
     </div>
   );
 }
 
-function Selections() {
+function Selections({ onAddtoCart }) {
   const [selectedColor, setSelectedColor] = useState("white");
+  const [img, setImg] = useState(mugs["white"].img);
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(mugs["white"].price);
 
   function handleColorChange(color) {
     setSelectedColor(color);
+    setImg(mugs[color].img);
     setQuantity(1);
     setPrice(mugs[color].price);
   }
@@ -42,13 +50,19 @@ function Selections() {
   }
 
   function handleAddToCart() {
+    const id = crypto.randomUUID();
+
     const mugSelections = {
       color: selectedColor,
+      img: img,
       quantity: quantity,
       price: quantity * price,
+      id: id,
     };
 
     // console.log(mugSelections);
+
+    onAddtoCart(mugSelections);
   }
 
   return (
@@ -63,7 +77,10 @@ function Selections() {
       </div>
 
       <label>Color</label>
-      <select value={selectedColor} onChange={(e) => handleColorChange(e.target.value)}>
+      <select
+        value={selectedColor}
+        onChange={(e) => handleColorChange(e.target.value)}
+      >
         {/* Object.keys() creates an array containing the keys of a given object */}
         {Object.keys(mugs).map((color, i) => (
           <option value={color} key={i}>
@@ -93,8 +110,19 @@ function Selections() {
   );
 }
 
-function ShoppingList() {
-  return <div className="shopping-list"></div>;
+function ShoppingList({ cart }) {
+  return (
+    <div className="shopping-list">
+      {cart.map((mugInCart, i) => (
+        <div className="mug-in-cart" key={i}>
+          <img src={mugInCart.img} alt={`${mugInCart.color} coffee mug`} />
+          <p>Qty: {mugInCart.quantity}</p>
+          <p>Price: {mugInCart.price}</p>
+          <p className="delete-item">❌</p>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default App;
