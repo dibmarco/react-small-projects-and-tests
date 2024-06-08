@@ -18,14 +18,19 @@ const mugs = {
 function App() {
   const [cart, setCart] = useState([]);
 
-  function handleAddToCart(mugSelections) {
-    setCart((prevCart) => [...prevCart, mugSelections]);
+  function handleAddToCart(mug) {
+    setCart((prevCart) => [...prevCart, mug]);
+  }
+
+  function handleDeleteItem(id) {
+    // console.log(id);
+    setCart((mugs) => mugs.filter((mug) => mug.id !== id));
   }
 
   return (
     <div className="app">
       <Selections onAddtoCart={handleAddToCart} />
-      <ShoppingList cart={cart} />
+      <ShoppingList cart={cart} onDeleteItem={handleDeleteItem} />
     </div>
   );
 }
@@ -110,7 +115,7 @@ function Selections({ onAddtoCart }) {
   );
 }
 
-function ShoppingList({ cart }) {
+function ShoppingList({ cart, onDeleteItem }) {
   return (
     <div className="shopping-list">
       {cart.map((mugInCart, i) => (
@@ -118,7 +123,9 @@ function ShoppingList({ cart }) {
           <img src={mugInCart.img} alt={`${mugInCart.color} coffee mug`} />
           <p>Qty: {mugInCart.quantity}</p>
           <p>Price: {mugInCart.price}</p>
-          <p className="delete-item">❌</p>
+          <p className="delete-item" onClick={() => onDeleteItem(mugInCart.id)}>
+            ❌
+          </p>
         </div>
       ))}
     </div>
