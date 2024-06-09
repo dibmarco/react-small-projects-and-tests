@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const mugs = {
   white: {
@@ -17,20 +17,36 @@ const mugs = {
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [totalQty, setTotalQty] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    const qtyArray = cart.map((mug) => mug.quantity);
+    const newTotalQty = qtyArray.reduce((acc, cur) => acc + cur, 0);
+    setTotalQty(newTotalQty);
+
+    const priceArray = cart.map((mug) => mug.price);
+    const newTotalPrice = priceArray.reduce((acc, cur) => acc + cur, 0);
+    setTotalPrice(newTotalPrice);
+  }, [cart]);
 
   function handleAddToCart(mug) {
     setCart((prevCart) => [...prevCart, mug]);
   }
 
   function handleDeleteItem(id) {
-    // console.log(id);
-    setCart((mugs) => mugs.filter((mug) => mug.id !== id));
+    setCart((prevCart) => prevCart.filter((mug) => mug.id !== id));
   }
 
   return (
     <div className="app">
       <Selections onAddtoCart={handleAddToCart} />
-      <ShoppingList cart={cart} onDeleteItem={handleDeleteItem} />
+      <ShoppingList
+        cart={cart}
+        onDeleteItem={handleDeleteItem}
+        totalQty={totalQty}
+        totalPrice={totalPrice}
+      />
     </div>
   );
 }
@@ -115,19 +131,27 @@ function Selections({ onAddtoCart }) {
   );
 }
 
-function ShoppingList({ cart, onDeleteItem }) {
+function ShoppingList({ cart, onDeleteItem, totalQty, totalPrice }) {
   return (
-    <div className="shopping-list">
-      {cart.map((mugInCart, i) => (
-        <div className="mug-in-cart" key={i}>
-          <img src={mugInCart.img} alt={`${mugInCart.color} coffee mug`} />
-          <p>Qty: {mugInCart.quantity}</p>
-          <p>Price: {mugInCart.price}</p>
-          <p className="delete-item" onClick={() => onDeleteItem(mugInCart.id)}>
-            ❌
-          </p>
-        </div>
-      ))}
+    <div className="cart-container">
+      <div className="shopping-list">
+        {cart.map((mugInCart, i) => (
+          <div className="mug-in-cart" key={i}>
+            <img src={mugInCart.img} alt={`${mugInCart.color} coffee mug`} />
+            <p>Qty: {mugInCart.quantity}</p>
+            <p>Price: {mugInCart.price}</p>
+            <p
+              className="delete-item"
+              onClick={() => onDeleteItem(mugInCart.id)}
+            >
+              ❌
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className="grand-total">
+        Total Items: {totalQty} | Total Price: {totalPrice}
+      </div>
     </div>
   );
 }
