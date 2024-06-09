@@ -84,6 +84,7 @@ function Selections({ onAddtoCart }) {
     // console.log(mugSelections);
 
     onAddtoCart(mugSelections);
+    setQuantity(1);
   }
 
   return (
