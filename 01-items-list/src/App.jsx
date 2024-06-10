@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-const shirts = {
-  motorhead: {
-    white: {
-      img: "imgs/motorhead_white.jpg",
-      qty: 3,
-      price: 12.49,
-    },
-    black: {
-      img: "imgs/motorhead_black.jpg",
-      qty: 4,
-      price: 13.49,
-    },
-    red: {
-      img: "imgs/motorhead_red.jpg",
-      qty: 2,
-      price: 15.49,
-    },
+const mugs = {
+  white: {
+    img: "imgs/white_mug.jpg",
+    price: 12.49,
+  },
+  brown: {
+    img: "imgs/brown_mug.jpg",
+    price: 13.49,
+  },
+  black: {
+    img: "imgs/black_mug.jpg",
+    price: 15.49,
   },
 };
 
@@ -26,21 +21,21 @@ function App() {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const qtyArray = cart.map((shirt) => shirt.quantity);
+    const qtyArray = cart.map((mug) => mug.quantity);
     const newTotalQty = qtyArray.reduce((acc, cur) => acc + cur, 0);
     setTotalQty(newTotalQty);
 
-    const priceArray = cart.map((shirt) => shirt.price);
+    const priceArray = cart.map((mug) => mug.price);
     const newTotalPrice = priceArray.reduce((acc, cur) => acc + cur, 0);
     setTotalPrice(newTotalPrice);
   }, [cart]);
 
-  function handleAddToCart(shirt) {
-    setCart((prevCart) => [...prevCart, shirt]);
+  function handleAddToCart(mug) {
+    setCart((prevCart) => [...prevCart, mug]);
   }
 
   function handleDeleteItem(id) {
-    setCart((prevCart) => prevCart.filter((shirt) => shirt.id !== id));
+    setCart((prevCart) => prevCart.filter((mug) => mug.id !== id));
   }
 
   return (
@@ -58,18 +53,18 @@ function App() {
 
 function Selections({ onAddtoCart }) {
   const [selectedColor, setSelectedColor] = useState("white");
-  const [img, setImg] = useState(shirts["white"].img);
+  const [img, setImg] = useState(mugs["white"].img);
   const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(shirts["white"].price);
+  const [price, setPrice] = useState(mugs["white"].price);
 
   function handleColorChange(color) {
     setSelectedColor(color);
-    setImg(shirts[color].img);
+    setImg(mugs[color].img);
     setQuantity(1);
-    setPrice(shirts[color].price);
+    setPrice(mugs[color].price);
   }
 
-  const selectedShirt = shirts[selectedColor];
+  const selectedMug = mugs[selectedColor];
 
   function handleQuantity(value) {
     setQuantity(value);
@@ -78,7 +73,7 @@ function Selections({ onAddtoCart }) {
   function handleAddToCart() {
     const id = crypto.randomUUID();
 
-    const shirtSelections = {
+    const mugSelections = {
       color: selectedColor,
       img: img,
       quantity: quantity,
@@ -86,20 +81,20 @@ function Selections({ onAddtoCart }) {
       id: id,
     };
 
-    // console.log(shirtSelections);
+    // console.log(mugSelections);
 
-    onAddtoCart(shirtSelections);
+    onAddtoCart(mugSelections);
     setQuantity(1);
   }
 
   return (
     <div className="selections">
       <div>
-        <p>Select your Coffee shirt</p>
+        <p>Select your Coffee Mug</p>
         <img
-          src={selectedShirt.img}
-          alt={`${selectedColor} coffee shirt`}
-          className="shirt-selection"
+          src={selectedMug.img}
+          alt={`${selectedColor} coffee mug`}
+          className="mug-selection"
         />
       </div>
 
@@ -109,7 +104,7 @@ function Selections({ onAddtoCart }) {
         onChange={(e) => handleColorChange(e.target.value)}
       >
         {/* Object.keys() creates an array containing the keys of a given object */}
-        {Object.keys(shirts).map((color, i) => (
+        {Object.keys(mugs).map((color, i) => (
           <option value={color} key={i}>
             {color}
           </option>
@@ -141,17 +136,14 @@ function ShoppingList({ cart, onDeleteItem, totalQty, totalPrice }) {
   return (
     <div className="cart-container">
       <div className="shopping-list">
-        {cart.map((shirtInCart, i) => (
-          <div className="shirt-in-cart" key={i}>
-            <img
-              src={shirtInCart.img}
-              alt={`${shirtInCart.color} coffee shirt`}
-            />
-            <p>Qty: {shirtInCart.quantity}</p>
-            <p>Price: {shirtInCart.price}</p>
+        {cart.map((mugInCart, i) => (
+          <div className="mug-in-cart" key={i}>
+            <img src={mugInCart.img} alt={`${mugInCart.color} coffee mug`} />
+            <p>Qty: {mugInCart.quantity}</p>
+            <p>Price: {mugInCart.price}</p>
             <p
               className="delete-item"
-              onClick={() => onDeleteItem(shirtInCart.id)}
+              onClick={() => onDeleteItem(mugInCart.id)}
             >
               ❌
             </p>
