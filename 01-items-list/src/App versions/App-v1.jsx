@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const initialMugs = {
+const mugs = {
   white: {
     img: "imgs/white_mug.jpg",
     qty: 3,
@@ -19,7 +19,6 @@ const initialMugs = {
 };
 
 function App() {
-  const [mugs, setMugs] = useState(initialMugs);
   const [cart, setCart] = useState([]);
   const [totalQty, setTotalQty] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -36,34 +35,15 @@ function App() {
 
   function handleAddToCart(mug) {
     setCart((prevCart) => [...prevCart, mug]);
-
-    // Update the quantity in the mugs state
-    setMugs((prevMugs) => ({
-      ...prevMugs,
-      [mug.color]: {
-        ...prevMugs[mug.color],
-        qty: prevMugs[mug.color].qty - mug.quantity,
-      },
-    }));
   }
 
   function handleDeleteItem(id) {
-    const mugToDelete = cart.find((mug) => mug.id === id);
     setCart((prevCart) => prevCart.filter((mug) => mug.id !== id));
-
-    // Restore the quantity in the mugs state
-    setMugs((prevMugs) => ({
-      ...prevMugs,
-      [mugToDelete.color]: {
-        ...prevMugs[mugToDelete.color],
-        qty: prevMugs[mugToDelete.color].qty + mugToDelete.quantity,
-      },
-    }));
   }
 
   return (
     <div className="app">
-      <Selections mugs={mugs} onAddtoCart={handleAddToCart} />
+      <Selections onAddtoCart={handleAddToCart} />
       <ShoppingList
         cart={cart}
         onDeleteItem={handleDeleteItem}
@@ -74,14 +54,20 @@ function App() {
   );
 }
 
-function Selections({ mugs, onAddtoCart }) {
+function Selections({ onAddtoCart }) {
   const [selectedColor, setSelectedColor] = useState("white");
+  const [img, setImg] = useState(mugs["white"].img);
   const [quantity, setQuantity] = useState(1);
+  const [price, setPrice] = useState(mugs["white"].price);
 
   function handleColorChange(color) {
     setSelectedColor(color);
+    setImg(mugs[color].img);
     setQuantity(1);
+    setPrice(mugs[color].price);
   }
+
+  const selectedMug = mugs[selectedColor];
 
   function handleQuantity(value) {
     setQuantity(value);
@@ -92,17 +78,17 @@ function Selections({ mugs, onAddtoCart }) {
 
     const mugSelections = {
       color: selectedColor,
-      img: mugs[selectedColor].img,
+      img: img,
       quantity: quantity,
-      price: quantity * mugs[selectedColor].price,
+      price: quantity * price,
       id: id,
     };
+
+    // console.log(mugSelections);
 
     onAddtoCart(mugSelections);
     setQuantity(1);
   }
-
-  const selectedMug = mugs[selectedColor];
 
   return (
     <div className="selections">
@@ -120,6 +106,7 @@ function Selections({ mugs, onAddtoCart }) {
         value={selectedColor}
         onChange={(e) => handleColorChange(e.target.value)}
       >
+        {/* Object.keys() creates an array containing the keys of a given object */}
         {Object.keys(mugs).map((color, i) => (
           <option value={color} key={i}>
             {color}
@@ -134,11 +121,12 @@ function Selections({ mugs, onAddtoCart }) {
         value={quantity}
         onChange={(e) => handleQuantity(Number(e.target.value))}
       >
-        {[...Array(mugs[selectedColor].qty)].map((_, i) => (
-          <option value={i + 1} key={i}>
-            {i + 1}
-          </option>
-        ))}
+        {/* <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option> */}
+        {[...Array(mugs[selectedColor].qty)].map((_, i) => <option value={i + 1} key={i}>{i + 1}</option>)}
       </select>
 
       <br />
@@ -156,7 +144,7 @@ function ShoppingList({ cart, onDeleteItem, totalQty, totalPrice }) {
           <div className="mug-in-cart" key={i}>
             <img src={mugInCart.img} alt={`${mugInCart.color} coffee mug`} />
             <p>Qty: {mugInCart.quantity}</p>
-            <p>Price: {mugInCart.price.toFixed(2)}</p>
+            <p>Price: {mugInCart.price}</p>
             <p
               className="delete-item"
               onClick={() => onDeleteItem(mugInCart.id)}
@@ -167,7 +155,7 @@ function ShoppingList({ cart, onDeleteItem, totalQty, totalPrice }) {
         ))}
       </div>
       <div className="grand-total">
-        Total Items: {totalQty} | Total Price: ${totalPrice.toFixed(2)}
+        Total Items: {totalQty} | Total Price: {totalPrice}
       </div>
     </div>
   );
