@@ -3,14 +3,17 @@ import React, { useState, useEffect } from "react";
 const mugs = {
   white: {
     img: "imgs/white_mug.jpg",
+    qty: 3,
     price: 12.49,
   },
   brown: {
     img: "imgs/brown_mug.jpg",
+    qty: 4,
     price: 13.49,
   },
   black: {
     img: "imgs/black_mug.jpg",
+    qty: 2,
     price: 15.49,
   },
 };
@@ -118,11 +121,12 @@ function Selections({ onAddtoCart }) {
         value={quantity}
         onChange={(e) => handleQuantity(Number(e.target.value))}
       >
-        <option value="1">1</option>
+        {/* <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
-        <option value="5">5</option>
+        <option value="5">5</option> */}
+        {[...Array(mugs[selectedColor].qty)].map((_, i) => <option value={i + 1} key={i}>{i + 1}</option>)}
       </select>
 
       <br />
