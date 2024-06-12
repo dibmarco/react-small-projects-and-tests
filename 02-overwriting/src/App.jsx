@@ -10,28 +10,31 @@ const initialFriends = {
 function App() {
   const [friends, setFriends] = useState(initialFriends);
   const [selectedFriend, setSelectedFriend] = useState("");
-  const [value, setValue] = useState("");
+  const [amountToBorrow, setAmountToBorrow] = useState(0);
 
   function handleSelectedFriend(friend) {
     setSelectedFriend(friend);
   }
 
+  function handleAmountToBorrow(amount) {
+    setAmountToBorrow(amount);
+  }
+
   function handleBorrow() {
-    if (selectedFriend && value > 0 && value <= friends[selectedFriend]) {
+    if (
+      selectedFriend &&
+      amountToBorrow > 0 &&
+      amountToBorrow <= friends[selectedFriend] &&
+      friends[selectedFriend] > 0
+    ) {
       const updatedFriends = {
         ...friends,
-        [selectedFriend]: friends[selectedFriend] - value,
+        [selectedFriend]: friends[selectedFriend] - amountToBorrow,
       };
-      setFriends(updatedFriends);
 
-      // Resetting the state to initial values
-      setSelectedFriend("");
-      setValue("");
+      setFriends(updatedFriends);
     } else {
-      alert("Invalid borrow amount.");
-      setSelectedFriend("");
-      setValue("");
-      
+      alert("Enter valid amount");
     }
   }
 
@@ -39,62 +42,50 @@ function App() {
     <div className="app">
       <p>Borrow money from one of your Seinfeld friends:</p>
       <Friends friends={friends} />
-      <br />
       <Selections
-        friendNames={Object.keys(friends)}
-        selectedFriend={selectedFriend}
+        friends={Object.keys(friends)}
         onSelectFriend={handleSelectedFriend}
-        value={value}
-        onEnterValue={setValue}
-        borrow={handleBorrow}
+        onEnterAmount={handleAmountToBorrow}
+        onBorrow={handleBorrow}
       />
     </div>
   );
 }
 
 function Friends({ friends }) {
-  const friendNames = Object.keys(friends);
+  const friendName = Object.keys(friends);
+  // console.log(friendName);
 
   return (
-    <div className="friends">
-      {friendNames.map((friend, i) => (
-        <div key={i}>
+    <div>
+      {friendName.map((friend, i) => (
+        <p key={i}>
           {friend}: ${friends[friend]}
-        </div>
+        </p>
       ))}
     </div>
   );
 }
 
-function Selections({
-  friendNames,
-  selectedFriend,
-  onSelectFriend,
-  value,
-  onEnterValue,
-  borrow,
-}) {
+function Selections({ friends, onSelectFriend, onEnterAmount, onBorrow }) {
   return (
     <div className="selections">
-      <p>Select a friend:</p>
-      <select
-        value={selectedFriend}
-        onChange={(e) => onSelectFriend(e.target.value)}
-      >
+      <p>Borrow</p>
+      <input
+        type="number"
+        placeholder="$"
+        onChange={(e) => onEnterAmount(e.target.value)}
+      />
+      <p>from</p>
+      <select onChange={(e) => onSelectFriend(e.target.value)}>
         <option value="">-select-</option>
-        {friendNames.map((friend, i) => (
-          <option key={i} value={friend}>
+        {friends.map((friend, i) => (
+          <option value={friend} key={i}>
             {friend}
           </option>
         ))}
       </select>
-      <input
-        type="number"
-        value={value}
-        onChange={(e) => onEnterValue(Number(e.target.value))}
-        placeholder="Enter value"
-      />
-      <button onClick={borrow}>Borrow</button>
+      <button onClick={() => onBorrow()}>OK</button>
     </div>
   );
 }
