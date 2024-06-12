@@ -1,0 +1,9 @@
+.selections {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.selections > input {
+    width: 90px;
+}
