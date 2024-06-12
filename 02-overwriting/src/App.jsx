@@ -23,9 +23,17 @@ function App() {
   function handleBorrow() {
     if (
       selectedFriend &&
+      (friends[selectedFriend] === 0 ||
+        friends[selectedFriend] < amountToBorrow)
+    ) {
+      alert(`${selectedFriend} has insufficient funds.`);
+      return;
+    }
+
+    if (
+      selectedFriend &&
       amountToBorrow > 0 &&
-      amountToBorrow <= friends[selectedFriend] &&
-      friends[selectedFriend] > 0
+      amountToBorrow <= friends[selectedFriend]
     ) {
       const updatedFriends = {
         ...friends,
@@ -33,8 +41,13 @@ function App() {
       };
 
       setFriends(updatedFriends);
+
+      setSelectedFriend("");
+      setAmountToBorrow(0);
     } else {
-      alert("Enter valid amount");
+      alert("Enter a valid amount");
+      setSelectedFriend("");
+      setAmountToBorrow(0);
     }
   }
 
@@ -44,6 +57,8 @@ function App() {
       <Friends friends={friends} />
       <Selections
         friends={Object.keys(friends)}
+        selectedFriend={selectedFriend}
+        amountToBorrow={amountToBorrow}
         onSelectFriend={handleSelectedFriend}
         onEnterAmount={handleAmountToBorrow}
         onBorrow={handleBorrow}
@@ -54,7 +69,6 @@ function App() {
 
 function Friends({ friends }) {
   const friendName = Object.keys(friends);
-  // console.log(friendName);
 
   return (
     <div>
@@ -67,17 +81,28 @@ function Friends({ friends }) {
   );
 }
 
-function Selections({ friends, onSelectFriend, onEnterAmount, onBorrow }) {
+function Selections({
+  friends,
+  selectedFriend,
+  amountToBorrow,
+  onSelectFriend,
+  onEnterAmount,
+  onBorrow,
+}) {
   return (
     <div className="selections">
       <p>Borrow</p>
       <input
         type="number"
+        value={amountToBorrow || ""}
         placeholder="$"
-        onChange={(e) => onEnterAmount(e.target.value)}
+        onChange={(e) => onEnterAmount(+e.target.value)}
       />
       <p>from</p>
-      <select onChange={(e) => onSelectFriend(e.target.value)}>
+      <select
+        value={selectedFriend}
+        onChange={(e) => onSelectFriend(e.target.value)}
+      >
         <option value="">-select-</option>
         {friends.map((friend, i) => (
           <option value={friend} key={i}>
@@ -85,7 +110,7 @@ function Selections({ friends, onSelectFriend, onEnterAmount, onBorrow }) {
           </option>
         ))}
       </select>
-      <button onClick={() => onBorrow()}>OK</button>
+      <button onClick={onBorrow}>OK</button>
     </div>
   );
 }
