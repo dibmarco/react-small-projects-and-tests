@@ -10,9 +10,10 @@
 .selections {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 5px;
 }
 
 .selections > input {
     width: 90px;
+    text-align: center;
 }
