@@ -32,14 +32,15 @@ function App() {
   }
 
   function handleTweet() {
-    const text = quote.text;
-    const author = quote.author;
-
-    window.open(`https://twitter.com/intent/tweet?text=${text author}`, "Share Quote", "width=600, height=300");
+    window.open(
+      `https://twitter.com/intent/tweet?text=${quote.text}`,
+      "Share Quote",
+      "width=600,height=300"
+    );
   }
 
   return (
-    <div>
+    <div className="quote">
       {!errorMessage ? (
         <div>
           <h1>{quote.text}</h1>
@@ -48,8 +49,10 @@ function App() {
       ) : (
         errorMessage
       )}
+      <div className="buttons">
       <button onClick={handleNextQuote}>Next Quote</button>
       <button onClick={handleTweet}>Tweet Quote</button>
+      </div>
     </div>
   );
 }
