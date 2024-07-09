@@ -9,7 +9,7 @@ function App() {
 
   useEffect(
     () =>
-      async function getQuote() {
+      async function getQuotes() {
         try {
           const res = await fetch("https://type.fit/api/quotes");
           const quotes = await res.json();
@@ -17,7 +17,7 @@ function App() {
           const maxQuotes = quotes.length;
 
           const randomQuote = function () {
-            return Math.floor(Math.random() * maxQuotes) + 1;
+            return Math.floor(Math.random() * maxQuotes);
           };
 
           const quote = quotes[randomQuote()];
