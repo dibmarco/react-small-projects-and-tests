@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [quote, setQuote] = useState("");
-  const [nextQuote, setNextQuote] = useState(0); // this only triggers a new rendeding of the app
+  const [newQuote, setNewtQuote] = useState(0); // this only triggers a new rendeding of the app
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(
@@ -24,11 +24,11 @@ function App() {
           setErrorMessage("Error fetching quote.");
         }
       },
-    [nextQuote]
+    [newQuote]
   );
 
-  function handleNextQuote() {
-    setNextQuote(nextQuote + 1);
+  function handleNewQuote() {
+    setNewtQuote(newQuote + 1);
   }
 
   function handleTweet() {
@@ -40,18 +40,18 @@ function App() {
   }
 
   return (
-    <div className="quote">
+    <div className="quote-box">
       {!errorMessage ? (
-        <div>
-          <h1>{quote.text}</h1>
-          <p>{quote.author}</p>
+        <div className="quote">
+          <h1>&#x201C;{quote.text}&#x201D;</h1>
+          <p>&mdash;&nbsp;{quote.author}</p>
         </div>
       ) : (
         errorMessage
       )}
       <div className="buttons">
-      <button onClick={handleNextQuote}>Next Quote</button>
-      <button onClick={handleTweet}>Tweet Quote</button>
+      <button onClick={handleNewQuote}>New Quote</button>
+      <button onClick={handleTweet}><i class="fa-brands fa-x-twitter"></i>&nbsp;Share</button>
       </div>
     </div>
   );

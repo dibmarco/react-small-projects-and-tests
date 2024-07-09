@@ -1,5 +1,62 @@
+@import url("https://fonts.googleapis.com/css2?family=Baskervville+SC&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100vh;
+  width: 100%;
+
+  font-family: "Baskervville SC", sans-serif;
+}
+
+.quote-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  width: 500px;
+  
+  /* border: 1px solid black; */
+}
+
+.quote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  height: 150px;
+}
+
+.quote > h1 {
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.buttons > button {
+  width: 100px;
+  height: 30px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.buttons > button:active {
+  transform: scale(0.97);
 }
