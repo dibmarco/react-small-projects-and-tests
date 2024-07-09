@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
 function App() {
-  const [text, setText] = useState("");
-  const [author, setAuthor] = useState("");
+  const [text, setText] = useState("Don't think about it - Do it!");
+  const [author, setAuthor] = useState("Henry Rollins");
   const [errorMessage, setErrorMessage] = useState("");
 
   const [newQuote, setNewtQuote] = useState(0); // this only triggers a new rendeding of the App.
