@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 
 function App() {
-  const [text, setText] = useState("");
-  const [author, setAuthor] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
+  const [quote, setQuote] = useState("");
   const [newQuote, setNewtQuote] = useState(0); // this only triggers a new rendeding of the App.
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(
     () =>
@@ -20,14 +18,7 @@ function App() {
             return Math.floor(Math.random() * maxQuotes) + 1;
           };
 
-          const quote = quotes[randomQuote()];
-
-          const { text, author } = quote;
-
-          const authorAt0 = author.split(",").at(0);
-
-          setText(text);
-          setAuthor(authorAt0 === "type.fit" ? "Unknow" : authorAt0);
+          setQuote(quotes[randomQuote()]);
         } catch (error) {
           console.error("Error fetching quote:", error);
           setErrorMessage("Error fetching quote.");
@@ -42,7 +33,7 @@ function App() {
 
   function handleTweet() {
     window.open(
-      `https://twitter.com/intent/tweet?text=${text}`,
+      `https://twitter.com/intent/tweet?text=${quote.text}`,
       "Share Quote",
       "width=600,height=300"
     );
@@ -52,17 +43,15 @@ function App() {
     <div className="quote-box">
       {!errorMessage ? (
         <div className="quote">
-          <h1>&#x201C;{text}&#x201D;</h1>
-          <p>&mdash;&nbsp;{author}</p>
+          <h1>&#x201C;{quote.text}&#x201D;</h1>
+          <p>&mdash;&nbsp;{quote.author}</p>
         </div>
       ) : (
         errorMessage
       )}
       <div className="buttons">
-        <button onClick={handleNewQuote}>New Quote</button>
-        <button onClick={handleTweet}>
-          <i class="fa-brands fa-x-twitter"></i>&nbsp;Share
-        </button>
+      <button onClick={handleNewQuote}>New Quote</button>
+      <button onClick={handleTweet}><i class="fa-brands fa-x-twitter"></i>&nbsp;Share</button>
       </div>
     </div>
   );
