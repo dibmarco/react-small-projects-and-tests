@@ -8,6 +8,7 @@ const key = "48e806e1";
 function App() {
   const [inputValue, setInputValue] = useState("Taxi Driver");
   const [query, setQuery] = useState("taxi driver");
+  const [error, setError] = useState(false);
   const [movieResults, setMovieResults] = useState({});
   const [primaryMovie, setPrimaryMovie] = useState({});
   const [primaryMovieData, setPrimaryMovieData] = useState({});
@@ -16,29 +17,39 @@ function App() {
 
   useEffect(() => {
     async function fetchMovies() {
-      const response = await fetch(
-        `http://www.omdbapi.com/?apikey=${key}&s=${query}`
-      );
-      const data = await response.json();
-      // console.log(data);
+      try {
+        const response = await fetch(
+          `http://www.omdbapi.com/?apikey=${key}&s=${query}`
+        );
+        const data = await response.json();
+        // console.log(data);
 
-      const primaryResult = data.Search[0];
-      // console.log(primaryResult);
+        if (data.Response === "False") {
+          setError(true);
+        } else {
+          setError(false);
+        }
 
-      const titles = data.Search;
-      // console.log(titles);
+        const primaryResult = data.Search[0];
+        // console.log(primaryResult);
 
-      const getTitles = function (movies) {
-        return movies.map((movie) => movie.Title);
-      };
+        const titles = data.Search;
+        // console.log(titles);
 
-      const additionalTitles = getTitles(titles);
-      // console.log(additionalTitles);
+        const getTitles = function (movies) {
+          return movies.map((movie) => movie.Title);
+        };
 
-      setMovieResults(data);
-      setPrimaryMovie(primaryResult);
-      setOtherTitles(additionalTitles);
-      setImdbId(primaryResult.imdbID);
+        const additionalTitles = getTitles(titles);
+        // console.log(additionalTitles);
+
+        setMovieResults(data);
+        setPrimaryMovie(primaryResult);
+        setOtherTitles(additionalTitles);
+        setImdbId(primaryResult.imdbID);
+      } catch (error) {
+        console.error(error.message);
+      }
     }
 
     fetchMovies();
@@ -78,8 +89,9 @@ function App() {
       <QueryField
         inputValue={inputValue}
         setInputValue={setInputValue}
-        movieResults={movieResults}
         onHandleSearch={handleSearch}
+        movieResults={movieResults}
+        error={error}
       />
 
       <GeneralResults

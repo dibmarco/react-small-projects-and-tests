@@ -1,8 +1,9 @@
 export function QueryField({
   inputValue,
   setInputValue,
-  movieResults,
   onHandleSearch,
+  movieResults,
+  error,
 }) {
   return (
     <div className="query-field">
@@ -12,9 +13,15 @@ export function QueryField({
         onChange={(e) => setInputValue(e.target.value)}
       />
       <button onClick={onHandleSearch}>Search</button>
-      <p>
-        <em>Total Results: {movieResults.totalResults}</em>
-      </p>
+      {error ? (
+        <p style={{color: "red"}}>
+          <strong>Invalid query. Try again.</strong>
+        </p>
+      ) : (
+        <p>
+          <em>Total Results: {movieResults.totalResults}</em>
+        </p>
+      )}
     </div>
   );
 }
