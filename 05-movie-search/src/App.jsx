@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 const key = "48e806e1";
 
 function App() {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("Taxi Driver");
   const [query, setQuery] = useState("taxi driver");
-  const [primaryMovie, setPrimaryMovie] = useState({});
-  const [otherTitles, setOtherTitles] = useState([]);
   const [movieResults, setMovieResults] = useState({});
-  const [imdbId, setImdbId] = useState("");
+  const [primaryMovie, setPrimaryMovie] = useState({});
   const [primaryMovieData, setPrimaryMovieData] = useState({});
+  const [otherTitles, setOtherTitles] = useState([]);
+  const [imdbId, setImdbId] = useState("");
 
   useEffect(() => {
     async function fetchMovies() {
@@ -32,10 +32,10 @@ function App() {
       const additionalTitles = getTitles(titles);
       // console.log(additionalTitles);
 
-      setOtherTitles(additionalTitles);
-      setPrimaryMovie(primaryResult);
-      setImdbId(primaryResult.imdbID);
       setMovieResults(data);
+      setPrimaryMovie(primaryResult);
+      setOtherTitles(additionalTitles);
+      setImdbId(primaryResult.imdbID);
     }
 
     fetchMovies();
@@ -61,6 +61,15 @@ function App() {
     setQuery(inputValue);
   }
 
+  function handleTitleClick(title) {
+    setInputValue(title);
+    setQuery(title);
+  }
+
+  function handleIMDbPage() {
+    window.open(`https://www.imdb.com/title/${imdbId}`, "_blank");
+  }
+
   return (
     <div className="app-container">
       <div className="query-field">
@@ -79,7 +88,9 @@ function App() {
         <p>Other titles including your query:</p>
         <ul>
           {otherTitles.map((title, i) => (
-            <li key={i}>{title}</li>
+            <li key={i} value={title} onClick={() => handleTitleClick(title)}>
+              {title}
+            </li>
           ))}
         </ul>
       </div>
@@ -90,11 +101,15 @@ function App() {
         </p>
         <div className="primary-details">
           <p>
-            Title: {primaryMovie.Title} | {primaryMovie.Year} |{" "}
+            <strong>{primaryMovie.Title}</strong> | {primaryMovie.Year} |{" "}
             {primaryMovieData.Runtime} | IMDB Rating:{" "}
             {primaryMovieData.imdbRating}
           </p>
-          <img src={primaryMovie.Poster} alt="movie poster" />
+          <img
+            src={primaryMovie.Poster}
+            alt="movie poster"
+            onClick={handleIMDbPage}
+          />
           <p>{primaryMovieData.Plot}</p>
         </div>
       </div>
