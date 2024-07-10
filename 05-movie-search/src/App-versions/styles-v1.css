@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    height: 100vh;
+    width: 100%;
+  
+    font-family: monospace;
+  }
+  
+  .app-container {
+    width: 750px;
+  }
+  
+  .query-field {
+    margin-bottom: 10px;
+  }
+  
+  .query-field > button {
+    margin-left: 1px;
+    padding: 0 5px;
+  }
+  
+  .query-field > p {
+    margin-left: 45px;
+  }
+  
+  .query-results {
+    display: flex;
+    gap: 5px;
+  
+    height: 580px;
+  }
+  
+  .general-results {
+    width: 380px;
+    height: 580px;
+  
+    padding-top: 37px;
+  }
+  
+  .general-results > ul {
+    margin-left: 15px;
+    cursor: pointer;
+  }
+  
+  .general-results > ul>  li {
+    margin-top: 10px;
+  }
+  
+  .general-results > ul>  li:hover {
+    text-decoration: underline;
+  }
+  
+  .primary-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  
+    width: 100%;
+    text-align: center;
+  }
+  
