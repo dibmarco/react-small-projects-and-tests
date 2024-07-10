@@ -27,7 +27,7 @@ function App() {
 
       const getTitles = function (movies) {
         return movies.map((movie) => movie.Title);
-      }
+      };
 
       const additionalTitles = getTitles(titles);
       // console.log(additionalTitles);
@@ -62,30 +62,43 @@ function App() {
   }
 
   return (
-    <>
-      <div>
+    <div className="app-container">
+      <div className="query-field">
         <input
           type="text"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)} 
+          onChange={(e) => setInputValue(e.target.value)}
         />
         <button onClick={handleSearch}>Search</button>
-        <p>Results: {movieResults.totalResults}</p>
-        <p>Other titles including your query:</p>
-        <ul>{otherTitles.map((title, i) => <li key={i}>{title}</li>)}</ul>
-      </div>
-      <p>
-        <em>Primary Result</em>
-      </p>
-      <div>
         <p>
-          Title: {primaryMovie.Title} | {primaryMovie.Year} |{" "}
-          {primaryMovieData.Runtime} | IMDB Rating: {primaryMovieData.imdbRating}
+          <em>Results: {movieResults.totalResults}</em>
         </p>
-        <img src={primaryMovie.Poster} alt="movie poster" />
-        <p>{primaryMovieData.Plot}</p>
       </div>
-    </>
+      <div className="query-results">
+        <div className="general-results">
+          <p>Other titles including your query:</p>
+          <ul>
+            {otherTitles.map((title, i) => (
+              <li key={i}>{title}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="primary-result">
+          <p>
+            <strong>Primary Result</strong>
+          </p>
+          <div className="primary-details">
+            <p>
+              Title: {primaryMovie.Title} | {primaryMovie.Year} |{" "}
+              {primaryMovieData.Runtime} | IMDB Rating:{" "}
+              {primaryMovieData.imdbRating}
+            </p>
+            <img src={primaryMovie.Poster} alt="movie poster" />
+            <p>{primaryMovieData.Plot}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
