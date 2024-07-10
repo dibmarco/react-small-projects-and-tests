@@ -59,7 +59,7 @@ function App() {
     async function fetchPrimaryMovie() {
       if (imdbId) {
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${key}&i=${imdbId}`
+          `https://www.omdbapi.com/?apikey=${key}&i=${imdbId}`
         );
         const data = await response.json();
         // console.log(data);
