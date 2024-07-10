@@ -9,7 +9,7 @@ export function GeneralResults({ otherTitles, onHandleTitleClick }) {
 
   return (
     <div className="general-results">
-      <p>Other {listResults} {listResults === 1 ? "title" : "titles"} including your query:</p>
+      <p>Other {listResults} {listResults <= 1 ? "title" : "titles"} including your query:</p>
       <ul>
         {otherTitles.map((title, i) => (
           <li key={i} value={title} onClick={() => onHandleTitleClick(title)}>
