@@ -17,7 +17,7 @@ function App() {
         `http://www.omdbapi.com/?apikey=${key}&s=${query}`
       );
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       const primaryResult = data.Search[0];
       // console.log(primaryResult);
