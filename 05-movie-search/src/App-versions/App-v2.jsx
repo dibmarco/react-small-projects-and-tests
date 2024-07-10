@@ -1,7 +1,4 @@
 import { useState, useEffect } from "react";
-import { QueryField } from "./Components/QueryField";
-import { GeneralResults } from "./Components/GeneralResults";
-import { PrimaryResult } from "./Components/PrimaryResult";
 
 const key = "48e806e1";
 
@@ -75,23 +72,47 @@ function App() {
 
   return (
     <div className="app-container">
-      <QueryField
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        movieResults={movieResults}
-        onHandleSearch={handleSearch}
-      />
+      <div className="query-field">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+        <p>
+          <em>Results: {movieResults.totalResults}</em>
+        </p>
+      </div>
 
-      <GeneralResults
-        otherTitles={otherTitles}
-        onHandleTitleClick={handleTitleClick}
-      />
+      <div className="general-results">
+        <p>Other titles including your query:</p>
+        <ul>
+          {otherTitles.map((title, i) => (
+            <li key={i} value={title} onClick={() => handleTitleClick(title)}>
+              {title}
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      <PrimaryResult
-        primaryMovie={primaryMovie}
-        primaryMovieData={primaryMovieData}
-        onHandleIMDbPage={handleIMDbPage}
-      />
+      <div className="primary-result">
+        <p>
+          <strong>Primary Result</strong>
+        </p>
+        <div className="primary-details">
+          <p>
+            <strong>{primaryMovie.Title}</strong> | {primaryMovie.Year} |{" "}
+            {primaryMovieData.Runtime} | IMDB Rating:{" "}
+            {primaryMovieData.imdbRating}
+          </p>
+          <img
+            src={primaryMovie.Poster}
+            alt="movie poster"
+            onClick={handleIMDbPage}
+          />
+          <p>{primaryMovieData.Plot}</p>
+        </div>
+      </div>
     </div>
   );
 }

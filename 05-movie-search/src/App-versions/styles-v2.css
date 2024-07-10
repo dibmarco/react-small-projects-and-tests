@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    height: 100vh;
+    width: 100%;
+  
+    font-family: monospace;
+    font-size: 62.5%;
+  }
+  
+  .app-container {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    column-gap: 1rem;
+  
+    width: 50rem;
+  
+    font-size: 0.8rem;
+  }
+  
+  .query-field {
+    grid-column: 1 / -1;
+    padding-bottom: 0.5rem; 
+  }
+  
+  .query-field > input {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0.1rem 0.2rem;
+  }
+  
+  .query-field > button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-left: 0.1rem;
+    padding: 0.1rem 0.2rem;
+  }
+  
+  .query-field > p {
+    margin-left: 2.5rem;
+  }
+  
+  .general-results {
+    padding: 1.3rem 0 0 0.5rem;
+  }
+  
+  .general-results > ul {
+    padding: 1rem 0 0 1rem;
+  }
+  
+  .general-results > ul > li {
+    margin-top: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .general-results > ul > li:hover {
+    text-decoration: underline;
+  }
+  
+  .primary-result {
+    justify-self: center;
+  
+    display: flex;
+    flex-direction: column;
+  
+    text-align: center;
+  }
+  
+  .primary-result > p:first-of-type {
+    font-size: 1.2rem;
+  }
+  
+  .primary-details {
+    width: 32rem;
+  }
+  
+  .primary-details > img {
+    margin: 0.5rem 0;
+    cursor: pointer;
+  }
+  
