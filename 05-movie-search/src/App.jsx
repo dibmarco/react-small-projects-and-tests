@@ -74,28 +74,28 @@ function App() {
           <em>Results: {movieResults.totalResults}</em>
         </p>
       </div>
-      <div className="query-results">
-        <div className="general-results">
-          <p>Other titles including your query:</p>
-          <ul>
-            {otherTitles.map((title, i) => (
-              <li key={i}>{title}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="primary-result">
+
+      <div className="general-results">
+        <p>Other titles including your query:</p>
+        <ul>
+          {otherTitles.map((title, i) => (
+            <li key={i}>{title}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="primary-result">
+        <p>
+          <strong>Primary Result</strong>
+        </p>
+        <div className="primary-details">
           <p>
-            <strong>Primary Result</strong>
+            Title: {primaryMovie.Title} | {primaryMovie.Year} |{" "}
+            {primaryMovieData.Runtime} | IMDB Rating:{" "}
+            {primaryMovieData.imdbRating}
           </p>
-          <div className="primary-details">
-            <p>
-              Title: {primaryMovie.Title} | {primaryMovie.Year} |{" "}
-              {primaryMovieData.Runtime} | IMDB Rating:{" "}
-              {primaryMovieData.imdbRating}
-            </p>
-            <img src={primaryMovie.Poster} alt="movie poster" />
-            <p>{primaryMovieData.Plot}</p>
-          </div>
+          <img src={primaryMovie.Poster} alt="movie poster" />
+          <p>{primaryMovieData.Plot}</p>
         </div>
       </div>
     </div>
