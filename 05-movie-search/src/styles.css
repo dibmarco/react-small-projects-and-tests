@@ -19,6 +19,12 @@ body {
   font-size: 62.5%;
 }
 
+.title {
+  margin: -1rem 0 0.5rem 0;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
 .app-container {
   display: grid;
   grid-template-columns: repeat(2, auto);
@@ -27,7 +33,7 @@ body {
   width: 50rem;
   height: fit-content;
 
-  padding: 2rem 1rem;
+  padding: 1.4rem 1rem 0.3rem 1rem;
 
   font-size: 0.8rem;
 
@@ -41,13 +47,16 @@ body {
 }
 
 .query-field > input {
+  height: 1.5rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   padding: 0.1rem 0.2rem;
 }
 
 .query-field > button {
+  height: 1.5rem;
+  width: 2.5rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  margin-left: 0.1rem;
+  margin-left: -1.5rem;
   padding: 0.1rem 0.2rem;
 }
 
@@ -77,6 +86,7 @@ body {
 }
 
 .primary-result {
+  margin-top: -1.4rem;
   height: 33rem;
 
   justify-self: center;
@@ -85,6 +95,19 @@ body {
   flex-direction: column;
 
   text-align: center;
+}
+
+.animate-in {
+  animation: transitionIn 0.75s;
+}
+
+@keyframes transitionIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .primary-result > p:first-of-type {
@@ -98,8 +121,14 @@ body {
 }
 
 .primary-details > img {
-  width: 300px;
+  max-height: 426px;
+  max-width: 300px;
   margin: 0.5rem 0;
+  border-radius: 5px;
   aspect-ratio: auto;
   cursor: pointer;
+}
+
+.primary-details > p > span {
+  font-weight: 500;
 }

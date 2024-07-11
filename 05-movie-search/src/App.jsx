@@ -6,8 +6,9 @@ import { PrimaryResult } from "./Components/PrimaryResult";
 const key = "48e806e1";
 
 function App() {
-  const [inputValue, setInputValue] = useState("Taxi Driver");
-  const [query, setQuery] = useState("taxi driver");
+  const [inputValue, setInputValue] = useState("The Godfather");
+  const [query, setQuery] = useState("the godfather");
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [movieResults, setMovieResults] = useState({});
   const [primaryMovie, setPrimaryMovie] = useState({});
@@ -18,6 +19,7 @@ function App() {
   useEffect(() => {
     async function fetchMovies() {
       try {
+        setIsLoading(true);
         const response = await fetch(
           `https://www.omdbapi.com/?apikey=${key}&s=${query}`
         );
@@ -49,6 +51,8 @@ function App() {
         setImdbId(primaryResult.imdbID);
       } catch (error) {
         console.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -84,27 +88,38 @@ function App() {
     window.open(`https://www.imdb.com/title/${imdbId}`, "_blank");
   }
 
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  }
+
   return (
-    <div className="app-container">
-      <QueryField
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        onHandleSearch={handleSearch}
-        movieResults={movieResults}
-        error={error}
-      />
+    <>
+      <h1 className="title">Movie Search</h1>
+      <div className="app-container">
+        <QueryField
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          onHandleSearch={handleSearch}
+          movieResults={movieResults}
+          error={error}
+          onKeyDown={handleKeyDown}
+        />
 
-      <GeneralResults
-        otherTitles={otherTitles}
-        onHandleTitleClick={handleTitleClick}
-      />
+        <GeneralResults
+          otherTitles={otherTitles}
+          onHandleTitleClick={handleTitleClick}
+        />
 
-      <PrimaryResult
-        primaryMovie={primaryMovie}
-        primaryMovieData={primaryMovieData}
-        onHandleIMDbPage={handleIMDbPage}
-      />
-    </div>
+        <PrimaryResult
+          isLoading={isLoading}
+          primaryMovie={primaryMovie}
+          primaryMovieData={primaryMovieData}
+          onHandleIMDbPage={handleIMDbPage}
+        />
+      </div>
+    </>
   );
 }
 

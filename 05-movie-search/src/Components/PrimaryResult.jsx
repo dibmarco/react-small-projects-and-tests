@@ -1,10 +1,13 @@
 export function PrimaryResult({
+  isLoading,
   primaryMovie,
   primaryMovieData,
   onHandleIMDbPage,
 }) {
-  return (
-    <div className="primary-result">
+  return isLoading ? (
+    <div>Fetching data...</div>
+  ) : (
+    <div className="primary-result animate-in">
       <p>
         <strong>Primary Result</strong>
       </p>
@@ -19,7 +22,9 @@ export function PrimaryResult({
           alt="movie poster"
           onClick={onHandleIMDbPage}
         />
-        <p>{primaryMovieData.Plot}</p>
+        <p><span>Director:</span> {primaryMovieData.Director}</p>
+        <p><span>Featuring:</span> {primaryMovieData.Actors}</p>
+        <p><span>Summary:</span> {primaryMovieData.Plot}</p>
       </div>
     </div>
   );
