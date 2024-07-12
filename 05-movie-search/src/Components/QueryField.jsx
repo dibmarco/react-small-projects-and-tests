@@ -4,7 +4,7 @@ export function QueryField({
   onHandleSearch,
   movieResults,
   error,
-  onKeyDown
+  onKeyDown,
 }) {
   return (
     <div className="query-field">
@@ -14,9 +14,11 @@ export function QueryField({
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={onKeyDown}
       />
-      <button onClick={onHandleSearch}><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button onClick={onHandleSearch}>
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
       {error ? (
-        <p style={{color: "red"}}>
+        <p style={{ color: "red" }}>
           <strong>Invalid query. Try again.</strong>
         </p>
       ) : (

@@ -22,9 +22,15 @@ export function PrimaryResult({
           alt="movie poster"
           onClick={onHandleIMDbPage}
         />
-        <p><span>Director:</span> {primaryMovieData.Director}</p>
-        <p><span>Featuring:</span> {primaryMovieData.Actors}</p>
-        <p><span>Summary:</span> {primaryMovieData.Plot}</p>
+        <p>
+          <span>Director:</span> {primaryMovieData.Director}
+        </p>
+        <p>
+          <span>Featuring:</span> {primaryMovieData.Actors}
+        </p>
+        <p>
+          <span>Summary:</span> {primaryMovieData.Plot}
+        </p>
       </div>
     </div>
   );
