@@ -85,6 +85,34 @@ body {
   opacity: 100%;
 }
 
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  width: 200px;
+  height: 200px;
+}
+
+.spinner::after {
+  content: "";
+  width: 28px;
+  height: 28px;
+  border: 3px solid #f1f1f1cb;
+  border-top-color: #252525;
+  border-radius: 50%;
+  animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 .primary-result {
   margin-top: -1.4rem;
   height: 33rem;

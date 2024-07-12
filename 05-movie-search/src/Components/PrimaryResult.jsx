@@ -5,7 +5,7 @@ export function PrimaryResult({
   onHandleIMDbPage,
 }) {
   return isLoading ? (
-    <div>Fetching data...</div>
+    <div className="spinner"></div>
   ) : (
     <div className="primary-result animate-in">
       <p>
