@@ -18,8 +18,8 @@ function App() {
       const data = await res.json();
       /* console.log(data); */
       const [rate] = Object.values(data.rates);
-      console.log(rate);
-      setConvertedAmount(rate);
+      /* console.log(rate); */
+      setConvertedAmount(rate.toFixed(2));
     }
     fetchRates();
   }, [from, to, amount]);
@@ -44,7 +44,7 @@ function App() {
         <option value="EUR">GBP</option>
       </select>
       <div className="result">
-        {convertedAmount !== null ? convertedAmount.toFixed(2) : null}
+        {convertedAmount}
       </div>
     </div>
   );
