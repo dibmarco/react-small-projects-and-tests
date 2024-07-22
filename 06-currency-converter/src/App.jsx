@@ -6,6 +6,9 @@ function App() {
   const [to, setTo] = useState("BRL");
   const [convertedAmount, setConvertedAmount] = useState(null);
   const [error, setError] = useState(null);
+  const [standardRate, setStandardRate] = useState(null);
+
+  const standardAmount = 1;
 
   useEffect(() => {
     if (from === to) {
@@ -25,7 +28,10 @@ function App() {
         }
 
         const data = await res.json();
+        console.log(data);
+
         const [rate] = Object.values(data.rates);
+        setStandardRate(rate / amount);
         setConvertedAmount(rate.toFixed(2));
       } catch {
         setError("Something went wrong. Try again.");
@@ -36,12 +42,16 @@ function App() {
 
   return (
     <div className="container">
+      <p className="p-amount">Amount</p>
       <input
+        className="input-amount"
         type="number"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
+      <p className="p-from">From</p>
       <select
+        className="btn btn-primary dropdown-toggle select-from"
         name="from"
         id="from"
         onChange={(e) => setFrom(e.target.value)}
@@ -51,7 +61,9 @@ function App() {
         <option value="GBP">GBP</option>
         <option value="BRL">BRL</option>
       </select>
+      <p>To</p>
       <select
+        className="btn btn-secondary dropdown-toggle select-to"
         name="to"
         id="to"
         onChange={(e) => setTo(e.target.value)}
@@ -61,7 +73,11 @@ function App() {
         <option value="USD">USD</option>
         <option value="GBP">GBP</option>
       </select>
-      <div className="result">{!error ? convertedAmount : error}</div>
+      <div className="convertion-results">
+        <p>{amount} {from} =</p>
+        <p className="main-result">{!error ? convertedAmount : error}&nbsp;{to}</p>
+        <p>{`${standardAmount} ${from} = ${!standardRate ? standardRate : standardRate.toFixed(3)} ${to}`}</p>
+      </div>
     </div>
   );
 }

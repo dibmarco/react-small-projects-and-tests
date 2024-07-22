@@ -1,9 +1,33 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.container {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.6rem;
+
+  max-width: 600px;
 }
 
-.container {
-  margin: 10px;
+.input-amount {
+  grid-row: 2;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+select {
+  width: 120px;
+}
+
+select > option {
+  text-align: left;
+}
+
+.select-from {
+  grid-row: 2;
+}
+
+p {
+  font-weight: 600;
+}
+
+.main-result {
+  font-size: 2rem;
 }
