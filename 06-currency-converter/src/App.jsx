@@ -5,8 +5,9 @@ function App() {
   const [from, setFrom] = useState("USD");
   const [to, setTo] = useState("BRL");
   const [convertedAmount, setConvertedAmount] = useState(null);
-  const [error, setError] = useState(null);
   const [standardRate, setStandardRate] = useState(null);
+  const [date, setDate] = useState(null);
+  const [error, setError] = useState(null);
 
   const standardAmount = 1;
 
@@ -33,6 +34,7 @@ function App() {
         const [rate] = Object.values(data.rates);
         setStandardRate(rate / amount);
         setConvertedAmount(rate.toFixed(2));
+        setDate(data.date);
       } catch {
         setError("Something went wrong. Try again.");
       }
@@ -74,9 +76,18 @@ function App() {
         <option value="GBP">GBP</option>
       </select>
       <div className="convertion-results">
-        <p>{amount} {from} =</p>
-        <p className="main-result">{!error ? convertedAmount : error}&nbsp;{to}</p>
-        <p>{`${standardAmount} ${from} = ${!standardRate ? standardRate : standardRate.toFixed(3)} ${to}`}</p>
+        <p>
+          {amount} {from} =
+        </p>
+        <p className="main-result">
+          {!error ? convertedAmount : error}&nbsp;{to}
+        </p>
+        <p>
+          {`${standardAmount} ${from} = ${
+            !standardRate ? standardRate : standardRate.toFixed(3)
+          } ${to}`}{" "}
+          on <span>{date}</span>
+        </p>
       </div>
     </div>
   );
