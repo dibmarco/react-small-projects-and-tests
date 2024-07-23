@@ -60,6 +60,12 @@ function App() {
     }
   }
 
+  // Format numbers to en-US standard
+  const numberFormatter = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
   return (
     <div className="container">
       <p className="p-amount">Amount</p>
@@ -95,20 +101,20 @@ function App() {
       </select>
       <div className="convertion-results">
         <p className="secondary-result">
-          {amount} {fromCur} =
+          {numberFormatter.format(amount)} {fromCur} =
         </p>
         {amount === 0 || amount === "" ? (
           <p className="main-result">0</p>
         ) : (
           <p className="main-result">
-            {!error ? convertedAmount : error} {!error ? toCur : ""}
+            {!error ? numberFormatter.format(convertedAmount) : error} {!error ? toCur : ""}
           </p>
         )}
         <p className="secondary-result">
           {`${standardAmount} ${fromCur} = ${
-            !standardRate ? standardRate : standardRate.toFixed(3)
+            !standardRate ? numberFormatter.format(standardRate) : standardRate.toFixed(3)
           } ${toCur}`}{" "}
-          on <span>{formattedDate}</span>
+          as at <span>{formattedDate}</span>
         </p>
       </div>
     </div>
