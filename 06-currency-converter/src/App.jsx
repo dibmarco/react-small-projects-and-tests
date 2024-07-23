@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 
 function App() {
-  const [amount, setAmount] = useState(1);
-  const [from, setFrom] = useState("USD");
-  const [to, setTo] = useState("BRL");
+  const [amount, setAmount] = useState("1");
+  const [fromCur, setFromCur] = useState("USD");
+  const [toCur, setToCur] = useState("BRL");
   const [convertedAmount, setConvertedAmount] = useState(null);
   const [standardRate, setStandardRate] = useState(null);
-  const [date, setDate] = useState(null);
+  const [formattedDate, setFormattedDate] = useState(null);
   const [error, setError] = useState(null);
 
   const standardAmount = 1;
 
   useEffect(() => {
-    if (from === to) {
+    if (fromCur === toCur) {
       setConvertedAmount(amount);
       return;
     }
@@ -21,54 +21,72 @@ function App() {
       setError(null);
       try {
         const res = await fetch(
-          `https://api.frankfurter.app/latest?amount=${amount}&from=${from}&to=${to}`
+          `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCur}&to=${toCur}`
         );
 
         if (!res.ok) {
-          throw new Error("Something went wrong. Try Again");
+          throw new Error("Something went wrong.");
         }
 
         const data = await res.json();
-        console.log(data);
+        /* console.log(data); */
 
         const [rate] = Object.values(data.rates);
-        setStandardRate(rate / amount);
+        setStandardRate(rate / parseFloat(amount));
         setConvertedAmount(rate.toFixed(2));
-        setDate(data.date);
+
+        const date = new Date(data.date);
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        const formattedDate = date.toLocaleDateString("en-US", options);
+        setFormattedDate(formattedDate);
       } catch {
-        setError("Something went wrong. Try again.");
+        setError("Something went wrong.");
       }
     }
     fetchRates();
-  }, [from, to, amount]);
+  }, [fromCur, toCur, amount]);
+
+  function handleInputValue(e) {
+    let value = e.target.value;
+
+    // Replace commas with dots
+    const sanitizedValue = value.replace(",", ".");
+
+    // Validate input (allow only numbers and dot)
+    const validInput = /^[0-9]*[.]?[0-9]{0,2}$/.test(sanitizedValue);
+
+    if (validInput) {
+      setAmount(sanitizedValue);
+    }
+  }
 
   return (
     <div className="container">
       <p className="p-amount">Amount</p>
       <input
         className="input-amount"
-        type="number"
+        type="text"
         value={amount}
-        onChange={(e) => setAmount(e.target.value)}
+        onChange={handleInputValue}
       />
       <p className="p-from">From</p>
       <select
         className="btn btn-primary dropdown-toggle select-from"
         name="from"
         id="from"
-        onChange={(e) => setFrom(e.target.value)}
+        onChange={(e) => setFromCur(e.target.value)}
       >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="GBP">GBP</option>
         <option value="BRL">BRL</option>
       </select>
-      <p>To</p>
+      <p className="p-to">To</p>
       <select
         className="btn btn-secondary dropdown-toggle select-to"
         name="to"
         id="to"
-        onChange={(e) => setTo(e.target.value)}
+        onChange={(e) => setToCur(e.target.value)}
       >
         <option value="BRL">BRL</option>
         <option value="EUR">EUR</option>
@@ -76,17 +94,21 @@ function App() {
         <option value="GBP">GBP</option>
       </select>
       <div className="convertion-results">
-        <p>
-          {amount} {from} =
+        <p className="secondary-result">
+          {amount} {fromCur} =
         </p>
-        <p className="main-result">
-          {!error ? convertedAmount : error}&nbsp;{to}
-        </p>
-        <p>
-          {`${standardAmount} ${from} = ${
+        {amount === 0 || amount === "" ? (
+          <p className="main-result">0</p>
+        ) : (
+          <p className="main-result">
+            {!error ? convertedAmount : error} {!error ? toCur : ""}
+          </p>
+        )}
+        <p className="secondary-result">
+          {`${standardAmount} ${fromCur} = ${
             !standardRate ? standardRate : standardRate.toFixed(3)
-          } ${to}`}{" "}
-          on <span>{date}</span>
+          } ${toCur}`}{" "}
+          on <span>{formattedDate}</span>
         </p>
       </div>
     </div>

@@ -9,13 +9,14 @@ body {
 .container {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 0.6rem;
+  column-gap: 0.6rem;
 
   max-width: 600px;
 }
 
 .input-amount {
   grid-row: 2;
+  width: 12rem;
   border-radius: 5px;
   border: 1px solid black;
   padding-left: 0.6rem;
@@ -38,11 +39,16 @@ p {
 }
 
 .convertion-results {
+  grid-column: 1 / -1;
   margin-top: 1rem;
 }
 
 .main-result {
   font-size: 2rem;
+}
+
+.secondary-result {
+  opacity: 75%;
 }
 
 span {
