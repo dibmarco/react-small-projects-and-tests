@@ -4,6 +4,9 @@ body {
   justify-content: center;
 
   height: 100vh;
+
+  /* background-color: black;
+  color: rgb(195, 195, 195); */
 }
 
 .container {
@@ -53,4 +56,30 @@ p {
 
 span {
   font-style: italic;
+}
+
+@media only screen and (max-width: 415px) {
+  body {
+    font-size: 1.1rem;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .p-amount, .p-from, .p-to {
+    /* background-color: antiquewhite; */
+    margin-bottom: -0.1px;
+    margin-left: 3px;
+  }
+
+  input {
+    min-height: 36.8px;
+    
+  }
+
+  input, select {
+    margin-bottom: 10px;
+  }
 }

@@ -14,6 +14,7 @@ function App() {
   useEffect(() => {
     if (fromCur === toCur) {
       setConvertedAmount(amount);
+      setStandardRate(1);
       return;
     }
 
@@ -39,17 +40,26 @@ function App() {
         const options = { year: "numeric", month: "long", day: "numeric" };
         const formattedDate = date.toLocaleDateString("en-US", options);
         setFormattedDate(formattedDate);
-      } catch {
+      } catch (e) {
         setError("Something went wrong.");
+        console.error(e);
       }
     }
-    fetchRates();
+
+    if (parseFloat(amount) > 0) {
+      fetchRates();
+    } else {
+      setError("Enter a valid amount");
+      setConvertedAmount(null);
+      /* setStandardRate(null); */
+      /* setFormattedDate(null); */
+    }
   }, [fromCur, toCur, amount]);
 
   function handleInputValue(e) {
     let value = e.target.value;
 
-    // Replace commas with dots
+    // Replace comma with dot
     const sanitizedValue = value.replace(",", ".");
 
     // Validate input (allow only numbers and dot)
@@ -57,6 +67,14 @@ function App() {
 
     if (validInput) {
       setAmount(sanitizedValue);
+      if (sanitizedValue === "" || parseFloat(sanitizedValue) === 0) {
+        setError("Enter a valid amount");
+        setConvertedAmount(null);
+        /* setStandardRate(null); */
+        /* setFormattedDate(null); */
+      } else {
+        setError(null);
+      }
     }
   }
 
@@ -81,6 +99,7 @@ function App() {
         name="from"
         id="from"
         onChange={(e) => setFromCur(e.target.value)}
+        value={fromCur}
       >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
@@ -93,6 +112,7 @@ function App() {
         name="to"
         id="to"
         onChange={(e) => setToCur(e.target.value)}
+        value={toCur}
       >
         <option value="BRL">BRL</option>
         <option value="EUR">EUR</option>
@@ -101,18 +121,23 @@ function App() {
       </select>
       <div className="convertion-results">
         <p className="secondary-result">
-          {numberFormatter.format(amount)} {fromCur} =
+          {numberFormatter.format(parseFloat(amount))} {fromCur} =
         </p>
         {amount === 0 || amount === "" ? (
           <p className="main-result">0</p>
         ) : (
           <p className="main-result">
-            {!error ? numberFormatter.format(convertedAmount) : error} {!error ? toCur : ""}
+            {!error
+              ? numberFormatter.format(parseFloat(convertedAmount))
+              : error}{" "}
+            {!error ? toCur : ""}
           </p>
         )}
         <p className="secondary-result">
           {`${standardAmount} ${fromCur} = ${
-            !standardRate ? numberFormatter.format(standardRate) : standardRate.toFixed(3)
+            !standardRate
+              ? numberFormatter.format(standardRate)
+              : standardRate.toFixed(3)
           } ${toCur}`}{" "}
           as at <span>{formattedDate}</span>
         </p>
