@@ -15,6 +15,13 @@ body {
   column-gap: 0.6rem;
 
   max-width: 600px;
+
+  padding: 2rem 3rem;
+
+  border: 1px solid blue;
+  border-radius: 5px;
+  box-shadow: 10px 9px 21px -5px rgba(100, 100, 246, 0.54);
+  background-color: #fff;
 }
 
 .input-amount {
@@ -66,6 +73,7 @@ span {
   .container {
     display: flex;
     flex-direction: column;
+    padding: 1rem;
   }
 
   .p-amount, .p-from, .p-to {
