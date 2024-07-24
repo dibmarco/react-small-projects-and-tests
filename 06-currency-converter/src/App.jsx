@@ -4,6 +4,7 @@ function App() {
   const [amount, setAmount] = useState("1");
   const [fromCur, setFromCur] = useState("USD");
   const [toCur, setToCur] = useState("BRL");
+  const [isLoading, setIsLoading] = useState(false);
   const [convertedAmount, setConvertedAmount] = useState(null);
   const [standardRate, setStandardRate] = useState(null);
   const [formattedDate, setFormattedDate] = useState(null);
@@ -20,6 +21,8 @@ function App() {
 
     async function fetchRates() {
       setError(null);
+      setIsLoading(true);
+
       try {
         const res = await fetch(
           `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCur}&to=${toCur}`
@@ -43,6 +46,8 @@ function App() {
       } catch (e) {
         setError("Something went wrong.");
         console.error(e);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -53,6 +58,7 @@ function App() {
       setConvertedAmount(null);
       /* setStandardRate(null); */
       /* setFormattedDate(null); */
+      setIsLoading(false);
     }
   }, [fromCur, toCur, amount]);
 
@@ -125,9 +131,11 @@ function App() {
         </p>
         {amount === 0 || amount === "" ? (
           <p className="main-result">0</p>
+        ) : isLoading ? (
+          <p className="main-result">Calculating...</p>
         ) : (
           <p className="main-result">
-            {!error
+            {!error && !isLoading
               ? numberFormatter.format(parseFloat(convertedAmount))
               : error}{" "}
             {!error ? toCur : ""}
