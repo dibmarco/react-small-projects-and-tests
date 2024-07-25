@@ -12,7 +12,16 @@
   margin-top: 15px;
 }
 
+.cart-item {
+  display: flex;
+  gap: 5px;
+}
+
 .cart-item > img {
   margin-top: 5px;
   width: 50px;
+}
+
+.delete {
+  cursor: pointer;
 }

@@ -28,10 +28,16 @@ function App() {
       color: selectedColor,
       img: mugs[selectedColor].img,
       price: mugs[selectedColor].price,
-    }
-/* 
+    };
+    /* 
     console.log(mugSelection); */
     setMugsInCart((prevSelections) => [...prevSelections, mugSelection]);
+  }
+
+  function handleDeleteItem(id) {
+    const itemToDelete = mugsInCart.find((item) => item.id === id);
+    console.log(itemToDelete);
+    setMugsInCart(mugsInCart.filter((item) => item.id !== id));
   }
 
   return (
@@ -41,14 +47,20 @@ function App() {
         mugColors={mugColors}
         selectedColor={selectedColor}
         onSelectedColor={setSelectedColor}
-        onAddToCart = {handleAddToCart}
+        onAddToCart={handleAddToCart}
       />
-      <Cart mugsInCart={mugsInCart}/>
+      <Cart mugsInCart={mugsInCart} onDeleteItem={handleDeleteItem} />
     </div>
   );
 }
 
-function Selections({ mugs, mugColors, selectedColor, onSelectedColor, onAddToCart }) {
+function Selections({
+  mugs,
+  mugColors,
+  selectedColor,
+  onSelectedColor,
+  onAddToCart,
+}) {
   return (
     <div className="selections">
       <img src={mugs[selectedColor].img} alt={`${selectedColor} mug`} />
@@ -78,14 +90,21 @@ function Selections({ mugs, mugColors, selectedColor, onSelectedColor, onAddToCa
   );
 }
 
-function Cart({mugsInCart}) {
+function Cart({ mugsInCart, onDeleteItem }) {
   return (
     <div className="cart">
-      {mugsInCart.map((mug) => <div key={mug.id} className="cart-item">
-        <img src={mug.img} alt={`${mug.color} mug`} />{mug.color} {mug.price}
-        </div>)}
+      {mugsInCart.map((mug) => (
+        <div key={mug.id} className="cart-item">
+          <img src={mug.img} alt={`${mug.color} mug`} />
+          <p>{mug.color}</p>
+          <p>{mug.price}</p>
+          <p className="delete" onClick={() => onDeleteItem(mug.id)}>
+            ❌
+          </p>
+        </div>
+      ))}
     </div>
-  )
+  );
 }
 
 export default App;
