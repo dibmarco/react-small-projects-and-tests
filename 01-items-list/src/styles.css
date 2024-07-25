@@ -1,72 +1,18 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.app {
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  flex-direction: row;
-
-  padding: 20px;
-}
-
 .selections {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  flex-direction: column;
-
-  width: 250px;
-  height: auto;
-
-  text-align: center;
+  margin-bottom: 15px;
 }
 
-.mug-selection {
-  display: block;
+.selections > img {
   width: 200px;
-  height: 200px;
+  height: 150px;
+  aspect-ratio: auto;
 }
 
-.shopping-list {
-  width: 450px;
-  min-height: 350px;
-  border: 1px solid black;
-  padding: 10px;
+.selections > button {
+  margin-top: 15px;
 }
 
-.mug-in-cart {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-
-  width: 100%;
-
-  margin-bottom: 5px;
-}
-
-.mug-in-cart > img {
-  width: 80px;
-  min-height: 80px;
-}
-
-.delete-item {
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-
-  width: 15px;
-  height: 15px;
-  cursor: pointer;
-}
-
-.grand-total {
-  padding: 5px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
+.cart-item > img {
+  margin-top: 5px;
+  width: 50px;
 }

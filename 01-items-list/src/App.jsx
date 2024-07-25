@@ -1,176 +1,91 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 
-const initialMugs = {
+const mugs = {
   white: {
     img: "imgs/white_mug.jpg",
-    qty: 3,
     price: 12.49,
   },
   brown: {
     img: "imgs/brown_mug.jpg",
-    qty: 4,
     price: 13.49,
   },
   black: {
     img: "imgs/black_mug.jpg",
-    qty: 2,
     price: 15.49,
   },
 };
 
 function App() {
-  const [mugs, setMugs] = useState(initialMugs);
-  const [cart, setCart] = useState([]);
-  const [totalQty, setTotalQty] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  useEffect(() => {
-    const qtyArray = cart.map((mug) => mug.quantity);
-    const newTotalQty = qtyArray.reduce((acc, cur) => acc + cur, 0);
-    setTotalQty(newTotalQty);
-
-    const priceArray = cart.map((mug) => mug.price);
-    const newTotalPrice = priceArray.reduce((acc, cur) => acc + cur, 0);
-    setTotalPrice(newTotalPrice);
-  }, [cart]);
-
-  function handleAddToCart(mug) {
-    setCart((prevCart) => [...prevCart, mug]);
-
-    // Update the quantity in the mugs state
-    setMugs((prevMugs) => ({
-      ...prevMugs,
-      [mug.color]: {
-        ...prevMugs[mug.color],
-        qty: prevMugs[mug.color].qty - mug.quantity,
-      },
-    }));
-  }
-
-  function handleDeleteItem(id) {
-    const mugToDelete = cart.find((mug) => mug.id === id);
-    setCart((prevCart) => prevCart.filter((mug) => mug.id !== id));
-
-    // Restore the quantity in the mugs state
-    setMugs((prevMugs) => ({
-      ...prevMugs,
-      [mugToDelete.color]: {
-        ...prevMugs[mugToDelete.color],
-        qty: prevMugs[mugToDelete.color].qty + mugToDelete.quantity,
-      },
-    }));
-  }
-
-  return (
-    <div className="app">
-      <Selections mugs={mugs} onAddtoCart={handleAddToCart} />
-      <ShoppingList
-        cart={cart}
-        onDeleteItem={handleDeleteItem}
-        totalQty={totalQty}
-        totalPrice={totalPrice}
-      />
-    </div>
-  );
-}
-
-function Selections({ mugs, onAddtoCart }) {
-  const [selectedColor, setSelectedColor] = useState("white");
-  const [quantity, setQuantity] = useState(1);
-
-  function handleColorChange(color) {
-    setSelectedColor(color);
-    setQuantity(1);
-  }
-
-  function handleQuantity(value) {
-    setQuantity(value);
-  }
+  const mugColors = Object.keys(mugs);
+  const [selectedColor, setSelectedColor] = useState(mugColors[0]);
+  const [mugsInCart, setMugsInCart] = useState([]);
 
   function handleAddToCart() {
     const id = crypto.randomUUID();
 
-    const mugSelections = {
+    const mugSelection = {
+      id: id,
       color: selectedColor,
       img: mugs[selectedColor].img,
-      quantity: quantity,
-      price: quantity * mugs[selectedColor].price,
-      id: id,
-    };
-
-    onAddtoCart(mugSelections);
-    setQuantity(1);
+      price: mugs[selectedColor].price,
+    }
+/* 
+    console.log(mugSelection); */
+    setMugsInCart((prevSelections) => [...prevSelections, mugSelection]);
   }
 
-  const selectedMug = mugs[selectedColor];
-
   return (
-    <div className="selections">
-      <div>
-        <p>Select your Coffee Mug</p>
-        <img
-          src={selectedMug.img}
-          alt={`${selectedColor} coffee mug`}
-          className="mug-selection"
-        />
-      </div>
-
-      <label>Color</label>
-      <select
-        value={selectedColor}
-        onChange={(e) => handleColorChange(e.target.value)}
-      >
-        {Object.keys(mugs).map((color, i) => (
-          <option value={color} key={i}>
-            {color}
-          </option>
-        ))}
-      </select>
-
-      <br />
-
-      <label>Quantity</label>
-      <select
-        value={quantity}
-        onChange={(e) => handleQuantity(Number(e.target.value))}
-      >
-        {[...Array(mugs[selectedColor].qty)].map((_, i) => (
-          <option value={i + 1} key={i}>
-            {i + 1}
-          </option>
-        ))}
-      </select>
-
-      <br />
-
-      <button onClick={() => handleAddToCart()}>Add to Cart</button>
+    <div className="container">
+      <Selections
+        mugs={mugs}
+        mugColors={mugColors}
+        selectedColor={selectedColor}
+        onSelectedColor={setSelectedColor}
+        onAddToCart = {handleAddToCart}
+      />
+      <Cart mugsInCart={mugsInCart}/>
     </div>
   );
 }
 
-function ShoppingList({ cart, onDeleteItem, totalQty, totalPrice }) {
+function Selections({ mugs, mugColors, selectedColor, onSelectedColor, onAddToCart }) {
   return (
-    <div className="cart-container">
-      <div className="shopping-list">
-        {cart.map((mugInCart, i) => (
-          <div className="mug-in-cart" key={i}>
-            <img src={mugInCart.img} alt={`${mugInCart.color} coffee mug`} />
-            <p>Qty: {mugInCart.quantity}</p>
-            <p>Price: {mugInCart.price.toFixed(2)}</p>
-            <p
-              className="delete-item"
-              onClick={() => onDeleteItem(mugInCart.id)}
+    <div className="selections">
+      <img src={mugs[selectedColor].img} alt={`${selectedColor} mug`} />
+      <p className="price">{mugs[selectedColor].price}</p>
+      <div className="radio-btns">
+        {mugColors.map((color, i) => (
+          <div key={i}>
+            <input
+              type="radio"
+              /* id={color}
+              value={color} */
+              name="mug"
+              checked={selectedColor === color}
+              onChange={() => onSelectedColor(color)}
+            />
+            <label
+              htmlFor={color}
+              /* style={{ color: color === "white" ? "grey" : color }} */
             >
-              ❌
-            </p>
+              {color}
+            </label>
           </div>
         ))}
       </div>
-      <div className="grand-total">
-        Total Items: {totalQty} | Total Price: ${totalPrice.toFixed(2)}
-      </div>
+      <button onClick={onAddToCart}>Add to Cart</button>
     </div>
   );
+}
+
+function Cart({mugsInCart}) {
+  return (
+    <div className="cart">
+      {mugsInCart.map((mug) => <div key={mug.id} className="cart-item">
+        <img src={mug.img} alt={`${mug.color} mug`} />{mug.color} {mug.price}
+        </div>)}
+    </div>
+  )
 }
 
 export default App;
