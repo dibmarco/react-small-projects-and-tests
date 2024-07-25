@@ -19,12 +19,22 @@ const initialMugs = {
 };
 
 function App() {
-  const [mugs, setMugs] = useState(initialMugs);
+  const [mugs, setMugs] = useState(() => {
+    const savedMugs = localStorage.getItem("mugs");
+    return savedMugs ? JSON.parse(savedMugs) : initialMugs;
+  });
   const mugColors = Object.keys(mugs);
 
   const [selectedColor, setSelectedColor] = useState(mugColors[0]);
   const [quantity, setQuantity] = useState(1);
-  const [mugsInCart, setMugsInCart] = useState([]);
+  const [mugsInCart, setMugsInCart] = useState(() => {
+    const savedMugsInCart = localStorage.getItem("mugsInCart");
+    return savedMugsInCart ? JSON.parse(savedMugsInCart) : [];
+  });
+
+  function handleQuantity(qty) {
+    setQuantity(qty);
+  }
 
   function handleAddToCart() {
     const id = crypto.randomUUID();
@@ -36,7 +46,7 @@ function App() {
       color: selectedColor,
       price: mugs[selectedColor].price,
     };
-    console.log(mugSelection);
+    // console.log(mugSelection);
     setMugsInCart((prevSelections) => [...prevSelections, mugSelection]);
 
     setMugs((prevMugs) => ({
@@ -48,13 +58,9 @@ function App() {
     }));
   }
 
-  function handleQuantity(qty) {
-    setQuantity(qty);
-  }
-
   function handleDeleteItem(id) {
     const itemToDelete = mugsInCart.find((item) => item.id === id);
-    console.log(itemToDelete);
+    // console.log(itemToDelete);
     setMugsInCart(mugsInCart.filter((item) => item.id !== id));
 
     setMugs((prevMugs) => ({
@@ -69,6 +75,14 @@ function App() {
   useEffect(() => {
     setQuantity(1);
   }, [selectedColor]);
+
+  useEffect(() => {
+    localStorage.setItem("mugs", JSON.stringify(mugs));
+  }, [mugs]);
+
+  useEffect(() => {
+    localStorage.setItem("mugsInCart", JSON.stringify(mugsInCart));
+  }, [mugsInCart]);
 
   return (
     <div className="container">
