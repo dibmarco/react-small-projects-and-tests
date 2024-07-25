@@ -1,23 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const mugs = {
+const initialMugs = {
   white: {
     img: "imgs/white_mug.jpg",
     price: 12.49,
+    qty: 2,
   },
   brown: {
     img: "imgs/brown_mug.jpg",
     price: 13.49,
+    qty: 3,
   },
   black: {
     img: "imgs/black_mug.jpg",
     price: 15.49,
+    qty: 5,
   },
 };
 
 function App() {
+  const [mugs, setMugs] = useState(initialMugs);
   const mugColors = Object.keys(mugs);
+
   const [selectedColor, setSelectedColor] = useState(mugColors[0]);
+  const [quantity, setQuantity] = useState(1);
   const [mugsInCart, setMugsInCart] = useState([]);
 
   function handleAddToCart() {
@@ -25,20 +31,44 @@ function App() {
 
     const mugSelection = {
       id: id,
-      color: selectedColor,
       img: mugs[selectedColor].img,
+      qty: quantity,
+      color: selectedColor,
       price: mugs[selectedColor].price,
     };
-    /* 
-    console.log(mugSelection); */
+    console.log(mugSelection);
     setMugsInCart((prevSelections) => [...prevSelections, mugSelection]);
+
+    setMugs((prevMugs) => ({
+      ...prevMugs,
+      [selectedColor]: {
+        ...prevMugs[selectedColor],
+        qty: prevMugs[selectedColor].qty - quantity,
+      },
+    }));
+  }
+
+  function handleQuantity(qty) {
+    setQuantity(qty);
   }
 
   function handleDeleteItem(id) {
     const itemToDelete = mugsInCart.find((item) => item.id === id);
     console.log(itemToDelete);
     setMugsInCart(mugsInCart.filter((item) => item.id !== id));
+
+    setMugs((prevMugs) => ({
+      ...prevMugs,
+      [itemToDelete.color]: {
+        ...prevMugs[itemToDelete.color],
+        qty: prevMugs[itemToDelete.color].qty + itemToDelete.qty,
+      },
+    }));
   }
+
+  useEffect(() => {
+    setQuantity(1);
+  }, [selectedColor]);
 
   return (
     <div className="container">
@@ -48,6 +78,8 @@ function App() {
         selectedColor={selectedColor}
         onSelectedColor={setSelectedColor}
         onAddToCart={handleAddToCart}
+        quantity={quantity}
+        onHandleQuantity={handleQuantity}
       />
       <Cart mugsInCart={mugsInCart} onDeleteItem={handleDeleteItem} />
     </div>
@@ -60,6 +92,8 @@ function Selections({
   selectedColor,
   onSelectedColor,
   onAddToCart,
+  quantity,
+  onHandleQuantity,
 }) {
   return (
     <div className="selections">
@@ -85,6 +119,18 @@ function Selections({
           </div>
         ))}
       </div>
+      <br />
+      <select
+        value={quantity}
+        onChange={(e) => onHandleQuantity(+e.target.value)}
+      >
+        {[...Array(mugs[selectedColor].qty)].map((_, i) => (
+          <option value={i + 1} key={i}>
+            {i + 1}
+          </option>
+        ))}
+      </select>
+      <br />
       <button onClick={onAddToCart}>Add to Cart</button>
     </div>
   );
@@ -96,8 +142,9 @@ function Cart({ mugsInCart, onDeleteItem }) {
       {mugsInCart.map((mug) => (
         <div key={mug.id} className="cart-item">
           <img src={mug.img} alt={`${mug.color} mug`} />
+          <p>{mug.qty}</p>
           <p>{mug.color}</p>
-          <p>{mug.price}</p>
+          <p>{mug.price * mug.qty}</p>
           <p className="delete" onClick={() => onDeleteItem(mug.id)}>
             ❌
           </p>
