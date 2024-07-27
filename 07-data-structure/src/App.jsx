@@ -42,6 +42,10 @@ function App() {
     setQuantity(Number(e.target.value));
   }
 
+  const availableSizes = color ? shirts[color] : [];
+  const selectedSize = availableSizes.find((item) => item.size === size);
+  const availableQty = selectedSize ? selectedSize.qty : 0;
+
   function handleAddToCart() {
     const id = crypto.randomUUID();
 
@@ -52,7 +56,7 @@ function App() {
       quantity: quantity,
     };
 
-    console.log(selections);
+    /* console.log(selections); */
 
     setItemsInCart((prevItemsInCart) => [...prevItemsInCart, selections]);
     setColor("");
@@ -60,13 +64,17 @@ function App() {
     setQuantity(0);
   }
 
-  const availableSizes = color ? shirts[color] : [];
-  const selectedSize = availableSizes.find((item) => item.size === size);
-  const availableQty = selectedSize ? selectedSize.qty : 0;
+  function handleDeleteItem(id) {
+    /* const itemToDelete = itemsInCart.find((item) => item.id === id); */
+    /* console.log(itemToDelete); */
+    setItemsInCart(itemsInCart.filter((item) => item.id !== id));
+  }
 
-  useEffect(() => {
+  
+
+  /* useEffect(() => {
     console.log(itemsInCart);
-  }, [itemsInCart]);
+  }, [itemsInCart]); */
 
   return (
     <>
@@ -118,12 +126,12 @@ function App() {
         )}
       </div>
 
-      <ShoppingCart itemsInCart={itemsInCart} />
+      <ShoppingCart itemsInCart={itemsInCart} onDeleteItem={handleDeleteItem}/>
     </>
   );
 }
 
-function ShoppingCart({ itemsInCart }) {
+function ShoppingCart({ itemsInCart, onDeleteItem }) {
   return (
     <div className="shopping-cart">
       {itemsInCart.map((item, i) => (
@@ -132,7 +140,7 @@ function ShoppingCart({ itemsInCart }) {
           <p>{item.color} |</p>
           <p>{item.size} |</p>
           <p>{item.quantity} &#47;&#47;</p>
-          <p className="delete-item">remove</p>
+          <p className="delete-item" onClick={() => onDeleteItem(item.id)}>remove</p>
         </div>
       ))}
     </div>
