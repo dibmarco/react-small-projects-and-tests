@@ -1,0 +1,36 @@
+.selections {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  height: 30px;
+}
+
+.shopping-cart {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-items {
+  display: flex;
+  gap: 5px;
+
+  height: 25px;
+}
+
+.delete-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 32px;
+
+  color: red;
+  font-size: 10px;
+
+  cursor: pointer;
+}
+
+.delete-item:hover {
+  text-decoration: underline;
+}
