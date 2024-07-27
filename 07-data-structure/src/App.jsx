@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const initialShirts = {
   white: [
@@ -15,10 +15,6 @@ const initialShirts = {
     { size: "medium", qty: 5 },
   ],
 };
-
-// const selSize = initialShirts["white"];
-// console.log(selSize);
-// console.log(selSize[0].size);
 
 function App() {
   const [shirts, setShirts] = useState(initialShirts);
@@ -42,7 +38,12 @@ function App() {
     setQuantity(Number(e.target.value));
   }
 
-  const availableSizes = color ? shirts[color] : [];
+  const availableColors = Object.keys(shirts).filter((color) =>
+    shirts[color].some((item) => item.qty > 0)
+  ); // Check if any size has stock
+  const availableSizes = color
+    ? shirts[color].filter((item) => item.qty > 0)
+    : []; // Only sizes with stock available
   const selectedSize = availableSizes.find((item) => item.size === size);
   const availableQty = selectedSize ? selectedSize.qty : 0;
 
@@ -53,42 +54,71 @@ function App() {
       id: id,
       color: color,
       size: size,
-      quantity: quantity,
+      qty: quantity,
     };
 
-    /* console.log(selections); */
-
     setItemsInCart((prevItemsInCart) => [...prevItemsInCart, selections]);
+
+    setShirts((prevShirts) => ({
+      ...prevShirts,
+      [color]: prevShirts[color].map((item) =>
+        item.size === size ? { ...item, qty: item.qty - quantity } : item
+      ),
+    }));
+
     setColor("");
     setSize("");
     setQuantity(0);
   }
 
   function handleDeleteItem(id) {
-    /* const itemToDelete = itemsInCart.find((item) => item.id === id); */
-    /* console.log(itemToDelete); */
-    setItemsInCart(itemsInCart.filter((item) => item.id !== id));
+    const itemToDelete = itemsInCart.find((item) => item.id === id);
+
+    if (!itemToDelete) return;
+
+    setItemsInCart((prevItemsInCart) =>
+      prevItemsInCart.filter((item) => item.id !== id)
+    );
+
+    setShirts((prevShirts) => ({
+      ...prevShirts,
+      [itemToDelete.color]: prevShirts[itemToDelete.color].map((item) =>
+        item.size === itemToDelete.size
+          ? { ...item, qty: item.qty + itemToDelete.qty }
+          : item
+      ),
+    }));
+
+    setColor("");
+    setSize("");
+    setQuantity(0);
   }
-
-  
-
-  /* useEffect(() => {
-    console.log(itemsInCart);
-  }, [itemsInCart]); */
 
   return (
     <>
       <div className="selections">
         <p>Color</p>
-        <select value={color} onChange={handleColorChange}>
-          <option className="option-select" value="">
-            Select color
-          </option>
-          {Object.keys(shirts).map((shirt, i) => (
-            <option key={i} value={shirt}>
-              {shirt}
+        <select
+          value={color}
+          onChange={handleColorChange}
+          disabled={availableColors.length === 0}
+        >
+          {availableColors.length === 0 ? (
+            <option className="option-select" value="SOLD OUT">
+              SOLD OUT
             </option>
-          ))}
+          ) : (
+            <>
+              <option className="option-select" value="">
+                Select color
+              </option>
+              {availableColors.map((shirt, i) => (
+                <option key={i} value={shirt}>
+                  {shirt}
+                </option>
+              ))}
+            </>
+          )}
         </select>
 
         <p>Size</p>
@@ -126,7 +156,7 @@ function App() {
         )}
       </div>
 
-      <ShoppingCart itemsInCart={itemsInCart} onDeleteItem={handleDeleteItem}/>
+      <ShoppingCart itemsInCart={itemsInCart} onDeleteItem={handleDeleteItem} />
     </>
   );
 }
@@ -139,8 +169,10 @@ function ShoppingCart({ itemsInCart, onDeleteItem }) {
           <p>*</p>
           <p>{item.color} |</p>
           <p>{item.size} |</p>
-          <p>{item.quantity} &#47;&#47;</p>
-          <p className="delete-item" onClick={() => onDeleteItem(item.id)}>remove</p>
+          <p>{item.qty} &#47;&#47;</p>
+          <p className="delete-item" onClick={() => onDeleteItem(item.id)}>
+            remove
+          </p>
         </div>
       ))}
     </div>
