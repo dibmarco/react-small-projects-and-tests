@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div className="container">
-      <button onClick={decrement}>-</button>
+      <button onClick={decrement} disabled={state.count === 0}>-</button>
       <span>{state.count}</span>
       <button onClick={increment}>+</button>
     </div>
