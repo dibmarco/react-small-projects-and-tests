@@ -45,13 +45,13 @@ export default App;
 
 function Friends({ state }) {
   return (
-    <div>
+    <>
       {Object.keys(state).map((friend) => (
         <p key={friend}>
           {friend} ${state[friend]}
         </p>
       ))}
-    </div>
+    </>
   );
 }
 
@@ -63,7 +63,7 @@ function Selections({
   setSelectedFriend,
 }) {
   return (
-    <div>
+    <>
       Borrow{" "}
       <input
         type="number"
@@ -79,6 +79,6 @@ function Selections({
       <button onClick={() => dispatch({ type: "borrow", friend: selectedFriend, payload: amount })}>
         OK
       </button>
-    </div>
+    </>
   );
 }
