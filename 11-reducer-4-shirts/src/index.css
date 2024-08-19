@@ -3,3 +3,16 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  width: 230px;
+  margin-top: 5px;
+}
+
+.delete-item {
+  cursor: pointer;
+}

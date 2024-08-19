@@ -24,6 +24,15 @@ function reducer(state, action) {
         },
       };
     }
+    case "deleteItem": {
+      return {
+        ...state,
+        [action.payload.shirtColor]: {
+          ...state[action.payload.shirtColor],
+          qty: state[action.payload.shirtColor].qty + action.payload.qty,
+        },
+      };
+    }
     default:
       return state;
   }
@@ -35,7 +44,7 @@ function App() {
   const [qty, setQty] = useState(1);
   const [itemsInCart, setItemsInCart] = useState([]);
 
-  function handleItemsInCart() {
+  function handleAddItem() {
     const id = crypto.randomUUID();
 
     const itemInCart = {
@@ -47,7 +56,22 @@ function App() {
     };
 
     setItemsInCart((prevItemsInCart) => [...prevItemsInCart, itemInCart]);
-    dispatch({ type: "addToCart", shirtColor: shirtColor, payload: itemInCart });
+    dispatch({
+      type: "addToCart",
+      shirtColor: shirtColor,
+      payload: itemInCart,
+    });
+  }
+
+  function handleDeleteItem(id) {
+    const itemToDelete = itemsInCart.find((item) => item.id === id);
+
+    setItemsInCart(itemsInCart.filter((item) => item.id !== id));
+
+    dispatch({
+      type: "deleteItem",
+      payload: itemToDelete,
+    });
   }
 
   return (
@@ -57,14 +81,20 @@ function App() {
         selectedShirt={state[shirtColor]}
         setShirtColor={setShirtColor}
         setQty={setQty}
-        handleItemsInCart={handleItemsInCart}
+        handleAddItem={handleAddItem}
       />
-      {/* You can render the cart items here if needed */}
+      <Cart itemsInCart={itemsInCart} handleDeleteItem={handleDeleteItem} />
     </div>
   );
 }
 
-function Selections({ state, selectedShirt, setShirtColor, setQty, handleItemsInCart }) {
+function Selections({
+  state,
+  selectedShirt,
+  setShirtColor,
+  setQty,
+  handleAddItem,
+}) {
   return (
     <div>
       <img src={selectedShirt.img} alt="Shirt" width="200px" />
@@ -83,7 +113,24 @@ function Selections({ state, selectedShirt, setShirtColor, setQty, handleItemsIn
           </option>
         ))}
       </select>
-      <button onClick={handleItemsInCart}>Add to Cart</button>
+      <button onClick={handleAddItem}>Add to Cart</button>
+    </div>
+  );
+}
+
+function Cart({ itemsInCart, handleDeleteItem }) {
+  return (
+    <div>
+      {itemsInCart.map((item, i) => (
+        <div className="cart-item" key={item.id}>
+          <img src={item.img} alt="shirt" width="50px" />
+          <p>Quantity: {item.qty}</p>
+          <p>Price: ${item.qty * item.price}</p>
+          <p className="delete-item" onClick={() => handleDeleteItem(item.id)}>
+            ❌
+          </p>
+        </div>
+      ))}
     </div>
   );
 }
