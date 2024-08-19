@@ -46,18 +46,17 @@ function App() {
 
   function handleAddItem() {
     const id = crypto.randomUUID();
-  
+
     // Check if the item already exists in the cart
+    // findIndex is used to locate an existing item with the same shirt color. If it finds one, it returns the index of the item; otherwise, it returns -1
     const existingItemIndex = itemsInCart.findIndex(
       (item) => item.shirtColor === shirtColor
     );
-  
+
     if (existingItemIndex !== -1) {
       // If the item exists, update its quantity
       const updatedItems = itemsInCart.map((item, index) =>
-        index === existingItemIndex
-          ? { ...item, qty: item.qty + qty }
-          : item
+        index === existingItemIndex ? { ...item, qty: item.qty + qty } : item
       );
       setItemsInCart(updatedItems);
     } else {
@@ -69,10 +68,10 @@ function App() {
         qty: qty,
         price: state[shirtColor].price,
       };
-  
+
       setItemsInCart((prevItemsInCart) => [...prevItemsInCart, itemInCart]);
     }
-  
+
     // Update the stock using the reducer
     dispatch({
       type: "addToCart",
@@ -80,7 +79,6 @@ function App() {
       payload: { qty },
     });
   }
-  
 
   function handleDeleteItem(id) {
     const itemToDelete = itemsInCart.find((item) => item.id === id);
@@ -159,18 +157,24 @@ function Selections({
 
 function Cart({ itemsInCart, handleDeleteItem }) {
   return (
-    <div>
-      {itemsInCart.map((item, i) => (
-        <div className="cart-item" key={item.id}>
-          <img src={item.img} alt="shirt" width="50px" />
-          <p>| Quantity: {item.qty} | </p>
-          <p>Price: ${item.qty * item.price} |</p>
-          <p className="delete-item" onClick={() => handleDeleteItem(item.id)}>
-            ❌
-          </p>
-        </div>
-      ))}
-    </div>
+    <>
+      <p className="your-cart">Your Cart</p>
+      <div className="cart">
+        {itemsInCart.map((item, i) => (
+          <div className="cart-item" key={item.id}>
+            <img src={item.img} alt="shirt" width="50px" />
+            <p>| Quantity: {item.qty} | </p>
+            <p>Price: ${item.qty * item.price} |</p>
+            <p
+              className="delete-item"
+              onClick={() => handleDeleteItem(item.id)}
+            >
+              ❌
+            </p>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 

@@ -24,6 +24,18 @@ button {
   padding: 3px;
 }
 
+.your-cart {
+  
+  margin-top: 20px;
+}
+
+.cart {
+  width: 260px;
+  min-height: 92px;
+  padding: 5px;
+  border: 1px solid black;
+}
+
 .cart-item {
   display: flex;
   align-items: center;
@@ -31,6 +43,7 @@ button {
 
   width: 250px;
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .delete-item {
