@@ -16,7 +16,13 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "addToCart": {
-      return state; // Implement add to cart logic here
+      return {
+        ...state,
+        [action.shirtColor]: {
+          ...state[action.shirtColor],
+          qty: state[action.shirtColor].qty - action.payload.qty,
+        },
+      };
     }
     default:
       return state;
@@ -26,30 +32,58 @@ function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [shirtColor, setShirtColor] = useState("white");
+  const [qty, setQty] = useState(1);
+  const [itemsInCart, setItemsInCart] = useState([]);
+
+  function handleItemsInCart() {
+    const id = crypto.randomUUID();
+
+    const itemInCart = {
+      id: id,
+      shirtColor: shirtColor,
+      img: state[shirtColor].img,
+      qty: qty,
+      price: state[shirtColor].price,
+    };
+
+    setItemsInCart((prevItemsInCart) => [...prevItemsInCart, itemInCart]);
+    dispatch({ type: "addToCart", shirtColor: shirtColor, payload: itemInCart });
+  }
 
   return (
     <div>
       <Selections
-        initialState={initialState}
-        state={state[shirtColor]}
+        state={state}
+        selectedShirt={state[shirtColor]}
         setShirtColor={setShirtColor}
+        setQty={setQty}
+        handleItemsInCart={handleItemsInCart}
       />
+      {/* You can render the cart items here if needed */}
     </div>
   );
 }
 
-function Selections({ initialState, state, setShirtColor }) {
+function Selections({ state, selectedShirt, setShirtColor, setQty, handleItemsInCart }) {
   return (
     <div>
-      <img src={state.img} alt="Shirt" width="200px" />
-      <p>Price {state.price}.00</p>
+      <img src={selectedShirt.img} alt="Shirt" width="200px" />
+      <p>Price ${selectedShirt.price}.00</p>
       <select onChange={(e) => setShirtColor(e.target.value)}>
-        {Object.keys(initialState).map((shirt, i) => (
+        {Object.keys(state).map((shirt, i) => (
           <option key={i} value={shirt}>
             {shirt}
           </option>
         ))}
       </select>
+      <select onChange={(e) => setQty(+e.target.value)}>
+        {[...Array(selectedShirt.qty)].map((_, i) => (
+          <option value={i + 1} key={i}>
+            {i + 1}
+          </option>
+        ))}
+      </select>
+      <button onClick={handleItemsInCart}>Add to Cart</button>
     </div>
   );
 }
