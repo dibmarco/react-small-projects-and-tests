@@ -46,22 +46,41 @@ function App() {
 
   function handleAddItem() {
     const id = crypto.randomUUID();
-
-    const itemInCart = {
-      id: id,
-      shirtColor: shirtColor,
-      img: state[shirtColor].img,
-      qty: qty,
-      price: state[shirtColor].price,
-    };
-
-    setItemsInCart((prevItemsInCart) => [...prevItemsInCart, itemInCart]);
+  
+    // Check if the item already exists in the cart
+    const existingItemIndex = itemsInCart.findIndex(
+      (item) => item.shirtColor === shirtColor
+    );
+  
+    if (existingItemIndex !== -1) {
+      // If the item exists, update its quantity
+      const updatedItems = itemsInCart.map((item, index) =>
+        index === existingItemIndex
+          ? { ...item, qty: item.qty + qty }
+          : item
+      );
+      setItemsInCart(updatedItems);
+    } else {
+      // If the item doesn't exist, add a new item
+      const itemInCart = {
+        id: id,
+        shirtColor: shirtColor,
+        img: state[shirtColor].img,
+        qty: qty,
+        price: state[shirtColor].price,
+      };
+  
+      setItemsInCart((prevItemsInCart) => [...prevItemsInCart, itemInCart]);
+    }
+  
+    // Update the stock using the reducer
     dispatch({
       type: "addToCart",
       shirtColor: shirtColor,
-      payload: itemInCart,
+      payload: { qty },
     });
   }
+  
 
   function handleDeleteItem(id) {
     const itemToDelete = itemsInCart.find((item) => item.id === id);
@@ -105,37 +124,34 @@ function Selections({
     <div>
       <img src={selectedShirt.img} alt="Shirt" width="200px" />
       <p>Price ${selectedShirt.price}.00</p>
-      
+
       <div className="selections">
-      <select
-        onChange={(e) => {
-          setShirtColor(e.target.value);
-        }}
-        value={selectedShirt.color}
-      >
-        {Object.keys(state).map((shirt, i) => (
-          <option key={i} value={shirt}>
-            {shirt}
-          </option>
-        ))}
-      </select>
-      <select
-        onChange={(e) => setQty(+e.target.value)}
-        value={qty}
-      >
-        {selectedShirt.qty === 0 ? (
-          <option value="0">Sold out</option>
-        ) : (
-          [...Array(selectedShirt.qty)].map((_, i) => (
-            <option value={i + 1} key={i}>
-              {i + 1}
+        <select
+          onChange={(e) => {
+            setShirtColor(e.target.value);
+          }}
+          value={selectedShirt.color}
+        >
+          {Object.keys(state).map((shirt, i) => (
+            <option key={i} value={shirt}>
+              {shirt}
             </option>
-          ))
-        )}
-      </select>
-      <button onClick={handleAddItem} disabled={selectedShirt.qty === 0}>
-        Add to Cart
-      </button>
+          ))}
+        </select>
+        <select onChange={(e) => setQty(+e.target.value)} value={qty}>
+          {selectedShirt.qty === 0 ? (
+            <option value="0">Sold out</option>
+          ) : (
+            [...Array(selectedShirt.qty)].map((_, i) => (
+              <option value={i + 1} key={i}>
+                {i + 1}
+              </option>
+            ))
+          )}
+        </select>
+        <button onClick={handleAddItem} disabled={selectedShirt.qty === 0}>
+          Add to Cart
+        </button>
       </div>
     </div>
   );
