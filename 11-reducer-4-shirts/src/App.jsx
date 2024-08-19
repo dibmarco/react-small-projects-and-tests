@@ -1,15 +1,15 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 const initialState = {
   white: {
     img: "imgs/fnm_white.jpg",
     qty: 2,
-    price: 10.0,
+    price: 10,
   },
   black: {
     img: "imgs/fnm_black.jpg",
     qty: 3,
-    price: 12.0,
+    price: 12,
   },
 };
 
@@ -74,12 +74,17 @@ function App() {
     });
   }
 
+  useEffect(() => {
+    setQty(1);
+  }, [shirtColor]);
+
   return (
-    <div>
+    <div className="container">
       <Selections
         state={state}
         selectedShirt={state[shirtColor]}
         setShirtColor={setShirtColor}
+        qty={qty}
         setQty={setQty}
         handleAddItem={handleAddItem}
       />
@@ -92,6 +97,7 @@ function Selections({
   state,
   selectedShirt,
   setShirtColor,
+  qty,
   setQty,
   handleAddItem,
 }) {
@@ -99,21 +105,38 @@ function Selections({
     <div>
       <img src={selectedShirt.img} alt="Shirt" width="200px" />
       <p>Price ${selectedShirt.price}.00</p>
-      <select onChange={(e) => setShirtColor(e.target.value)}>
+      
+      <div className="selections">
+      <select
+        onChange={(e) => {
+          setShirtColor(e.target.value);
+        }}
+        value={selectedShirt.color}
+      >
         {Object.keys(state).map((shirt, i) => (
           <option key={i} value={shirt}>
             {shirt}
           </option>
         ))}
       </select>
-      <select onChange={(e) => setQty(+e.target.value)}>
-        {[...Array(selectedShirt.qty)].map((_, i) => (
-          <option value={i + 1} key={i}>
-            {i + 1}
-          </option>
-        ))}
+      <select
+        onChange={(e) => setQty(+e.target.value)}
+        value={qty}
+      >
+        {selectedShirt.qty === 0 ? (
+          <option value="0">Sold out</option>
+        ) : (
+          [...Array(selectedShirt.qty)].map((_, i) => (
+            <option value={i + 1} key={i}>
+              {i + 1}
+            </option>
+          ))
+        )}
       </select>
-      <button onClick={handleAddItem}>Add to Cart</button>
+      <button onClick={handleAddItem} disabled={selectedShirt.qty === 0}>
+        Add to Cart
+      </button>
+      </div>
     </div>
   );
 }
@@ -124,8 +147,8 @@ function Cart({ itemsInCart, handleDeleteItem }) {
       {itemsInCart.map((item, i) => (
         <div className="cart-item" key={item.id}>
           <img src={item.img} alt="shirt" width="50px" />
-          <p>Quantity: {item.qty}</p>
-          <p>Price: ${item.qty * item.price}</p>
+          <p>| Quantity: {item.qty} | </p>
+          <p>Price: ${item.qty * item.price} |</p>
           <p className="delete-item" onClick={() => handleDeleteItem(item.id)}>
             ❌
           </p>

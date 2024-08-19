@@ -4,13 +4,33 @@
   box-sizing: border-box;
 }
 
+.container {
+  padding: 16px;
+}
+
+.selections {
+  display: flex;
+  gap: 3px;
+
+  margin-top: 15px;
+}
+
+select {
+  width: 80px;
+  text-align: center;
+}
+
+button {
+  padding: 3px;
+}
+
 .cart-item {
   display: flex;
   align-items: center;
   gap: 5px;
 
-  width: 230px;
-  margin-top: 5px;
+  width: 250px;
+  margin-top: 15px;
 }
 
 .delete-item {
