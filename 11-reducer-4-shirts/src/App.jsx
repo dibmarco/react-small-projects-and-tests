@@ -160,7 +160,7 @@ function Cart({ itemsInCart, handleDeleteItem }) {
     <>
       <p className="your-cart">Your Cart</p>
       <div className="cart">
-        {itemsInCart.map((item, i) => (
+        {itemsInCart.map((item) => (
           <div className="cart-item" key={item.id}>
             <img src={item.img} alt="shirt" width="50px" />
             <p>| Quantity: {item.qty} | </p>
