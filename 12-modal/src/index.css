@@ -16,7 +16,18 @@
   background-color: aliceblue;
 }
 
-.container > button {
+.text {
+  width: 500px;
+}
+
+.text-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text-block > button {
   width: 150px;
   height: 50px;
 
@@ -29,7 +40,11 @@
   cursor: pointer;
 }
 
-.container > button:active {
+.blur {
+  filter: blur(3px);
+}
+
+.text-block > button:active {
   transform: scale(0.97);
 }
 
@@ -51,6 +66,8 @@
 
   border-radius: 10px;
   border: 1px solid black;
+
+  /* z-index: 1; */
 }
 
 .modal > button {
