@@ -16,10 +16,6 @@
   background-color: aliceblue;
 }
 
-.text {
-  width: 500px;
-}
-
 .text-block {
   display: flex;
   align-items: center;
@@ -40,12 +36,12 @@
   cursor: pointer;
 }
 
-.blur {
-  filter: blur(3px);
-}
-
 .text-block > button:active {
   transform: scale(0.97);
+}
+
+.text {
+  width: 500px;
 }
 
 .modal {
@@ -67,7 +63,7 @@
   border-radius: 10px;
   border: 1px solid black;
 
-  /* z-index: 1; */
+  z-index: 1;
 }
 
 .modal > button {
@@ -85,6 +81,10 @@
 
 .modal > button:active {
   transform: scale(0.97);
+}
+
+.blur {
+  filter: blur(3px);
 }
 
 .hidden {
