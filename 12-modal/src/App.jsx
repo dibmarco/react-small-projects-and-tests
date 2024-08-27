@@ -39,7 +39,7 @@ function TextBlock({ openModal, setOpenModal }) {
         labore aperiam repudiandae dolorum, quidem fuga tempore? Labore hic
         illum veritatis voluptatum a iusto.
       </p>
-      <button onClick={() => setOpenModal(!openModal)}>Open modal</button>
+      <button onClick={() => setOpenModal(!openModal)}>Open</button>
     </div>
   );
 }
