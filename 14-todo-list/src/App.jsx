@@ -73,7 +73,7 @@ function InputField({
         name="enter-task"
         minlength="4"
         maxlength="40"
-        size="20"
+        size="22"
         placeholder="Add a task"
         value={taskName}
         onChange={(e) => addTaskName(e.target.value)}
@@ -83,8 +83,8 @@ function InputField({
       <input
         type="text"
         maxLength="200"
-        size="20"
-        placeholder="Add notes"
+        size="22"
+        placeholder="Include notes (not required)"
         value={taskNotes}
         onChange={(e) => addTaskNote(e.target.value)}
       />
