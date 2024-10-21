@@ -8,6 +8,11 @@ button, li {
   cursor: pointer;
 }
 
+li {
+  display: flex;
+  list-style: none;
+}
+
 .done {
   text-decoration: line-through;
 }

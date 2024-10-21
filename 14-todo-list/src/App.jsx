@@ -83,7 +83,7 @@ function InputField({
       <input
         type="text"
         maxLength="200"
-        size="25"
+        size="20"
         placeholder="Add notes"
         value={taskNotes}
         onChange={(e) => addTaskNote(e.target.value)}
@@ -95,18 +95,25 @@ function InputField({
 }
 
 function TaskList({ remainingTasks, taskList, markComplete }) {
+  const [visibleNoteIndex, setVisibleNoteIndex] = useState(null); // Track notes visibility for each task
+
+  function toggleNotes(index) {
+    setVisibleNoteIndex(visibleNoteIndex === index ? null : index); // Toggle notes visibility for each task
+  }
+
   return (
     <div className="task-list">
       <p>Your tasks ({remainingTasks})</p>
       <ul>
         {taskList.map((task, i) => (
-          <li
-            key={i}
-            onClick={() => markComplete(i)}
-            className={task.done ? "done" : ""}
-          >
-            {task.taskName}
-            {task.taskNotes ? "🗒️" : ""}
+          <li key={i} className={task.done ? "done" : ""}>
+            <div onClick={() => markComplete(i)}>&#8618; {task.taskName}</div>
+            {task.taskNotes && (
+              <>
+                <div onClick={() => toggleNotes(i)}>🗒️</div>
+                {visibleNoteIndex === i && <div>{task.taskNotes}</div>}
+              </>
+            )}
           </li>
         ))}
       </ul>
