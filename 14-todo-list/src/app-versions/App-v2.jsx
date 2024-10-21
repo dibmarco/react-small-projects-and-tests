@@ -1,32 +1,22 @@
 import { useState } from "react";
 
 function App() {
-  const [taskName, setTaskName] = useState("");
-  const [taskNotes, setTaskNotes] = useState("");
+  const [input, setInput] = useState("");
   const [taskList, setTaskList] = useState([]);
 
-  function addTaskName(taskName) {
-    setTaskName(taskName);
+  function addInput(input) {
+    setInput(input);
   }
 
-  function addTaskNote(taskNotes) {
-    setTaskNotes(taskNotes);
-  }
-
-  function addTaskToList(taskName, taskNotes) {
-    if (taskName.trim() === "") {
+  function addTaskToList(task) {
+    if (task.trim() === "") {
       alert("Enter a task.");
     } else {
       setTaskList((prevTasks) => [
-        {
-          taskName: taskName.toLowerCase(),
-          taskNotes: taskNotes.toLowerCase(),
-          done: false,
-        },
+        { text: task.toLowerCase(), done: false },
         ...prevTasks,
       ]);
-      setTaskName("");
-      setTaskNotes("");
+      setInput("");
     }
   }
 
@@ -43,10 +33,8 @@ function App() {
   return (
     <div className="App">
       <InputField
-        taskName={taskName}
-        taskNotes={taskNotes}
-        addTaskName={addTaskName}
-        addTaskNote={addTaskNote}
+        input={input}
+        addInput={addInput}
         addTaskToList={addTaskToList}
       />
       <TaskList
@@ -58,13 +46,7 @@ function App() {
   );
 }
 
-function InputField({
-  taskName,
-  taskNotes,
-  addTaskName,
-  addTaskNote,
-  addTaskToList,
-}) {
+function InputField({ input, addInput, addTaskToList }) {
   return (
     <div className="input-field">
       <input
@@ -72,24 +54,14 @@ function InputField({
         id="enter-task"
         name="enter-task"
         minlength="4"
-        maxlength="40"
+        maxlength="140"
         size="20"
         placeholder="Add a task"
-        value={taskName}
-        onChange={(e) => addTaskName(e.target.value)}
+        value={input}
+        onChange={(e) => addInput(e.target.value)}
         required
       />
-      <br />
-      <input
-        type="text"
-        maxLength="200"
-        size="25"
-        placeholder="Add notes"
-        value={taskNotes}
-        onChange={(e) => addTaskNote(e.target.value)}
-      />
-      <br />
-      <button onClick={() => addTaskToList(taskName, taskNotes)}>OK</button>
+      <button onClick={() => addTaskToList(input)}>OK</button>
     </div>
   );
 }
@@ -105,8 +77,7 @@ function TaskList({ remainingTasks, taskList, markComplete }) {
             onClick={() => markComplete(i)}
             className={task.done ? "done" : ""}
           >
-            {task.taskName}
-            {task.taskNotes ? "🗒️" : ""}
+            {task.text}
           </li>
         ))}
       </ul>
