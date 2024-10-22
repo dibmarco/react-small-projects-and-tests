@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function App() {
   const [taskName, setTaskName] = useState("");
@@ -65,31 +65,55 @@ function InputField({
   addTaskNote,
   addTaskToList,
 }) {
+  const [openForm, setOpenForm] = useState(false);
+  const taskInputRef = useRef();
+
+  useEffect(() => {
+    if (openForm) {
+      taskInputRef.current?.focus();
+    }
+  }, [openForm]);
+
   return (
     <div className="input-field">
-      <input
-        type="text"
-        id="enter-task"
-        name="enter-task"
-        minlength="4"
-        maxlength="40"
-        size="22"
-        placeholder="Add a task"
-        value={taskName}
-        onChange={(e) => addTaskName(e.target.value)}
-        required
-      />
+      <button onClick={() => setOpenForm(true)}>Create Task +</button>
       <br />
-      <input
-        type="text"
-        maxLength="200"
-        size="22"
-        placeholder="Include notes (not required)"
-        value={taskNotes}
-        onChange={(e) => addTaskNote(e.target.value)}
-      />
-      <br />
-      <button onClick={() => addTaskToList(taskName, taskNotes)}>OK</button>
+      {openForm && (
+        <>
+          <input
+            ref={taskInputRef}
+            type="text"
+            id="enter-task"
+            name="enter-task"
+            minlength="4"
+            maxlength="40"
+            size="22"
+            placeholder="Enter your task"
+            value={taskName}
+            onChange={(e) => addTaskName(e.target.value)}
+            required
+          />
+          <br />
+          <input
+            type="text"
+            maxLength="200"
+            size="22"
+            placeholder="Optional: Add notes"
+            value={taskNotes}
+            onChange={(e) => addTaskNote(e.target.value)}
+          />
+          <br />
+          <button
+            onClick={() => {
+              addTaskToList(taskName, taskNotes);
+              setOpenForm(false);
+            }}
+          >
+            Add task
+          </button>
+          <p onClick={() => setOpenForm(false)}>Cancel</p>
+        </>
+      )}
     </div>
   );
 }
@@ -103,14 +127,25 @@ function TaskList({ remainingTasks, taskList, markComplete }) {
 
   return (
     <div className="task-list">
-      <p>Your tasks ({remainingTasks})</p>
+      <p>
+        Tasks To Do{" "}
+        {remainingTasks === 0 && taskList.length > 0 ? "(All done!)" : remainingTasks > 0 ? `(${remainingTasks} remaining)` : ""}
+      </p>
       <ul>
         {taskList.map((task, i) => (
           <li key={i} className={task.done ? "done" : ""}>
             <div onClick={() => markComplete(i)}>&#8618; {task.taskName}</div>
             {task.taskNotes && (
               <>
-                <div onClick={() => toggleNotes(i)}>🗒️</div>
+                <span
+                  onClick={() => toggleNotes(i)}
+                  title="View notes"
+                  role="button"
+                  aria-label="View notes"
+                >
+                  🗒️
+                </span>
+
                 {visibleNoteIndex === i && <div>{task.taskNotes}</div>}
               </>
             )}
