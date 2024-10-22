@@ -13,10 +13,46 @@ const initialTasks = [
   },
 ];
 
+const fullTaskLog = [
+  {
+    date: "November 2, 2024",
+    tasks: [
+      {
+        taskName: "wash car",
+        taskNotes: "",
+        done: true,
+      },
+      {
+        taskName: "buy fruits",
+        taskNotes: "grapes, oranges, apples",
+        done: true,
+      },
+    ],
+  },
+  {
+    date: "November 3, 2024",
+    tasks: [
+      {
+        taskName: "dentist appointment",
+        taskNotes: "",
+        done: false,
+      },
+      {
+        taskName: "fix fridge",
+        taskNotes: "be careful",
+        done: false,
+      },
+    ],
+  },
+];
+
 function App() {
   const [taskName, setTaskName] = useState("");
   const [taskNotes, setTaskNotes] = useState("");
   const [taskList, setTaskList] = useState(initialTasks);
+
+  const [taskLog, setTaskLog] = useState(fullTaskLog);
+  // console.log(taskLog);
 
   const [visibleNoteIndex, setVisibleNoteIndex] = useState(null); // Track notes visibility for each task
 
@@ -53,7 +89,6 @@ function App() {
         (task, i) => (i === index ? { ...task, done: !task.done } : task) // Toggle the done status of the clicked task
       )
     );
-    setVisibleNoteIndex(null);
   }
 
   function toggleNotes(index) {
@@ -70,13 +105,14 @@ function App() {
         addTaskToList={addTaskToList}
         setVisibleNoteIndex={setVisibleNoteIndex}
       />
-      <TaskList
+      <TaskLog taskLog={taskLog} />
+      {/* <TaskList
         taskList={taskList}
         remainingTasks={remainingTasks}
         markComplete={markComplete}
         visibleNoteIndex={visibleNoteIndex}
         toggleNotes={toggleNotes}
-      />
+      /> */}
     </div>
   );
 }
@@ -148,18 +184,25 @@ function InputField({
             >
               Add task
             </button>
-            <p
-              className="cancel-btn"
-              onClick={() => {
-                setOpenForm(false);
-                setVisibleNoteIndex(null);
-              }}
-            >
+            <p className="cancel-btn" onClick={() => setOpenForm(false)}>
               Cancel
             </p>
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+function TaskLog({ taskLog }) {
+  return (
+    <div>
+      {taskLog.map((taskList) => (
+        <>
+        <div>{taskList.date}</div>
+        <ul>{taskList.tasks.map((task) => <li>{task.taskName}</li>)}</ul>
+        </>
+      ))}
     </div>
   );
 }
