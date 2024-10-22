@@ -80,6 +80,7 @@ function InputField({
       <br />
       {openForm && (
         <>
+          <br />
           <input
             ref={taskInputRef}
             type="text"
@@ -103,15 +104,19 @@ function InputField({
             onChange={(e) => addTaskNote(e.target.value)}
           />
           <br />
-          <button
-            onClick={() => {
-              addTaskToList(taskName, taskNotes);
-              setOpenForm(false);
-            }}
-          >
-            Add task
-          </button>
-          <p onClick={() => setOpenForm(false)}>Cancel</p>
+          <div className="add-cancel-btns">
+            <button
+              onClick={() => {
+                addTaskToList(taskName, taskNotes);
+                setOpenForm(false);
+              }}
+            >
+              Add task
+            </button>
+            <p className="cancel-btn" onClick={() => setOpenForm(false)}>
+              Cancel
+            </p>
+          </div>
         </>
       )}
     </div>
@@ -129,7 +134,11 @@ function TaskList({ remainingTasks, taskList, markComplete }) {
     <div className="task-list">
       <p>
         Tasks To Do{" "}
-        {remainingTasks === 0 && taskList.length > 0 ? "(All done!)" : remainingTasks > 0 ? `(${remainingTasks} remaining)` : ""}
+        {remainingTasks === 0 && taskList.length > 0
+          ? "(All done!)"
+          : remainingTasks > 0
+          ? `(${remainingTasks} remaining)`
+          : ""}
       </p>
       <ul>
         {taskList.map((task, i) => (
@@ -139,13 +148,14 @@ function TaskList({ remainingTasks, taskList, markComplete }) {
               <>
                 <span
                   onClick={() => toggleNotes(i)}
+                  // title={task.taskNotes}
                   title="View notes"
                   role="button"
+                  // aria-label={task.taskNotes}
                   aria-label="View notes"
                 >
                   🗒️
                 </span>
-
                 {visibleNoteIndex === i && <div>{task.taskNotes}</div>}
               </>
             )}
