@@ -50,8 +50,8 @@ function App() {
         addTaskToList={addTaskToList}
       />
       <TaskList
-        remainingTasks={remainingTasks}
         taskList={taskList}
+        remainingTasks={remainingTasks}
         markComplete={markComplete}
       />
     </div>
@@ -123,15 +123,20 @@ function InputField({
   );
 }
 
-function TaskList({ remainingTasks, taskList, markComplete }) {
+function TaskList({ taskList, remainingTasks, markComplete }) {
   const [visibleNoteIndex, setVisibleNoteIndex] = useState(null); // Track notes visibility for each task
 
   function toggleNotes(index) {
     setVisibleNoteIndex(visibleNoteIndex === index ? null : index); // Toggle notes visibility for each task
   }
 
+  const date = new Date();
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
+
   return (
     <div className="task-list">
+      <p>{formattedDate}</p>
       <p>
         Tasks To Do{" "}
         {remainingTasks === 0 && taskList.length > 0
