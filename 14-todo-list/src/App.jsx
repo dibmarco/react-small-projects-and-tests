@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const initialTaskLog = [
   {
-    date: "October 23, 2024",
+    date: "October 22, 2024",
     tasks: [
       {
         taskName: "wash car",
@@ -34,19 +34,70 @@ const initialTaskLog = [
 ];
 
 function App() {
+  // Sets present date
   const date = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
 
-
+  // Manages objects
   const [taskLog, setTaskLog] = useState(initialTaskLog);
-  const [todayTaskList, setTodayTaskList] = useState(() =>
-    taskLog.find((today) => today.date === formattedDate)
-  );
+
+  // InputField states
+  const [openForm, setOpenForm] = useState(false);
+  const [newTask, setNewTask] = useState("");
+  const [notes, setNotes] = useState("");
+
+  function addTaskToList(newTask, notes) {
+    if (newTask.trim() === "") {
+      alert("Enter a task.");
+    } else {
+      // Make a copy of the task log
+      const updatedTaskLog = [...taskLog];
+
+      // Find the index for today's date in the task log
+      const todayIndex = updatedTaskLog.findIndex(
+        (log) => log.date === formattedDate
+      );
+
+      const newTaskObj = {
+        taskName: newTask.toLowerCase(),
+        taskNotes: notes.toLowerCase(),
+        done: false,
+      };
+
+      if (todayIndex !== -1) {
+        // Update tasks for today's entry by adding the new task to the task list
+        updatedTaskLog[todayIndex].tasks = [
+          newTaskObj,
+          ...updatedTaskLog[todayIndex].tasks, // Keep existing tasks
+        ];
+      } else {
+        // If today's date is not found, create a new entry for today
+        updatedTaskLog.push({
+          date: formattedDate,
+          tasks: [newTaskObj],
+        });
+      }
+
+      // Update the task log state
+      setTaskLog(updatedTaskLog);
+      setNewTask(""); // Clear the task input field
+      setNotes(""); // Clear the notes input field
+      setOpenForm(false); // Close the form
+    }
+  }
 
   return (
     <div className="App">
-      <InputField />
+      <InputField
+        openForm={openForm}
+        setOpenForm={setOpenForm}
+        newTask={newTask}
+        setNewTask={setNewTask}
+        notes={notes}
+        setNotes={setNotes}
+        addTaskToList={addTaskToList}
+      />
       <TaskLog>
         <TaskList presentDate={formattedDate} taskLog={taskLog} />
       </TaskLog>
@@ -54,11 +105,15 @@ function App() {
   );
 }
 
-function InputField() {
-  const [openForm, setOpenForm] = useState(false);
-  const [newTask, setNewTask] = useState("");
-  const [notes, setNotes] = useState("");
-
+function InputField({
+  openForm,
+  setOpenForm,
+  newTask,
+  setNewTask,
+  notes,
+  setNotes,
+  addTaskToList,
+}) {
   return (
     <div>
       <button onClick={() => setOpenForm(!openForm)}>Create Task</button>
@@ -90,7 +145,9 @@ function InputField() {
           />
           <br />
           <div className="add-cancel-btns">
-            <button>Add task</button>
+            <button onClick={() => addTaskToList(newTask, notes)}>
+              Add task
+            </button>
             <p onClick={() => setOpenForm(false)}>Cancel</p>
           </div>
         </>
@@ -102,7 +159,7 @@ function InputField() {
 function TaskLog({ children }) {
   return (
     <>
-      <div>Your tasks day by day:</div>
+      <div>Manage Your Day-to-Day Tasks:</div>
       <div>{children}</div>
     </>
   );
@@ -111,17 +168,55 @@ function TaskLog({ children }) {
 function TaskList({ presentDate, taskLog }) {
   return (
     <>
-      {taskLog.map((taskList, i) => (
-        <div key={i} className={presentDate === taskList.date ? "" : "expired"}>
-          <p>{taskList.date}</p>
-          <ul>
-            {taskList.tasks.map((task) => (
-              <li>{task.taskName}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      {/* First, show today's task list if it exists */}
+      {taskLog
+        .filter((taskList) => taskList.date === presentDate)
+        .map((taskList, i) => (
+          <div key={i}>
+            <p>{taskList.date}</p>
+            <ul>
+              {taskList.tasks.map((task, j) => (
+                <TaskItem
+                  key={j}
+                  taskName={task.taskName}
+                  taskNotes={task.taskNotes}
+                />
+              ))}
+            </ul>
+          </div>
+        ))}
+
+      {/* Then, show all expired task lists */}
+      {taskLog
+        .filter((taskList) => taskList.date !== presentDate)
+        .map((taskList, i) => (
+          <div key={i} className="expired">
+            <p>{taskList.date}</p>
+            <ul>
+              {taskList.tasks.map((task, j) => (
+                <TaskItem
+                  key={j}
+                  taskName={task.taskName}
+                  taskNotes={task.taskNotes}
+                />
+              ))}
+            </ul>
+          </div>
+        ))}
     </>
+  );
+}
+
+function TaskItem({ taskName, taskNotes }) {
+  return (
+    <li>
+      {taskName}
+      {taskNotes && (
+        <span title={taskNotes} aria-label={taskNotes}>
+          🗒️
+        </span>
+      )}
+    </li>
   );
 }
 
