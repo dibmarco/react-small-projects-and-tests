@@ -164,7 +164,9 @@ function InputField({
             <button onClick={() => addTaskToList(newTask, notes)}>
               Add task
             </button>
-            <p onClick={() => setOpenForm(false)}>Cancel</p>
+            <p onClick={() => setOpenForm(false)} className="cancel-btn">
+              Cancel
+            </p>
           </div>
         </>
       )}
@@ -196,7 +198,12 @@ function TaskList({ presentDate, taskLog, markComplete }) {
                   key={j}
                   taskName={task.taskName}
                   taskNotes={task.taskNotes}
-                  markComplete={() => markComplete(taskLog.findIndex((log) => log.date === presentDate), j)} // Pass today's index and task index
+                  markComplete={() =>
+                    markComplete(
+                      taskLog.findIndex((log) => log.date === presentDate),
+                      j
+                    )
+                  } // Pass today's index and task index
                   done={task.done} // Pass done status
                 />
               ))}

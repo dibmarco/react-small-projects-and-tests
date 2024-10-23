@@ -2,10 +2,22 @@ li {
   list-style: none;
 }
 
+button {
+  cursor: pointer;
+}
+
 .add-cancel-btns {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.cancel-btn {
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  text-decoration: underline;
 }
 
 .done {
@@ -13,5 +25,6 @@ li {
 }
 
 .expired {
-  opacity: 50%;
+  color: grey;
+  opacity: 80%;
 }
