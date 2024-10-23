@@ -17,7 +17,7 @@ const initialTaskLog = [
     ],
   },
   {
-    date: "January 1, 2024",
+    date: "October 21, 2024",
     tasks: [
       {
         taskName: "dentist appointment",
@@ -87,6 +87,18 @@ function App() {
     }
   }
 
+  function markComplete(taskDateIndex, taskIndex) {
+    // Create a copy of the task log
+    const updatedTaskLog = [...taskLog];
+
+    // Toggle the done status of the clicked task
+    const task = updatedTaskLog[taskDateIndex].tasks[taskIndex];
+    task.done = !task.done;
+
+    // Update the task log state
+    setTaskLog(updatedTaskLog);
+  }
+
   return (
     <div className="App">
       <InputField
@@ -99,7 +111,11 @@ function App() {
         addTaskToList={addTaskToList}
       />
       <TaskLog>
-        <TaskList presentDate={formattedDate} taskLog={taskLog} />
+        <TaskList
+          presentDate={formattedDate}
+          taskLog={taskLog}
+          markComplete={markComplete}
+        />
       </TaskLog>
     </div>
   );
@@ -165,10 +181,10 @@ function TaskLog({ children }) {
   );
 }
 
-function TaskList({ presentDate, taskLog }) {
+function TaskList({ presentDate, taskLog, markComplete }) {
   return (
     <>
-      {/* First, show today's task list if it exists */}
+      {/* Show today's task list if it exists */}
       {taskLog
         .filter((taskList) => taskList.date === presentDate)
         .map((taskList, i) => (
@@ -180,13 +196,15 @@ function TaskList({ presentDate, taskLog }) {
                   key={j}
                   taskName={task.taskName}
                   taskNotes={task.taskNotes}
+                  markComplete={() => markComplete(taskLog.findIndex((log) => log.date === presentDate), j)} // Pass today's index and task index
+                  done={task.done} // Pass done status
                 />
               ))}
             </ul>
           </div>
         ))}
 
-      {/* Then, show all expired task lists */}
+      {/* Show all expired task lists without toggle functionality */}
       {taskLog
         .filter((taskList) => taskList.date !== presentDate)
         .map((taskList, i) => (
@@ -198,6 +216,7 @@ function TaskList({ presentDate, taskLog }) {
                   key={j}
                   taskName={task.taskName}
                   taskNotes={task.taskNotes}
+                  done={task.done} // Pass done status
                 />
               ))}
             </ul>
@@ -207,10 +226,10 @@ function TaskList({ presentDate, taskLog }) {
   );
 }
 
-function TaskItem({ taskName, taskNotes }) {
+function TaskItem({ taskName, taskNotes, markComplete, done }) {
   return (
-    <li>
-      {taskName}
+    <li onClick={markComplete} className={done ? "done" : ""}>
+      &#8618;{taskName}
       {taskNotes && (
         <span title={taskNotes} aria-label={taskNotes}>
           🗒️
