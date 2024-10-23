@@ -1,0 +1,24 @@
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+button, li, .cancel-btn {
+    cursor: pointer;
+  }
+  
+  li {
+    display: flex;
+    list-style: none;
+  }
+  
+  .add-cancel-btns {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .done {
+    text-decoration: line-through;
+  }
