@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const initialTaskLog = [
   {
@@ -130,9 +130,19 @@ function InputField({
   setNotes,
   addTaskToList,
 }) {
+  const taskInputRef = useRef();
+
+  useEffect(() => {
+    if (openForm) {
+      taskInputRef.current?.focus(); // Focus the input when the form opens
+    }
+  }, [openForm]);
+
   return (
     <div>
-      <button onClick={() => setOpenForm(!openForm)}>Create Task</button>
+      <button className="new-task-btn" onClick={() => setOpenForm(!openForm)}>
+        Create Task
+      </button>
       {openForm && (
         <>
           <br />
@@ -147,6 +157,7 @@ function InputField({
             placeholder="Enter your task"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
+            ref={taskInputRef} // Attach ref to the input field
             required
           />
           <br />
@@ -161,10 +172,13 @@ function InputField({
           />
           <br />
           <div className="add-cancel-btns">
-            <button onClick={() => addTaskToList(newTask, notes)}>
+            <button
+              className="add-btn"
+              onClick={() => addTaskToList(newTask, notes)}
+            >
               Add task
             </button>
-            <p onClick={() => setOpenForm(false)} className="cancel-btn">
+            <p className="cancel-btn" onClick={() => setOpenForm(false)}>
               Cancel
             </p>
           </div>
@@ -177,7 +191,7 @@ function InputField({
 function TaskLog({ children }) {
   return (
     <>
-      <div>Manage Your Day-to-Day Tasks:</div>
+      <div className="tasklog">Manage Your Day-to-Day Tasks:</div>
       <div>{children}</div>
     </>
   );
@@ -203,8 +217,9 @@ function TaskList({ presentDate, taskLog, markComplete }) {
                       taskLog.findIndex((log) => log.date === presentDate),
                       j
                     )
-                  } // Pass today's index and task index
-                  done={task.done} // Pass done status
+                  }
+                  done={task.done}
+                  isToday={true} // Pass that this task is from today
                 />
               ))}
             </ul>
@@ -223,7 +238,8 @@ function TaskList({ presentDate, taskLog, markComplete }) {
                   key={j}
                   taskName={task.taskName}
                   taskNotes={task.taskNotes}
-                  done={task.done} // Pass done status
+                  done={task.done}
+                  isToday={false} // Pass that this task is expired
                 />
               ))}
             </ul>
@@ -233,9 +249,12 @@ function TaskList({ presentDate, taskLog, markComplete }) {
   );
 }
 
-function TaskItem({ taskName, taskNotes, markComplete, done }) {
+function TaskItem({ taskName, taskNotes, markComplete, done, isToday }) {
   return (
-    <li onClick={markComplete} className={done ? "done" : ""}>
+    <li
+      onClick={isToday ? markComplete : null} // Make it clickable only if it's today's task
+      className={`${done ? "done" : ""} ${isToday ? "not-expired" : ""}`} // Add 'not-expired' class for today
+    >
       &#8618;{taskName}
       {taskNotes && (
         <span title={taskNotes} aria-label={taskNotes}>

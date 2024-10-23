@@ -1,9 +1,29 @@
+body {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 li {
   list-style: none;
 }
 
-button {
+button, .not-expired {
   cursor: pointer;
+}
+
+.new-task-btn {
+  width: 150px;
+  height: 25px;
+  border-radius: 500px;
+  border: none;
+  background-color: rgb(55, 55, 255);
+  color: white;
+}
+
+.new-task-btn:active, .add-btn:active {
+  transform: scale(.95);
 }
 
 .add-cancel-btns {
@@ -12,11 +32,30 @@ button {
   gap: 1rem;
 }
 
+.add-btn {
+  width: 75px;
+  height: 25px;
+  border-radius: 500px;
+  border: none;
+  background-color: rgb(55, 55, 255);
+  color: white;
+}
+
+.new-task-btn:hover, .add-btn:hover {
+  background-color: rgb(75, 75, 255);
+}
+
 .cancel-btn {
   cursor: pointer;
 }
 
 .cancel-btn:hover {
+  text-decoration: underline;
+}
+
+.tasklog {
+  margin-top: 12px;
+  text-transform: capitalize;
   text-decoration: underline;
 }
 
