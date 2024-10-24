@@ -8,11 +8,13 @@ const initialTaskLog = [
         taskName: "wash car",
         taskNotes: "",
         done: true,
+        recycled: false,
       },
       {
         taskName: "buy fruits",
         taskNotes: "grapes, oranges, apples",
         done: true,
+        recycled: false,
       },
     ],
   },
@@ -23,11 +25,13 @@ const initialTaskLog = [
         taskName: "dentist appointment",
         taskNotes: "",
         done: false,
+        recycled: false,
       },
       {
         taskName: "fix fridge",
         taskNotes: "be careful",
         done: false,
+        recycled: false,
       },
     ],
   },
@@ -63,6 +67,7 @@ function App() {
         taskName: newTask.toLowerCase(),
         taskNotes: notes.toLowerCase(),
         done: false,
+        recycled: false,
       };
 
       if (todayIndex !== -1) {
@@ -115,6 +120,50 @@ function App() {
     setTaskLog(updatedTaskLog);
   }
 
+  function recycleTask(taskDateIndex, taskIndex) {
+    // Create a copy of the task log
+    const updatedTaskLog = [...taskLog];
+
+    // Find the task to recycle
+    const taskToRecycle = { ...updatedTaskLog[taskDateIndex].tasks[taskIndex] };
+    taskToRecycle.done = false; // Reset the task's completion status
+
+    // // Remove the task from its original date
+    // updatedTaskLog[taskDateIndex].tasks.splice(taskIndex, 1);
+
+    // // If the task list for that date becomes empty, remove the date entry entirely
+    // if (updatedTaskLog[taskDateIndex].tasks.length === 0) {
+    //   updatedTaskLog.splice(taskDateIndex, 1);
+    // }
+
+    // Toggle the done status of the clicked task
+    const task = updatedTaskLog[taskDateIndex].tasks[taskIndex];
+    //task.done = !task.done;
+    task.recycled = !task.recycled;
+
+    // Find today's date entry in the task log
+    const todayIndex = updatedTaskLog.findIndex(
+      (log) => log.date === formattedDate
+    );
+
+    if (todayIndex !== -1) {
+      // Add the recycled task to today's task list
+      updatedTaskLog[todayIndex].tasks = [
+        taskToRecycle,
+        ...updatedTaskLog[todayIndex].tasks, // Keep existing tasks
+      ];
+    } else {
+      // If today doesn't exist in the log, create a new entry for today
+      updatedTaskLog.push({
+        date: formattedDate,
+        tasks: [taskToRecycle],
+      });
+    }
+
+    // Update the task log state
+    setTaskLog(updatedTaskLog);
+  }
+
   return (
     <div className="App">
       <InputField
@@ -132,6 +181,7 @@ function App() {
           taskLog={taskLog}
           markComplete={markComplete}
           removeTask={removeTask}
+          recycleTask={recycleTask}
         />
       </TaskLog>
     </div>
@@ -193,7 +243,7 @@ function InputField({
               className="add-btn"
               onClick={() => addTaskToList(newTask, notes)}
             >
-              Add task
+              Add Task
             </button>
             <p className="cancel-btn" onClick={() => setOpenForm(false)}>
               Cancel
@@ -215,7 +265,13 @@ function TaskLog({ children }) {
   );
 }
 
-function TaskList({ presentDate, taskLog, markComplete, removeTask }) {
+function TaskList({
+  presentDate,
+  taskLog,
+  markComplete,
+  removeTask,
+  recycleTask,
+}) {
   return (
     <>
       {/* Show today's task list if it exists */}
@@ -279,6 +335,8 @@ function TaskList({ presentDate, taskLog, markComplete, removeTask }) {
                   taskNotes={task.taskNotes}
                   done={task.done}
                   isToday={false} // Pass that this task is expired
+                  recycleTask={() => recycleTask(i, j)}
+                  recycled={task.recycled}
                 />
               ))}
             </ul>
@@ -286,9 +344,18 @@ function TaskList({ presentDate, taskLog, markComplete, removeTask }) {
               <p>
                 You left{" "}
                 <span className="unfinished-tasks">
-                  {taskList.tasks.filter((task) => !task.done).length} tasks
+                  {taskList.tasks.filter((task) => !task.done).length}{" "}
+                  {taskList.tasks.filter((task) => !task.done).length > 1
+                    ? "tasks"
+                    : "task"}
                 </span>{" "}
-                unfinished.
+                unfinished.{" "}
+                {taskList.tasks.filter((task) => task.recycled).length > 0 && (
+                  <span className="recycled-tasks">
+                    ({taskList.tasks.filter((task) => task.recycled).length}{" "}
+                    recycled)
+                  </span>
+                )}
               </p>
             )}
             {taskList.tasks.filter((task) => !task.done).length === 0 && (
@@ -307,11 +374,15 @@ function TaskItem({
   done,
   isToday,
   removeTask,
+  recycleTask,
+  recycled,
 }) {
   return (
     <li
       onClick={isToday ? markComplete : null} // Make it clickable only if it's today's task
-      className={`${done ? "done" : ""} ${isToday ? "not-expired" : ""}`} // Add 'not-expired' class for today
+      className={`${done ? "done" : ""} ${isToday ? "not-expired" : ""} ${
+        recycled ? "recycled" : ""
+      }`}
     >
       &#8618; {taskName}
       {taskNotes && (
@@ -321,13 +392,24 @@ function TaskItem({
       )}
       {isToday && !done && (
         <div
-          className="remove-task"
+          className="trash"
           onClick={(e) => {
             e.stopPropagation(); // Prevent the parent onClick from firing
             removeTask(); // Remove task when trash icon is clicked
           }}
         >
           🗑️
+        </div>
+      )}
+      {!isToday && !done && !recycled && (
+        <div
+          className="recycle"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the parent onClick from firing
+            recycleTask(); // Recycle task when recycle icon is clicked
+          }}
+        >
+          ♻
         </div>
       )}
     </li>

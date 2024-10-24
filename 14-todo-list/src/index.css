@@ -97,10 +97,25 @@ input {
   font-weight: 600;
 }
 
-.remove-task {
+.trash, .recycle {
   margin-top: 5px;
   margin-left: 5px;
   font-size: 10px;
+}
+
+.recycle {
+  font-size: 12px;
+  cursor: pointer;
+  color: green;
+}
+
+.recycled {
+  text-decoration: line-through;
+  color: rgb(12, 60, 12);
+}
+
+.recycled-tasks {
+  color: rgb(12, 60, 12);
 }
 
 .done {
