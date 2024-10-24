@@ -9,6 +9,7 @@ body {
 }
 
 li {
+  display: flex;
   list-style: none;
 }
 
@@ -27,6 +28,10 @@ button, input {
 input {
   height: 24px;
   padding-left: 10px;
+}
+
+.App {
+  width: 255px;
 }
 
 .new-task-btn {
@@ -84,8 +89,18 @@ input {
   border-bottom: 1px solid black;
 }
 
+.list-block > p:last-of-type {
+  font-size: 10px;
+}
+
 .task-date {
   font-weight: 600;
+}
+
+.remove-task {
+  margin-top: 5px;
+  margin-left: 5px;
+  font-size: 10px;
 }
 
 .done {
@@ -95,4 +110,8 @@ input {
 .expired {
   color: grey;
   opacity: 80%;
+}
+
+.unfinished-tasks {
+  text-decoration: underline;
 }

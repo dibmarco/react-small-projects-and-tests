@@ -99,6 +99,22 @@ function App() {
     setTaskLog(updatedTaskLog);
   }
 
+  function removeTask(taskDateIndex, taskIndex) {
+    // Create a copy of the task log
+    const updatedTaskLog = [...taskLog];
+
+    // Remove the task at taskIndex
+    updatedTaskLog[taskDateIndex].tasks.splice(taskIndex, 1);
+
+    // If the task list for that date becomes empty, remove the date entry entirely
+    if (updatedTaskLog[taskDateIndex].tasks.length === 0) {
+      updatedTaskLog.splice(taskDateIndex, 1);
+    }
+
+    // Update the task log state
+    setTaskLog(updatedTaskLog);
+  }
+
   return (
     <div className="App">
       <InputField
@@ -115,6 +131,7 @@ function App() {
           presentDate={formattedDate}
           taskLog={taskLog}
           markComplete={markComplete}
+          removeTask={removeTask}
         />
       </TaskLog>
     </div>
@@ -192,13 +209,13 @@ function TaskLog({ children }) {
   return (
     <>
       {/* <div className="tasklog">Manage Your Day-to-Day Tasks:</div> */}
-      <p style={{width: "75%", textAlign: "center"}}>-~-~-~-</p>
+      <p style={{ width: "75%", textAlign: "center" }}>-~-~-~-</p>
       <div>{children}</div>
     </>
   );
 }
 
-function TaskList({ presentDate, taskLog, markComplete }) {
+function TaskList({ presentDate, taskLog, markComplete, removeTask }) {
   return (
     <>
       {/* Show today's task list if it exists */}
@@ -221,9 +238,30 @@ function TaskList({ presentDate, taskLog, markComplete }) {
                   }
                   done={task.done}
                   isToday={true} // Pass that this task is from today
+                  removeTask={() =>
+                    removeTask(
+                      taskLog.findIndex((log) => log.date === presentDate),
+                      j
+                    )
+                  }
                 />
               ))}
             </ul>
+            {taskList.tasks.filter((task) => !task.done).length > 0 && (
+              <p>
+                You have{" "}
+                <span className="unfinished-tasks">
+                  {taskList.tasks.filter((task) => !task.done).length}{" "}
+                  {taskList.tasks.filter((task) => !task.done).length === 1
+                    ? "task"
+                    : "tasks"}
+                </span>{" "}
+                left to complete today.
+              </p>
+            )}
+            {taskList.tasks.filter((task) => !task.done).length === 0 && (
+              <p>All tasks complete. Great job!</p>
+            )}
           </div>
         ))}
 
@@ -244,23 +282,53 @@ function TaskList({ presentDate, taskLog, markComplete }) {
                 />
               ))}
             </ul>
+            {taskList.tasks.filter((task) => !task.done).length > 0 && (
+              <p>
+                You left{" "}
+                <span className="unfinished-tasks">
+                  {taskList.tasks.filter((task) => !task.done).length} tasks
+                </span>{" "}
+                unfinished.
+              </p>
+            )}
+            {taskList.tasks.filter((task) => !task.done).length === 0 && (
+              <p>All tasks complete. Great job!</p>
+            )}
           </div>
         ))}
     </>
   );
 }
 
-function TaskItem({ taskName, taskNotes, markComplete, done, isToday }) {
+function TaskItem({
+  taskName,
+  taskNotes,
+  markComplete,
+  done,
+  isToday,
+  removeTask,
+}) {
   return (
     <li
       onClick={isToday ? markComplete : null} // Make it clickable only if it's today's task
       className={`${done ? "done" : ""} ${isToday ? "not-expired" : ""}`} // Add 'not-expired' class for today
     >
-      &#8618;{taskName}
+      &#8618; {taskName}
       {taskNotes && (
         <span title={taskNotes} aria-label={taskNotes}>
           🗒️
         </span>
+      )}
+      {isToday && !done && (
+        <div
+          className="remove-task"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the parent onClick from firing
+            removeTask(); // Remove task when trash icon is clicked
+          }}
+        >
+          🗑️
+        </div>
       )}
     </li>
   );
