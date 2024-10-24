@@ -144,7 +144,7 @@ function InputField({
         Create Task
       </button>
       {openForm && (
-        <>
+        <div className="input-form">
           <br />
           <br />
           <input
@@ -182,7 +182,7 @@ function InputField({
               Cancel
             </p>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
@@ -191,7 +191,8 @@ function InputField({
 function TaskLog({ children }) {
   return (
     <>
-      <div className="tasklog">Manage Your Day-to-Day Tasks:</div>
+      {/* <div className="tasklog">Manage Your Day-to-Day Tasks:</div> */}
+      <p style={{width: "75%", textAlign: "center"}}>-~-~-~-</p>
       <div>{children}</div>
     </>
   );
@@ -204,8 +205,8 @@ function TaskList({ presentDate, taskLog, markComplete }) {
       {taskLog
         .filter((taskList) => taskList.date === presentDate)
         .map((taskList, i) => (
-          <div key={i}>
-            <p>{taskList.date}</p>
+          <div className="list-block" key={i}>
+            <p className="task-date">{taskList.date}</p>
             <ul>
               {taskList.tasks.map((task, j) => (
                 <TaskItem
@@ -230,8 +231,8 @@ function TaskList({ presentDate, taskLog, markComplete }) {
       {taskLog
         .filter((taskList) => taskList.date !== presentDate)
         .map((taskList, i) => (
-          <div key={i} className="expired">
-            <p>{taskList.date}</p>
+          <div className="expired list-block" key={i}>
+            <p className="task-date">{taskList.date}</p>
             <ul>
               {taskList.tasks.map((task, j) => (
                 <TaskItem
