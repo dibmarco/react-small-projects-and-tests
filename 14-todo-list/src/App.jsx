@@ -16,6 +16,18 @@ const initialTaskLog = [
         done: true,
         recycled: false,
       },
+      {
+        taskName: "call bob",
+        taskNotes: "before 5pm",
+        done: false,
+        recycled: false,
+      },
+      {
+        taskName: "walk the dog",
+        taskNotes: "",
+        done: true,
+        recycled: false,
+      },
     ],
   },
   {
