@@ -1,6 +1,6 @@
 body {
   display: flex;
-  width: 100%;
+  width: 99%;
   align-items: center;
   justify-content: center;
 
@@ -30,10 +30,11 @@ input {
 input {
   height: 24px;
   padding-left: 10px;
+  margin-left: -50px;
 }
 
 .App {
-  width: 255px;
+  width: 270px;
 }
 
 .new-task-btn {
@@ -91,6 +92,7 @@ input {
 
 .list-block {
   border-bottom: 1px solid black;
+  font-size: 20px;
 }
 
 .list-block > p:last-of-type {
@@ -134,6 +136,7 @@ input {
 .expired {
   color: grey;
   opacity: 80%;
+  font-size: 14px;
 }
 
 .collapsed {
