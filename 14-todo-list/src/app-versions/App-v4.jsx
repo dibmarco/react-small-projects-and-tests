@@ -47,23 +47,6 @@ const initialTaskLog = [
       },
     ],
   },
-  {
-    date: "October 19, 2024",
-    tasks: [
-      {
-        taskName: "visit mother",
-        taskNotes: "bring flowers",
-        done: true,
-        recycled: false,
-      },
-      {
-        taskName: "pay credit card",
-        taskNotes: "",
-        done: true,
-        recycled: false,
-      },
-    ],
-  },
 ];
 
 function App() {
@@ -301,18 +284,6 @@ function TaskList({
   removeTask,
   recycleTask,
 }) {
-  const [collapsed, setCollapsed] = useState(
-    taskLog.map(() => true) // Set initial collapse state for all task lists
-  );
-
-  function toggleExpand(index) {
-    setCollapsed((prev) => {
-      const newCollapsed = [...prev];
-      newCollapsed[index] = !newCollapsed[index];
-      return newCollapsed;
-    });
-  }
-
   return (
     <>
       {/* Show today's task list if it exists */}
@@ -362,19 +333,13 @@ function TaskList({
           </div>
         ))}
 
-      {/* Show all expired task lists with toggle functionality */}
+      {/* Show all expired task lists without toggle functionality */}
       {taskLog
         .filter((taskList) => taskList.date !== presentDate)
         .map((taskList, i) => (
           <div className="expired list-block" key={i}>
-            <p
-              className="task-date"
-              style={{ cursor: "pointer" }}
-              onClick={() => toggleExpand(i)}
-            >
-              {taskList.date} {collapsed[i] ? "▼" : "▲"}
-            </p>
-            <ul className={collapsed[i] ? "collapsed" : ""}>
+            <p className="task-date">{taskList.date}</p>
+            <ul>
               {taskList.tasks.map((task, j) => (
                 <TaskItem
                   key={j}

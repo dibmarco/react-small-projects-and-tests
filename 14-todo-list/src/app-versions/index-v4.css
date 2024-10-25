@@ -1,0 +1,132 @@
+body {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  
+    font-size: 1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  li {
+    display: flex;
+    list-style: none;
+  }
+  
+  button {
+    font-size: 14px;
+  }
+  
+  button, .not-expired {
+    cursor: pointer;
+  }
+  
+  button, input {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  input {
+    height: 24px;
+    padding-left: 10px;
+  }
+  
+  .App {
+    width: 255px;
+  }
+  
+  .new-task-btn {
+    width: 150px;
+    height: 30px;
+    border-radius: 500px;
+    border: none;
+    background-color: rgb(55, 55, 255);
+    color: white;
+  }
+  
+  .new-task-btn:active, .add-btn:active {
+    transform: scale(.95);
+  }
+  
+  .input-form {
+    margin-top: -18px;
+    text-align: center;
+  }
+  
+  .add-cancel-btns {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .add-btn {
+    width: 95px;
+    height: 30px;
+    border-radius: 500px;
+    border: none;
+    background-color: rgb(55, 55, 255);
+    color: white;
+  }
+  
+  .new-task-btn:hover, .add-btn:hover {
+    background-color: rgb(75, 75, 255);
+  }
+  
+  .cancel-btn {
+    cursor: pointer;
+  }
+  
+  .cancel-btn:hover {
+    text-decoration: underline;
+  }
+  
+  .tasklog {
+    margin-top: 12px;
+    text-transform: capitalize;
+    text-decoration: underline;
+  }
+  
+  .list-block {
+    border-bottom: 1px solid black;
+  }
+  
+  .list-block > p:last-of-type {
+    font-size: 10px;
+  }
+  
+  .task-date {
+    font-weight: 600;
+  }
+  
+  .trash, .recycle {
+    margin-top: 5px;
+    margin-left: 5px;
+    font-size: 10px;
+  }
+  
+  .recycle {
+    font-size: 12px;
+    cursor: pointer;
+    color: green;
+  }
+  
+  .recycled {
+    text-decoration: line-through;
+    color: rgb(12, 60, 12);
+  }
+  
+  .recycled-tasks {
+    color: rgb(12, 60, 12);
+  }
+  
+  .done {
+    text-decoration: line-through;
+  }
+  
+  .expired {
+    color: grey;
+    opacity: 80%;
+  }
+  
+  .unfinished-tasks {
+    text-decoration: underline;
+  }
