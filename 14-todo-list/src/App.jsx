@@ -213,6 +213,14 @@ function App() {
           recycleTask={recycleTask}
         />
       </TaskLog>
+      <div className="repo">
+        <a
+          href="https://github.com/dibmarco/react-small-projects-and-tests/tree/main/14-todo-list"
+          target="blank"
+        >
+          repo
+        </a>
+      </div>
     </div>
   );
 }
