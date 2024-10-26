@@ -1,4 +1,5 @@
 import { useState } from "react";
+import generateID from "./generateID";
 
 const initialShirts = {
   white: [
@@ -48,7 +49,7 @@ function App() {
   const availableQty = selectedSize ? selectedSize.qty : 0;
 
   function handleAddToCart() {
-    const id = crypto.randomUUID();
+    const id = generateID();
 
     const selections = {
       id: id,

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import generateID from "./generateID";
 
 const initialMugs = {
   white: {
@@ -37,7 +38,7 @@ function App() {
   }
 
   function handleAddToCart() {
-    const id = crypto.randomUUID();
+    const id = generateID();
 
     const mugSelection = {
       id: id,
