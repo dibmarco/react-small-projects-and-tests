@@ -1,14 +1,19 @@
 import { useState } from "react";
 
 function App() {
-  const [word, setWord] = useState("");
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [definition, setDefinition] = useState(null);
 
   function handleDefinition(word) {
     async function fetchWord() {
-      setWord("");
+      if (word.trim() === "") {
+        alert("Enter a word!");
+        return;
+      }
+
+      setInput("");
       setError(null);
       setIsLoading(true);
       try {
@@ -36,11 +41,12 @@ function App() {
       <div className="input-section">
         <input
           type="text"
-          value={word}
-          onChange={(e) => setWord(e.target.value)}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
-        <button onClick={() => handleDefinition(word)}>Search</button>
+        <button onClick={() => handleDefinition(input.toLocaleLowerCase())}>Search</button>
       </div>
+      {isLoading && <p>Searching...</p>}
       {!isLoading && !error && definition && (
         <div className="definition-section">
           <p style={{ fontWeight: "600" }}>{definition.word.toUpperCase()}</p>
@@ -59,7 +65,10 @@ function App() {
                 <p>
                   Synonyms:{" "}
                   {meaning.synonyms.map((synonym) => (
-                    <span style={{cursor: "pointer"}} onClick={() => handleDefinition(synonym)}>
+                    <span
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleDefinition(synonym)}
+                    >
                       {synonym}
                       {" / "}
                     </span>
