@@ -37,8 +37,6 @@ function App() {
     fetchWord();
   }
 
-  const { word, phonetic, meanings } = definition;
-
   return (
     <div className="App">
       <div className="input-section">
@@ -54,9 +52,9 @@ function App() {
       {isLoading && <p>Searching...</p>}
       {!isLoading && !error && definition && (
         <div className="definition-section">
-          <p style={{ fontWeight: "600" }}>{word.toUpperCase()}</p>
-          <p>{phonetic}</p>
-          {meanings.map((meaning, i) => (
+          <p style={{ fontWeight: "600" }}>{definition.word.toUpperCase()}</p>
+          <p>{definition.phonetic}</p>
+          {definition.meanings.map((meaning, i) => (
             <div key={i}>
               <p style={{ fontWeight: "600", marginTop: "10px" }}>
                 {meaning.partOfSpeech}
