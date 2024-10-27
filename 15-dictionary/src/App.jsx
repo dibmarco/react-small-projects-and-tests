@@ -1,30 +1,31 @@
 import { useState } from "react";
 
 function App() {
-  const [input, setInput] = useState("");
+  const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [definition, setDefinition] = useState(null);
 
-  function handleDefinition(word) {
+  function handleDefinition(query) {
     async function fetchWord() {
-      if (word.trim() === "") {
+      if (query.trim() === "") {
         alert("Enter a word!");
         return;
       }
 
-      setInput("");
+      setQuery("");
       setError(null);
       setIsLoading(true);
       try {
         const res = await fetch(
-          `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+          `https://api.dictionaryapi.dev/api/v2/entries/en/${query}`
         );
         if (!res.ok) {
           throw new Error("No Definitions Found");
         }
         const [data] = await res.json();
         console.log(data);
+
         setDefinition(data);
       } catch (err) {
         setError(err);
@@ -36,22 +37,26 @@ function App() {
     fetchWord();
   }
 
+  const { word, phonetic, meanings } = definition;
+
   return (
     <div className="App">
       <div className="input-section">
         <input
           type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
-        <button onClick={() => handleDefinition(input.toLocaleLowerCase())}>Search</button>
+        <button onClick={() => handleDefinition(query.toLocaleLowerCase())}>
+          Search
+        </button>
       </div>
       {isLoading && <p>Searching...</p>}
       {!isLoading && !error && definition && (
         <div className="definition-section">
-          <p style={{ fontWeight: "600" }}>{definition.word.toUpperCase()}</p>
-          <p>{definition.phonetic}</p>
-          {definition.meanings.map((meaning, i) => (
+          <p style={{ fontWeight: "600" }}>{word.toUpperCase()}</p>
+          <p>{phonetic}</p>
+          {meanings.map((meaning, i) => (
             <div key={i}>
               <p style={{ fontWeight: "600", marginTop: "10px" }}>
                 {meaning.partOfSpeech}
