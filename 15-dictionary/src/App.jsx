@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function App() {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [definition, setDefinition] = useState(null);
+
+  const queryRef = useRef();
+
+  useEffect(() => {
+    queryRef.current?.focus();
+  }, []);
 
   function handleDefinition(query) {
     async function fetchWord() {
@@ -32,9 +38,16 @@ function App() {
         console.error(err);
       } finally {
         setIsLoading(false);
+        queryRef.current?.blur();
       }
     }
     fetchWord();
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      handleDefinition(query);
+    }
   }
 
   return (
@@ -42,8 +55,12 @@ function App() {
       <div className="input-section">
         <input
           type="text"
+          spellCheck={true}
           value={query}
+          placeholder="Enter a word"
+          ref={queryRef}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => handleKeyDown(e)}
         />
         <button onClick={() => handleDefinition(query.toLocaleLowerCase())}>
           Search
