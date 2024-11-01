@@ -1,12 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-export function DefinitionField({
-  isLoading,
-  error,
-  definition,
-  handleDefinition,
-}) {
+function DefinitionField({ isLoading, error, definition, handleDefinition }) {
   const { word } = useParams();
   const navigate = useNavigate();
 
@@ -65,3 +60,5 @@ export function DefinitionField({
     </div>
   );
 }
+
+export default DefinitionField;

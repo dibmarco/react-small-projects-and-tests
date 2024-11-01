@@ -1,7 +1,7 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { InputField } from "./components/InputField";
-import { DefinitionField } from "./components/DefinitionField";
+import InputField from "./components/InputField";
+import DefinitionField from "./components/DefinitionField";
 
 function App() {
   const [query, setQuery] = useState("");
