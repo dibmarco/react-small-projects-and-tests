@@ -3,3 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+ul {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 12px;
+  list-style: none;
+}
+
+.back {
+  cursor: pointer;
+}
