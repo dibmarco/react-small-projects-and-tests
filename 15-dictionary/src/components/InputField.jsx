@@ -2,6 +2,7 @@ export function InputField({
   query,
   queryRef,
   setQuery,
+  currentWord,
   handleKeyDown,
   handleDefinition,
 }) {
@@ -16,7 +17,16 @@ export function InputField({
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={(e) => handleKeyDown(e)}
       />
-      <button onClick={() => handleDefinition(query.toLocaleLowerCase())}>
+      <button
+        onClick={() => {
+          if (query === currentWord) {
+            setQuery("");
+            return;
+          }
+
+          handleDefinition(query.toLocaleLowerCase());
+        }}
+      >
         Search
       </button>
     </div>

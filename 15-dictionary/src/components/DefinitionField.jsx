@@ -1,9 +1,19 @@
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 export function DefinitionField({
   isLoading,
   error,
   definition,
   handleDefinition,
 }) {
+  const { word } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    handleDefinition(word);
+  }, [word, handleDefinition]);
+
   return (
     <div className="definition-field">
       {isLoading && (
@@ -37,7 +47,10 @@ export function DefinitionField({
                     <span
                       key={synonym}
                       style={{ cursor: "pointer" }}
-                      onClick={() => handleDefinition(synonym)}
+                      onClick={() => {
+                        handleDefinition(synonym);
+                        navigate(`/${synonym}`);
+                      }}
                     >
                       {synonym}
                       {" / "}
