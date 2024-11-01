@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 * {
   margin: 0;
@@ -14,7 +14,7 @@ body {
   margin: 10px 20px;
 }
 
-.input-section {
+.input-field {
   display: flex;
   align-items: center;
   /* justify-content: center; */
@@ -34,7 +34,6 @@ input::placeholder {
 }
 
 button {
-  
   width: 75px;
   height: 35px;
 }
