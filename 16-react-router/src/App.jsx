@@ -3,7 +3,6 @@ import {
   Routes,
   Route,
   NavLink,
-  useParams,
   useNavigate,
 } from "react-router-dom";
 
@@ -17,7 +16,7 @@ function App() {
             <NavLink to="/">Page 1</NavLink>
           </li>
           <li>
-            <NavLink to="/page-2/123">Page 2</NavLink>
+            <NavLink to="/page-2">Page 2</NavLink>
           </li>
           <li>
             <NavLink to="/page-3">Page 3</NavLink>
@@ -25,7 +24,7 @@ function App() {
         </ul>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/page-2/:id" element={<Page2 />} />
+          <Route path="/page-2" element={<Page2 />} />
           <Route path="/page-3" element={<Page3 />} />
         </Routes>
       </div>
@@ -38,12 +37,10 @@ function HomePage() {
 }
 
 function Page2() {
-  const { id } = useParams();
   const navigate = useNavigate();
   return (
     <>
-      <p>Page 2</p>
-      <p>Page id: {id}</p>
+      <h2>Page 2</h2>
       <p className="back" onClick={() => navigate(-1)}>
         Back
       </p>
@@ -55,7 +52,7 @@ function Page3() {
   const navigate = useNavigate();
   return (
     <>
-      <p>Page 3</p>
+      <h2>Page 3</h2>
       <p className="back" onClick={() => navigate("/")}>
         Back
       </p>
