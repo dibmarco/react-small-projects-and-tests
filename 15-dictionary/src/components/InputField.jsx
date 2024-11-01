@@ -1,4 +1,4 @@
-function InputField({
+export function InputField({
   query,
   queryRef,
   setQuery,
@@ -22,5 +22,3 @@ function InputField({
     </div>
   );
 }
-
-export default InputField;
