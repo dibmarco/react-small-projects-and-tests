@@ -42,6 +42,10 @@ function App() {
         return; // Skip if the word is the same as the last fetched word
       }
 
+      if (query) {
+        navigate(`/${query}`);
+      }
+
       setCurrentWord(word);
       setQuery("");
       setError(null);
