@@ -24,7 +24,7 @@ function InputField({
             return;
           }
 
-          handleDefinition(query.toLocaleLowerCase());
+          handleDefinition(query.toLowerCase());
         }}
       >
         Search

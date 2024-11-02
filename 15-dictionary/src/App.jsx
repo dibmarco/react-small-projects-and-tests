@@ -43,7 +43,8 @@ function App() {
       }
 
       if (query) {
-        navigate(`/${query}`);
+        const queryLower = query.toLowerCase();
+        navigate(`/${queryLower}`);
       }
 
       setCurrentWord(word);
