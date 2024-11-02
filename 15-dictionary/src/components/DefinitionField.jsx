@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function DefinitionField({ isLoading, error, definition, handleDefinition }) {
   const { word } = useParams();
