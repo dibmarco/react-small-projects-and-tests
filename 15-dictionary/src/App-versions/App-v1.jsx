@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { Routes, Route, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import InputField from "./components/InputField";
@@ -14,13 +13,39 @@ function App() {
   const navigate = useNavigate();
   const { queryParam } = useParams();
 
-  const handleDefinition = useCallback(
-    async (word) => {
+  useEffect(() => {
+    queryRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (queryParam) {
+      handleDefinition(queryParam);
+    }
+  }, [queryParam]);
+
+  function handleKeyDown(e) {
+    if (e.key === "Enter" && query) {
+      navigate(`/${query}`);
+    }
+
+    if (e.key === "Enter" && !query) {
+      alert("Enter a word");
+    }
+
+    if (query === currentWord) {
+      setQuery("");
+      return;
+    }
+  }
+
+  function handleDefinition(word) {
+    async function fetchWord() {
       if (word.trim() === "") {
         alert("Enter a word.");
         return;
       }
 
+      // Avoid fetching if the word is already the current one
       if (word === currentWord) {
         return;
       }
@@ -46,34 +71,10 @@ function App() {
         setIsLoading(false);
         queryRef.current?.blur();
       }
-    },
-    [currentWord, navigate]
-  );
-
-  function handleKeyDown(e) {
-    if (e.key === "Enter" && query) {
-      navigate(`/${query}`);
     }
 
-    if (e.key === "Enter" && !query) {
-      alert("Enter a word");
-    }
-
-    if (query === currentWord) {
-      setQuery("");
-      return;
-    }
+    fetchWord();
   }
-
-  useEffect(() => {
-    queryRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
-    if (queryParam) {
-      handleDefinition(queryParam);
-    }
-  }, [queryParam, handleDefinition]);
 
   return (
     <div className="App">
