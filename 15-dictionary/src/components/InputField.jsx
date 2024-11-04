@@ -1,6 +1,6 @@
 function InputField({
   query,
-  queryRef,
+  inputEl,
   setQuery,
   currentWord,
   clearInput,
@@ -14,7 +14,7 @@ function InputField({
         spellCheck={true}
         value={query}
         placeholder="Enter a word"
-        ref={queryRef}
+        ref={inputEl}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={(e) => handleKeyDown(e)}
       />
@@ -22,6 +22,7 @@ function InputField({
         onClick={() => {
           if (query.toLowerCase() === currentWord) {
             clearInput();
+            inputEl.current?.focus();
             return;
           }
 

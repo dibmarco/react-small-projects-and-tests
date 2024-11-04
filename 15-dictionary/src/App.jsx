@@ -35,7 +35,7 @@ function reducer(state, action) {
 function App() {
   const [{ query, currentWord, isLoading, error, definition }, dispatch] =
     useReducer(reducer, initialState);
-  const queryRef = useRef();
+  const inputEl = useRef(null);
   const navigate = useNavigate();
   const { queryParam } = useParams();
 
@@ -48,7 +48,6 @@ function App() {
 
       if (word === currentWord) {
         dispatch({ type: "CLEAR_INPUT" });
-        queryRef.current?.blur();
         return;
       }
 
@@ -69,11 +68,26 @@ function App() {
         dispatch({ type: "SET_ERROR", payload: err });
       } finally {
         dispatch({ type: "SET_LOADING", payload: false });
-        queryRef.current?.blur();
+        inputEl.current?.focus();
       }
     },
     [currentWord, navigate]
   );
+
+  // Effects
+  useEffect(() => {
+    inputEl.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    function callBack(e) {
+      if (e.key === "Enter") {
+        inputEl.current?.focus();
+      }
+    }
+
+    document.addEventListener("keydown", callBack);
+  }, []);
 
   function handleKeyDown(e) {
     if (e.key === "Enter") {
@@ -89,10 +103,6 @@ function App() {
       }
     }
   }
-
-  useEffect(() => {
-    queryRef.current?.focus();
-  }, []);
 
   useEffect(() => {
     if (queryParam) {
@@ -112,7 +122,7 @@ function App() {
     <div className="App">
       <InputField
         query={query}
-        queryRef={queryRef}
+        inputEl={inputEl}
         setQuery={(value) => dispatch({ type: "SET_QUERY", payload: value })}
         clearInput={() => dispatch({ type: "CLEAR_INPUT" })}
         currentWord={currentWord}
