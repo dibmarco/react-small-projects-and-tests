@@ -100,6 +100,14 @@ function App() {
     }
   }, [queryParam, handleDefinition]);
 
+  useEffect(() => {
+    if (currentWord) {
+      const capitalizedWord =
+        currentWord.charAt(0).toUpperCase() + currentWord.slice(1);
+      document.title = `Word Lookup: ${capitalizedWord}`;
+    }
+  }, [currentWord]);
+
   return (
     <div className="App">
       <InputField
