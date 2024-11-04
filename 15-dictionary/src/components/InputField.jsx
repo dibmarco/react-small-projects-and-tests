@@ -5,6 +5,7 @@ function InputField({
   currentWord,
   handleKeyDown,
   handleDefinition,
+  clearInput,
 }) {
   return (
     <div className="input-field">
@@ -20,7 +21,7 @@ function InputField({
       <button
         onClick={() => {
           if (query === currentWord) {
-            setQuery("");
+            clearInput();
             return;
           }
 

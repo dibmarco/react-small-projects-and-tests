@@ -100,12 +100,15 @@ function App() {
     }
   }, [queryParam, handleDefinition]);
 
+  
+
   return (
     <div className="App">
       <InputField
         query={query}
         queryRef={queryRef}
         setQuery={(value) => dispatch({ type: "SET_QUERY", payload: value })}
+        clearInput={() => dispatch({type: "CLEAR_INPUT"})}
         currentWord={currentWord}
         handleKeyDown={handleKeyDown}
         handleDefinition={handleDefinition}
