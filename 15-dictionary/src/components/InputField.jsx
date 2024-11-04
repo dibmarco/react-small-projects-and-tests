@@ -20,7 +20,7 @@ function InputField({
       />
       <button
         onClick={() => {
-          if (query.toLowerCase() === currentWord.toLowerCase()) {
+          if (query.toLowerCase() === currentWord) {
             clearInput();
             return;
           }
