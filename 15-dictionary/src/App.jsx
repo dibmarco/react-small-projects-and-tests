@@ -76,17 +76,17 @@ function App() {
   );
 
   function handleKeyDown(e) {
-    if (e.key === "Enter" && query) {
-      navigate(query);
-    }
+    if (e.key === "Enter") {
+      if (query.trim().toLowerCase() === currentWord?.toLowerCase()) {
+        dispatch({ type: "CLEAR_INPUT" });
+        return;
+      }
 
-    if (e.key === "Enter" && !query) {
-      alert("Enter a word");
-    }
-
-    if (query.toLowerCase() === currentWord) {
-      dispatch({ type: "CLEAR_INPUT" });
-      return;
+      if (query) {
+        handleDefinition(query);
+      } else {
+        alert("Enter a word");
+      }
     }
   }
 
