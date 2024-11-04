@@ -3,9 +3,9 @@ function InputField({
   queryRef,
   setQuery,
   currentWord,
+  clearInput,
   handleKeyDown,
   handleDefinition,
-  clearInput,
 }) {
   return (
     <div className="input-field">
@@ -20,7 +20,7 @@ function InputField({
       />
       <button
         onClick={() => {
-          if (query === currentWord) {
+          if (query.toLowerCase() === currentWord.toLowerCase()) {
             clearInput();
             return;
           }
