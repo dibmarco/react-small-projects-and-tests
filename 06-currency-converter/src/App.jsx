@@ -1,27 +1,68 @@
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
+
+const initialState = {
+  standardAmount: 1,
+  amount: 1,
+  fromCur: "USD",
+  toCur: "BRL",
+  isLoading: false,
+  convertedAmount: null,
+  standardRate: null,
+  formattedDate: "",
+  error: "",
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_AMOUNT":
+      return { ...state, amount: action.payload };
+    case "SET_FROMCUR":
+      return { ...state, fromCur: action.payload };
+    case "SET_TOCUR":
+      return { ...state, toCur: action.payload };
+    case "SET_IS_LOADING":
+      return { ...state, isLoading: action.payload };
+    case "SET_CONVERTED_AMOUNT":
+      return { ...state, convertedAmount: action.payload };
+    case "SET_STANDARD_RATE":
+      return { ...state, standardRate: action.payload };
+    case "SET_FORMATTED_DATE":
+      return { ...state, formattedDate: action.payload };
+    case "SET_ERROR":
+      return { ...state, error: action.payload };
+    default:
+      return state;
+  }
+}
 
 function App() {
-  const [amount, setAmount] = useState("1");
-  const [fromCur, setFromCur] = useState("USD");
-  const [toCur, setToCur] = useState("BRL");
-  const [isLoading, setIsLoading] = useState(false);
-  const [convertedAmount, setConvertedAmount] = useState(null);
-  const [standardRate, setStandardRate] = useState(null);
-  const [formattedDate, setFormattedDate] = useState(null);
-  const [error, setError] = useState(null);
-
-  const standardAmount = 1;
+  const [
+    {
+      standardAmount,
+      amount,
+      fromCur,
+      toCur,
+      isLoading,
+      convertedAmount,
+      standardRate,
+      formattedDate,
+      error,
+    },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   useEffect(() => {
     if (fromCur === toCur) {
-      setConvertedAmount(amount);
-      setStandardRate(1);
+      dispatch({ type: "SET_CONVERTED_AMOUNT", payload: amount });
+
+      dispatch({ type: "SET_STANDARD_RATE", payload: 1 });
       return;
     }
 
     async function fetchRates() {
-      setError(null);
-      setIsLoading(true);
+      dispatch({ type: "SET_ERROR", payload: null });
+
+      dispatch({ type: "SET_IS_LOADING", payload: true });
 
       try {
         const res = await fetch(
@@ -36,29 +77,33 @@ function App() {
         /* console.log(data); */
 
         const [rate] = Object.values(data.rates);
-        setStandardRate(rate / parseFloat(amount));
-        setConvertedAmount(rate.toFixed(2));
+        dispatch({
+          type: "SET_STANDARD_RATE",
+          payload: rate / parseFloat(amount),
+        });
+
+        dispatch({ type: "SET_CONVERTED_AMOUNT", payload: rate.toFixed(2) });
 
         const date = new Date(data.date);
         const options = { year: "numeric", month: "long", day: "numeric" };
         const formattedDate = date.toLocaleDateString("en-US", options);
-        setFormattedDate(formattedDate);
+        dispatch({ type: "SET_FORMATTED_DATE", payload: formattedDate });
       } catch (e) {
-        setError("Something went wrong.");
+        dispatch({ type: "SET_ERROR", payload: "Something went wrong." });
         console.error(e);
       } finally {
-        setIsLoading(false);
+        dispatch({ type: "SET_IS_LOADING", payload: false });
       }
     }
 
     if (parseFloat(amount) > 0) {
       fetchRates();
     } else {
-      setError("Enter a valid amount");
-      setConvertedAmount(null);
-      /* setStandardRate(null); */
-      /* setFormattedDate(null); */
-      setIsLoading(false);
+      dispatch({ type: "SET_ERROR", payload: null });
+      dispatch({ type: "SET_CONVERTED_AMOUNT", payload: null });
+      dispatch({ type: "SET_STANDARD_RATE", payload: null });
+      dispatch({ type: "SET_FORMATTED_DATE", payload: "" });
+      dispatch({ type: "SET_IS_LOADING", payload: false });
     }
   }, [fromCur, toCur, amount]);
 
@@ -72,14 +117,15 @@ function App() {
     const validInput = /^[0-9]*[.]?[0-9]{0,2}$/.test(sanitizedValue);
 
     if (validInput) {
-      setAmount(sanitizedValue);
+      dispatch({ type: "SET_AMOUNT", payload: sanitizedValue });
+
       if (sanitizedValue === "" || parseFloat(sanitizedValue) === 0) {
-        setError("Enter a valid amount");
-        setConvertedAmount(null);
-        /* setStandardRate(null); */
-        /* setFormattedDate(null); */
+        dispatch({ type: "SET_ERROR", payload: "Enter a valid amount." });
+        dispatch({ type: "SET_CONVERTED_AMOUNT", payload: null });
+        dispatch({ type: "SET_STANDARD_RATE", payload: null });
+        dispatch({ type: "SET_FORMATTED_DATE", payload: "" });
       } else {
-        setError(null);
+        dispatch({ type: "SET_ERROR", payload: "" });
       }
     }
   }
@@ -104,7 +150,9 @@ function App() {
         className="btn btn-primary dropdown-toggle select-from"
         name="from"
         id="from"
-        onChange={(e) => setFromCur(e.target.value)}
+        onChange={(e) =>
+          dispatch({ type: "SET_FROMCUR", payload: e.target.value })
+        }
         value={fromCur}
       >
         <option value="USD">USD</option>
@@ -117,7 +165,9 @@ function App() {
         className="btn btn-secondary dropdown-toggle select-to"
         name="to"
         id="to"
-        onChange={(e) => setToCur(e.target.value)}
+        onChange={(e) =>
+          dispatch({ type: "SET_TOCUR", payload: e.target.value })
+        }
         value={toCur}
       >
         <option value="BRL">BRL</option>
