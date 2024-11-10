@@ -4,6 +4,8 @@ import {
   Route,
   NavLink,
   useNavigate,
+  Outlet,
+  Link,
 } from "react-router-dom";
 
 function App() {
@@ -24,7 +26,10 @@ function App() {
         </ul>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/page-2" element={<Page2 />} />
+          <Route path="/page-2" element={<Page2 />}>
+            <Route index path="subpage-1" element={<SubPage1 />} />
+            <Route path="subpage-2" element={<SubPage2 />} />
+          </Route>
           <Route path="/page-3" element={<Page3 />} />
         </Routes>
       </div>
@@ -41,9 +46,34 @@ function Page2() {
   return (
     <>
       <h2>Page 2</h2>
+
+      <Link to="subpage-1">Subpage-1</Link>
+      <br />
+      <Link to="subpage-2">Subpage-2</Link>
+
+      <Outlet />
       <p className="back" onClick={() => navigate(-1)}>
         Back
       </p>
+    </>
+  );
+}
+
+function SubPage1() {
+  return (
+    <>
+      <h3>SubPage 1</h3>
+      <p>Here's subpage 1.</p>
+    </>
+  );
+}
+
+function SubPage2() {
+  return (
+    <>
+      <h3>SubPage 2</h3>
+      <p>Here's subpage 2.</p>
+      <p>And you may create many more.</p>
     </>
   );
 }
