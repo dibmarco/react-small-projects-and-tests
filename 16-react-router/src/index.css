@@ -14,3 +14,7 @@ ul {
 .back {
   cursor: pointer;
 }
+
+.active {
+  background-color: grey;
+}
