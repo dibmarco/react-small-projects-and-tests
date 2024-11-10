@@ -4,11 +4,19 @@
   box-sizing: border-box;
 }
 
+a {
+  margin-right: 10px;
+}
+
 ul {
   display: flex;
   gap: 5px;
   margin-bottom: 12px;
   list-style: none;
+}
+
+p {
+  margin-top: 12px;
 }
 
 .back {
