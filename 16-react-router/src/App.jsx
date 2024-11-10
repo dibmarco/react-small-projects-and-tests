@@ -6,7 +6,6 @@ import {
   useNavigate,
   Outlet,
   Navigate,
-  useParams,
 } from "react-router-dom";
 
 function App() {
@@ -19,7 +18,7 @@ function App() {
             <NavLink to="/">Page 1</NavLink>
           </li>
           <li>
-            <NavLink to="/page-2">Page 2</NavLink>
+            <NavLink to="/page-2/subpage-1">Page 2</NavLink>
           </li>
           <li>
             <NavLink to="/page-3">Page 3</NavLink>
@@ -27,7 +26,7 @@ function App() {
         </ul>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/page-2" element={<Page2 />}>
+          <Route path="/page-2/" element={<Page2 />}>
             <Route index element={<Navigate replace to="subpage-1" />} />
             <Route path="subpage-1" element={<SubPage1 />} />
             <Route path="subpage-2" element={<SubPage2 />} />
