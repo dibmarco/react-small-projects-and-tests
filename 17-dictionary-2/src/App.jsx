@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route
           path="/:wordDefinition"
-          replace
+          replace // not sure about this
           element={<DefinitionField setWord={setWord} />}
         />
       </Routes>
