@@ -1,9 +1,9 @@
-export function PrimaryResult({
-  isLoading,
-  primaryMovie,
-  primaryMovieData,
-  onHandleIMDbPage,
-}) {
+import { useContext } from "react";
+import MovieContext from "../context/MovieContext";
+
+export function PrimaryResult() {
+  const { isLoading, primaryMovie, primaryMovieData, handleIMDbPage } = useContext(MovieContext);
+
   return isLoading ? (
     <div className="spinner"></div>
   ) : (
@@ -14,13 +14,12 @@ export function PrimaryResult({
       <div className="primary-details">
         <p>
           <strong>{primaryMovie.Title}</strong> | {primaryMovie.Year} |{" "}
-          {primaryMovieData.Runtime} | IMDB Rating:{" "}
-          {primaryMovieData.imdbRating}
+          {primaryMovieData.Runtime} | IMDB Rating: {primaryMovieData.imdbRating}
         </p>
         <img
           src={primaryMovie.Poster}
           alt="movie poster"
-          onClick={onHandleIMDbPage}
+          onClick={handleIMDbPage}
         />
         <p>
           <span>Director:</span> {primaryMovieData.Director}

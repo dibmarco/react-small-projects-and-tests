@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import MovieContext from "../context/MovieContext";
 
-export function GeneralResults({ otherTitles, onHandleTitleClick }) {
+export function GeneralResults() {
+  const { otherTitles, handleTitleClick } = useContext(MovieContext);
   const [listResults, setListResults] = useState(0);
 
   useEffect(() => {
@@ -15,7 +17,7 @@ export function GeneralResults({ otherTitles, onHandleTitleClick }) {
       </p>
       <ul>
         {otherTitles.map((title, i) => (
-          <li key={i} value={title} onClick={() => onHandleTitleClick(title)}>
+          <li key={i} value={title} onClick={() => handleTitleClick(title)}>
             {title}
           </li>
         ))}

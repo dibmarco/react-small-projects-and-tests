@@ -1,11 +1,16 @@
-export function QueryField({
-  inputValue,
-  setInputValue,
-  onHandleSearch,
-  movieResults,
-  error,
-  onKeyDown,
-}) {
+import { useContext } from "react";
+import MovieContext from "../context/MovieContext";
+
+export function QueryField() {
+  const {
+    inputValue,
+    setInputValue,
+    handleSearch,
+    movieResults,
+    error,
+    onKeyDown,
+  } = useContext(MovieContext);
+
   return (
     <div className="query-field">
       <input
@@ -14,7 +19,7 @@ export function QueryField({
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={onKeyDown}
       />
-      <button onClick={onHandleSearch}>
+      <button onClick={handleSearch}>
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
       {error ? (
