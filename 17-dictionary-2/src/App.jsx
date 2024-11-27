@@ -49,14 +49,14 @@ function DefinitionField() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+
   useEffect(() => {
     async function fetchDefinition() {
       try {
         setIsLoading(true);
 
-        const res = await fetch(
-          `https://api.dictionaryapi.dev/api/v2/entries/en/${wordToFetch}`
-        );
+        const res = await fetch(`${BASE_URL}${wordToFetch}`);
 
         if (!res.ok) throw new Error("Failed fetching definition.");
 
