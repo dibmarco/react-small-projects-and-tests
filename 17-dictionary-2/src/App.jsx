@@ -2,10 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Routes, Route, useNavigate, useParams } from "react-router-dom";
 
 function App() {
-  const [query, setQuery] = useState("");
-  const [word, setWord] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -14,32 +10,16 @@ function App() {
 
   return (
     <div className="App">
-      <QueryField
-        inputEl={inputEl}
-        query={query}
-        setQuery={setQuery}
-        setWord={setWord}
-      />
+      <QueryField inputEl={inputEl} />
       <Routes>
-        <Route
-          path="/:wordDefinition"
-          element={
-            <DefinitionField
-              word={word}
-              setWord={setWord}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              error={error}
-              setError={setError}
-            />
-          }
-        />
+        <Route path="/:wordToFetch" element={<DefinitionField />} />
       </Routes>
     </div>
   );
 }
 
-function QueryField({ inputEl, query, setQuery }) {
+function QueryField({ inputEl }) {
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
   return (
@@ -63,9 +43,11 @@ function QueryField({ inputEl, query, setQuery }) {
   );
 }
 
-function DefinitionField({ isLoading, setIsLoading, error, setError }) {
-  const { wordDefinition } = useParams();
+function DefinitionField() {
+  const { wordToFetch } = useParams();
   const [word, setWord] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchDefinition() {
@@ -73,7 +55,7 @@ function DefinitionField({ isLoading, setIsLoading, error, setError }) {
         setIsLoading(true);
 
         const res = await fetch(
-          `https://api.dictionaryapi.dev/api/v2/entries/en/${wordDefinition}`
+          `https://api.dictionaryapi.dev/api/v2/entries/en/${wordToFetch}`
         );
 
         if (!res.ok) throw new Error("Failed fetching definition.");
@@ -90,7 +72,7 @@ function DefinitionField({ isLoading, setIsLoading, error, setError }) {
       }
     }
     fetchDefinition();
-  }, [setIsLoading, setWord, wordDefinition, setError]);
+  }, [setIsLoading, setWord, wordToFetch, setError]);
 
   return (
     <div>
