@@ -25,7 +25,7 @@ export function DefinitionField({ searchedWords }) {
           ))}
         </>
       )}
-      {searchedWords.length > 0 && (
+      {searchedWords.length > 0 && !isLoading && (
         <SearchHistory searchedWords={searchedWords} />
       )}
     </div>
