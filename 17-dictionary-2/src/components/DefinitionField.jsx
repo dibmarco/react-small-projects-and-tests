@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import useFetchDefinition from "../hooks/useFetchDefinition";
 import SearchHistory from "./SearchHistory";
+import useFetchDefinition from "../hooks/useFetchDefinition";
 
 export function DefinitionField({ searchedWords }) {
   const { wordToFetch } = useParams();

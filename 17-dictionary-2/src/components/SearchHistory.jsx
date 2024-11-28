@@ -9,7 +9,7 @@ function SearchHistory({ searchedWords }) {
       <ul>
         {searchedWords.map((word) => (
           <li
-            className="capitalize border-r-2 inline-block mx-0.5 px-1.5 cursor-pointer"
+            className="capitalize border-r-2 inline-block mx-0.5 px-1.5 cursor-pointer last:border-r-0"
             onClick={() => navigateToWord(word)}
             key={word}
           >
