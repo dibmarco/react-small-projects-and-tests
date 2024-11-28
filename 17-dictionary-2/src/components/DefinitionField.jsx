@@ -10,7 +10,7 @@ export function DefinitionField({ previousSearches }) {
     <div className="mb-3">
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      {word && !error && (
+      {word && !error && !isLoading && (
         <>
           <h1 className="font-bold uppercase text-xl mb-3">{word.word}</h1>
           {word.meanings.map((meaning) => (

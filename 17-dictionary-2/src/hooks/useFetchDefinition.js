@@ -14,7 +14,7 @@ function useFetchDefinition(wordToFetch) {
       async function fetchDefinition() {
         try {
           setIsLoading(true);
-          setError("");
+          setError(null);
 
           // Fetch the word definition using the API
           const res = await fetch(`${BASE_URL}${wordToFetch.toLowerCase()}`);
@@ -22,7 +22,7 @@ function useFetchDefinition(wordToFetch) {
           if (!res.ok) throw new Error("Failed fetching definition.");
 
           const [data] = await res.json();
-          console.log(data);
+          // console.log(data);
 
           // Update the state with the fetched data
           setWord(data);
