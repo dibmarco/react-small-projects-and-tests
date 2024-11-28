@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 function useFetchDefinition(wordToFetch) {
   const [word, setWord] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const previousWord = useRef(null);
 
   const BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
@@ -14,6 +14,7 @@ function useFetchDefinition(wordToFetch) {
       async function fetchDefinition() {
         try {
           setIsLoading(true);
+          setError("");
 
           // Fetch the word definition using the API
           const res = await fetch(`${BASE_URL}${wordToFetch.toLowerCase()}`);
@@ -25,7 +26,7 @@ function useFetchDefinition(wordToFetch) {
 
           // Update the state with the fetched data
           setWord(data);
-          
+
           // Update the previous word reference
           previousWord.current = wordToFetch;
         } catch (err) {

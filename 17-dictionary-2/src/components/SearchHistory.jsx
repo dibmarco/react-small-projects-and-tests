@@ -1,19 +1,19 @@
 import { useState } from "react";
 import useQuery from "../hooks/useQuery";
 
-function SearchHistory({ searchedWords }) {
+function SearchHistory({ previousSearches }) {
   const [showMore, setShowMore] = useState(false);
   const { navigateToWord } = useQuery();
 
   const displayLimit = 5;
   const wordsToShow = showMore
-    ? searchedWords
-    : searchedWords.slice(0, displayLimit);
+    ? previousSearches
+    : previousSearches.slice(0, displayLimit);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:max-w-[350px] md:max-w-[600px]">
+    <div className="flex flex-col sm:flex-row gap-1 sm:max-w-[350px] md:max-w-[600px] mt-3">
       <p className="font-semibold min-w-fit">
-        Search History ({searchedWords.length}):
+        Search History ({previousSearches.length}):
       </p>
       <ul className="flex flex-wrap max-w-full sm:max-w-[calc(100%-4rem)] md:max-w-[calc(600px-4rem)]">
         {wordsToShow.map((word) => (
@@ -25,7 +25,7 @@ function SearchHistory({ searchedWords }) {
             {word}
           </li>
         ))}
-        {searchedWords.length > displayLimit && (
+        {previousSearches.length > displayLimit && (
           <p
             onClick={() => setShowMore(!showMore)}
             className="cursor-pointer text-blue-500 hover:underline pl-1.5"

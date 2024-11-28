@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import SearchHistory from "./SearchHistory";
 import useFetchDefinition from "../hooks/useFetchDefinition";
 
-export function DefinitionField({ searchedWords }) {
+export function DefinitionField({ previousSearches }) {
   const { wordToFetch } = useParams();
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
 
@@ -10,7 +10,7 @@ export function DefinitionField({ searchedWords }) {
     <div className="mb-3">
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      {word && (
+      {word && !error && (
         <>
           <h1 className="font-bold uppercase text-xl mb-3">{word.word}</h1>
           {word.meanings.map((meaning) => (
@@ -25,8 +25,8 @@ export function DefinitionField({ searchedWords }) {
           ))}
         </>
       )}
-      {searchedWords.length > 0 && !isLoading && (
-        <SearchHistory searchedWords={searchedWords} />
+      {previousSearches.length > 0 && !isLoading && (
+        <SearchHistory previousSearches={previousSearches} />
       )}
     </div>
   );

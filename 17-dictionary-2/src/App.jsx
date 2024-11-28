@@ -8,7 +8,7 @@ import useSearchHistory from "./hooks/useSearchHistory";
 
 function App() {
   const inputEl = useRef(null);
-  const { searchedWords } = useSearchHistory();
+  const { previousSearches } = useSearchHistory();
 
   useEffect(() => {
     inputEl.current?.focus();
@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route
           path="/:wordToFetch"
-          element={<DefinitionField searchedWords={searchedWords} />}
+          element={<DefinitionField previousSearches={previousSearches} />}
         />
       </Routes>
     </div>

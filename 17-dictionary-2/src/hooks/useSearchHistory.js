@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 function useSearchHistory() {
-  const [searchedWords, setSearchedWords] = useState([]);
+  const [previousSearches, setPreviousSearches] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
     const storedHistory =
-      JSON.parse(localStorage.getItem("searchedWords")) || [];
-    setSearchedWords(storedHistory);
+      JSON.parse(localStorage.getItem("previousSearches")) || [];
+    setPreviousSearches(storedHistory);
   }, []);
 
   useEffect(() => {
     const path = location.pathname.split("/")[1];
     if (path) {
-      setSearchedWords((prevWords) => {
+      setPreviousSearches((prevWords) => {
         if (
           prevWords.find(
             (repeatedWord) => repeatedWord.toLowerCase() === path.toLowerCase()
@@ -23,13 +23,13 @@ function useSearchHistory() {
           return prevWords;
         }
         const updatedWords = [path, ...prevWords];
-        localStorage.setItem("searchedWords", JSON.stringify(updatedWords));
+        localStorage.setItem("previousSearches", JSON.stringify(updatedWords));
         return updatedWords;
       });
     }
   }, [location]);
 
-  return { searchedWords };
+  return { previousSearches };
 }
 
 export default useSearchHistory;

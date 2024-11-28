@@ -16,7 +16,7 @@ export function QueryField({ inputEl }) {
       />
       <button
         className="border py-1 px-2 bg-slate-300"
-        onClick={navigateToWord}
+        onClick={() => navigateToWord()}
       >
         Search
       </button>
