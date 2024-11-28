@@ -12,7 +12,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App font-nunito w-[350px] mx-auto md:w-[600px]">
+    <div className="App font-nunito w-[350px] mx-auto md:w-[600px] text-slate-900">
       <QueryField inputEl={inputEl} />
       <Routes>
         <Route path="/:wordToFetch" element={<DefinitionField />} />

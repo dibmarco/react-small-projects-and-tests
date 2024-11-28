@@ -11,11 +11,11 @@ export function DefinitionField() {
       {error && <p>Error: {error}</p>}
       {word && (
         <>
-          <h1 className="font-bold uppercase text-xl">{word.word}</h1>
+          <h1 className="font-bold uppercase text-xl mb-3">{word.word}</h1>
           {word.meanings.map((meaning) => (
             <div key={meaning.partOfSpeech}>
               <h2 className="font-bold capitalize">{meaning.partOfSpeech}</h2>
-              <ul>
+              <ul className="mb-3 mt-1 list-disc pl-[18px]">
                 {meaning.definitions.map((definition) => (
                   <li key={definition.definition}>{definition.definition}</li>
                 ))}

@@ -11,7 +11,7 @@ function useQuery(initialValue = "") {
       return;
     }
 
-    navigate(`/${query}`);
+    navigate(`/${query.toLowerCase()}`);
     setQuery("");
   }
 
