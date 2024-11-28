@@ -1,33 +1,25 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 function useSearchHistory() {
   const [previousSearches, setPreviousSearches] = useState([]);
-  const location = useLocation();
+
 
   useEffect(() => {
-    const storedHistory =
-      JSON.parse(localStorage.getItem("previousSearches")) || [];
+    const storedHistory = JSON.parse(localStorage.getItem("previousSearches")) || [];
     setPreviousSearches(storedHistory);
-  }, []);
 
-  useEffect(() => {
-    const path = location.pathname.split("/")[1];
-    if (path) {
-      setPreviousSearches((prevWords) => {
-        if (
-          prevWords.find(
-            (repeatedWord) => repeatedWord.toLowerCase() === path.toLowerCase()
-          )
-        ) {
-          return prevWords;
-        }
-        const updatedWords = [path, ...prevWords];
-        localStorage.setItem("previousSearches", JSON.stringify(updatedWords));
-        return updatedWords;
-      });
+    // Event listener for storage changes
+    function handleStorageChange() {
+      const updatedHistory = JSON.parse(localStorage.getItem("previousSearches")) || [];
+      setPreviousSearches(updatedHistory);
     }
-  }, [location]);
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   return { previousSearches };
 }

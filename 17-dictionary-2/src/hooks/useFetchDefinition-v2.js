@@ -32,8 +32,6 @@ function useFetchDefinition(wordToFetch) {
           const updatedHistory = [wordToFetch.toLowerCase(), ...storedHistory];
           // Save the updated history to local storage
           localStorage.setItem("previousSearches", JSON.stringify(updatedHistory));
-          // Dispatch a storage event for cross-tab synchronization
-          window.dispatchEvent(new Event('storage'));
         }
       } catch (err) {
         console.error(err.message);
