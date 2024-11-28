@@ -12,7 +12,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App font-nunito w-[350px] mx-auto md:w-[600px]">
       <QueryField inputEl={inputEl} />
       <Routes>
         <Route path="/:wordToFetch" element={<DefinitionField />} />
@@ -20,7 +20,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;
