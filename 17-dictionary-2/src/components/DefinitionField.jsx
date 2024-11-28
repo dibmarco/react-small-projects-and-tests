@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import useFetchDefinition from "../hooks/useFetchDefinition";
+import SearchHistory from "./SearchHistory";
 
-export function DefinitionField() {
+export function DefinitionField({ searchedWords }) {
   const { wordToFetch } = useParams();
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
 
@@ -23,6 +24,9 @@ export function DefinitionField() {
             </div>
           ))}
         </>
+      )}
+      {searchedWords.length > 0 && (
+        <SearchHistory searchedWords={searchedWords} />
       )}
     </div>
   );

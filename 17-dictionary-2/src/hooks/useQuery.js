@@ -5,13 +5,14 @@ function useQuery(initialValue = "") {
   const [query, setQuery] = useState(initialValue);
   const navigate = useNavigate();
 
-  function navigateToWord() {
-    if (!query.trim()) {
+  function navigateToWord(word) {
+    const searchQuery = word || query;
+    if (!searchQuery.trim()) {
       alert("Enter a word!");
       return;
     }
 
-    navigate(`/${query.toLowerCase()}`);
+    navigate(`/${searchQuery.toLowerCase()}`);
     setQuery("");
   }
 
