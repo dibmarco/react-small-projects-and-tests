@@ -6,7 +6,7 @@ export function DefinitionField({ previousSearches }) {
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
 
   return (
-    <div className="pl-1 scrollbar-thin mb-4">
+    <div className="pl-1 scrollbar-thin pr-1.5 mb-4">
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {word && !error && !isLoading && (

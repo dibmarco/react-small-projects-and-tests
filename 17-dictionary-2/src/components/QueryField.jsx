@@ -4,9 +4,9 @@ export function QueryField({ inputEl }) {
   const { query, setQuery, navigateToWord, handleKeyPress } = useQuery();
 
   return (
-    <div className="flex items-center justify-center gap-1.5 mt-3 w-[350px] mx-auto md:w-[600px] mb-2">
+    <div className="flex items-center justify-center gap-1 mt-3 w-[350px] mx-auto md:w-[600px] mb-2">
       <input
-        className="border p-1 w-[300px] md:w-[400px]"
+        className="border py-1 px-2.5 w-[300px] md:w-[400px] rounded-md"
         type="text"
         value={query}
         ref={inputEl}
@@ -15,7 +15,7 @@ export function QueryField({ inputEl }) {
         onKeyDown={handleKeyPress}
       />
       <button
-        className="border py-1 px-2 bg-slate-300"
+        className="border py-1 px-3 bg-slate-300 rounded-md"
         onClick={() => navigateToWord()}
       >
         Search
