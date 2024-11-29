@@ -9,7 +9,11 @@ function useFetchDefinition(wordToFetch) {
   const BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
   useEffect(() => {
-    if (!wordToFetch || wordToFetch.toLowerCase() === previousWord.current?.toLowerCase()) return;
+    if (
+      !wordToFetch ||
+      wordToFetch.toLowerCase() === previousWord.current?.toLowerCase()
+    )
+      return;
 
     async function fetchDefinition() {
       try {
@@ -23,17 +27,23 @@ function useFetchDefinition(wordToFetch) {
         setWord(data);
         previousWord.current = wordToFetch;
 
+        // !!! Managing local storage to ensure only successful fetches are displayed in the search history !!!
+
         // Retrieve existing search history from local storage
-        const storedHistory = JSON.parse(localStorage.getItem("previousSearches")) || [];
+        const storedHistory =
+          JSON.parse(localStorage.getItem("previousSearches")) || [];
 
         // Check if the word is already in the history
         if (!storedHistory.includes(wordToFetch.toLowerCase())) {
           // Add new word to the history
           const updatedHistory = [wordToFetch.toLowerCase(), ...storedHistory];
           // Save the updated history to local storage
-          localStorage.setItem("previousSearches", JSON.stringify(updatedHistory));
+          localStorage.setItem(
+            "previousSearches",
+            JSON.stringify(updatedHistory)
+          );
           // Dispatch a storage event for cross-tab synchronization
-          window.dispatchEvent(new Event('storage'));
+          window.dispatchEvent(new Event("storage"));
         }
       } catch (err) {
         console.error(err.message);
