@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import SearchHistory from "./SearchHistory";
 import useFetchDefinition from "../hooks/useFetchDefinition";
 
 export function DefinitionField({ previousSearches }) {
@@ -7,7 +6,7 @@ export function DefinitionField({ previousSearches }) {
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
 
   return (
-    <div className="mb-3 h-screen overflow-y-auto pb-16 pl-1 scrollbar-thin">
+    <div className="pl-1 scrollbar-thin mb-4">
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {word && !error && !isLoading && (
@@ -24,9 +23,6 @@ export function DefinitionField({ previousSearches }) {
             </div>
           ))}
         </>
-      )}
-      {previousSearches.length > 0 && (
-        <SearchHistory previousSearches={previousSearches} />
       )}
     </div>
   );

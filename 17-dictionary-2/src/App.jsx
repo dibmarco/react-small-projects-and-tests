@@ -5,6 +5,7 @@ import { QueryField } from "./components/QueryField";
 import { DefinitionField } from "./components/DefinitionField";
 
 import useSearchHistory from "./hooks/useSearchHistory";
+import SearchHistory from "./components/SearchHistory";
 
 function App() {
   const inputEl = useRef(null);
@@ -15,14 +16,18 @@ function App() {
   }, []);
 
   return (
-    <div className="App font-nunito w-[350px] mx-auto md:w-[600px] text-slate-900 flex flex-col h-screen">
-      <QueryField inputEl={inputEl} />
-      <Routes>
-        <Route
-          path="/:wordToFetch"
-          element={<DefinitionField previousSearches={previousSearches} />}
-        />
-      </Routes>
+    <div className="App font-nunito w-[350px] mx-auto md:w-[600px] text-slate-900 grid grid-rows-[auto_1fr_auto] h-screen">
+      <div className="row-start-1 row-end-2">
+        <QueryField inputEl={inputEl} />
+      </div>
+      <div className="row-start-2 row-end-3 overflow-y-auto scrollbar-thin">
+        <Routes>
+          <Route path="/:wordToFetch" element={<DefinitionField />} />
+        </Routes>
+      </div>
+      <div className="row-start-3 row-end-4">
+        <SearchHistory previousSearches={previousSearches} />
+      </div>
     </div>
   );
 }
