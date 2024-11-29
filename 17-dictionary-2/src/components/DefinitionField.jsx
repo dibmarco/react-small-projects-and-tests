@@ -11,7 +11,7 @@ export function DefinitionField({ previousSearches }) {
       {error && <p>Error: {error}</p>}
       {word && !error && !isLoading && (
         <>
-          <h1 className="font-bold uppercase text-xl mb-3">{word.word}</h1>
+          <h1 className="font-bold uppercase text-xl my-2">{word.word}</h1>
           {word.meanings.map((meaning) => (
             <div key={meaning.partOfSpeech}>
               <h2 className="font-bold capitalize">{meaning.partOfSpeech}</h2>
