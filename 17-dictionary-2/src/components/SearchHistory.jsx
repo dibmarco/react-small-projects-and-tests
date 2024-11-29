@@ -13,7 +13,7 @@ function SearchHistory({ previousSearches }) {
     : previousSearches.slice(0, displayLimit);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1  pb-4 overflow-y-auto bg-white p-2 border-t-2 scrollbar-thin">
+    <div className="flex flex-col sm:flex-row gap-1  pb-4 overflow-y-auto p-2 border-t-2 scrollbar-thin">
       <p className="font-semibold min-w-fit">
         Search History ({previousSearches.length}):
       </p>
