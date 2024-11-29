@@ -7,7 +7,7 @@ export function DefinitionField({ previousSearches }) {
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
 
   return (
-    <div className="mb-3">
+    <div className="mb-3 h-screen overflow-y-auto pb-16 pr-3 pl-1">
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {word && !error && !isLoading && (
@@ -25,7 +25,7 @@ export function DefinitionField({ previousSearches }) {
           ))}
         </>
       )}
-      {previousSearches.length > 0 && !isLoading && (
+      {previousSearches.length > 0 && (
         <SearchHistory previousSearches={previousSearches} />
       )}
     </div>
