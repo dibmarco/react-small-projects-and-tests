@@ -11,11 +11,11 @@ function SearchHistory({ previousSearches }) {
     : previousSearches.slice(0, displayLimit);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:max-w-[350px] md:max-w-[600px] fixed bottom-0 pb-4 max-h-[90px] overflow-y-auto bg-white p-2 border-t-2 md:min-w-[583px] scrollbar-thin">
+    <div className="flex flex-col sm:flex-row gap-1 sm:max-w-[350px] md:max-w-[600px] fixed bottom-0 pb-4 max-h-[120px] overflow-y-auto bg-white p-2 border-t-2 md:min-w-[583px] scrollbar-thin">
       <p className="font-semibold min-w-fit">
         Search History ({previousSearches.length}):
       </p>
-      <ul className="flex flex-wrap max-w-full sm:max-w-[calc(100%-4rem)] md:max-w-[calc(600px-5rem)]">
+      <ul className="flex flex-wrap max-w-full sm:max-w-[calc(100%-4rem)] md:max-w-[calc(600px-5rem)] custom-margin-bottom">
         {wordsToShow.map((word) => (
           <li
             className="capitalize border-r-2 inline-block mx-0.5 px-1.5 cursor-pointer last:border-r-0"
