@@ -15,7 +15,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App font-nunito w-[350px] mx-auto md:w-[600px] text-slate-900 flex flex-col h-screen">
+    <div className="App font-nunito w-[350px] mx-auto md:w-[600px] text-slate-900 flex flex-col h-screen scrollbar-thin">
       <QueryField inputEl={inputEl} />
       <Routes>
         <Route
