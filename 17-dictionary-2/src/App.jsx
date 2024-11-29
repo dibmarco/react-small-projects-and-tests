@@ -6,6 +6,7 @@ import { DefinitionField } from "./components/DefinitionField";
 
 import useSearchHistory from "./hooks/useSearchHistory";
 import SearchHistory from "./components/SearchHistory";
+import WordOfTheDay from "./components/WordOfTheDay";
 
 function App() {
   const inputEl = useRef(null);
@@ -22,6 +23,7 @@ function App() {
       </div>
       <div className="row-start-2 row-end-3 overflow-y-auto scrollbar-thin">
         <Routes>
+          <Route path="/" element={<WordOfTheDay />} />
           <Route path="/:wordToFetch" element={<DefinitionField />} />
         </Routes>
       </div>
