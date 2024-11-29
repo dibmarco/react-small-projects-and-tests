@@ -4,7 +4,7 @@ export function QueryField({ inputEl }) {
   const { query, setQuery, navigateToWord, handleKeyPress } = useQuery();
 
   return (
-    <div className="flex items-center justify-center gap-1.5 mt-3 w-[350px] mx-auto md:w-[600px] mb-4">
+    <div className="flex items-center justify-center gap-1.5 mt-3 w-[350px] mx-auto md:w-[600px] mb-2">
       <input
         className="border p-1 w-[300px] md:w-[400px]"
         type="text"
