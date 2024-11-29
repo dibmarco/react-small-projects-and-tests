@@ -1,11 +1,13 @@
 import { useState } from "react";
 import useQuery from "../hooks/useQuery";
+import useBreakpoint from "../hooks/useBreakPoint";
 
 function SearchHistory({ previousSearches }) {
   const [showMore, setShowMore] = useState(false);
   const { navigateToWord } = useQuery();
+  const isSmallScreen = useBreakpoint();
 
-  const displayLimit = 5;
+  const displayLimit = isSmallScreen ? 3 : 5;
   const wordsToShow = showMore
     ? previousSearches
     : previousSearches.slice(0, displayLimit);
@@ -15,7 +17,7 @@ function SearchHistory({ previousSearches }) {
       <p className="font-semibold min-w-fit">
         Search History ({previousSearches.length}):
       </p>
-      <ul className="flex flex-wrap max-w-full sm:max-w-[calc(100%-4rem)] md:max-w-[calc(600px-5rem)] custom-margin-bottom">
+      <ul className="flex flex-wrap max-w-full">
         {wordsToShow.map((word) => (
           <li
             className="capitalize border-r-2 inline-block mx-0.5 px-1.5 cursor-pointer last:border-r-0"
