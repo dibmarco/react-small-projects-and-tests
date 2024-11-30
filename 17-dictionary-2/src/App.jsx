@@ -17,7 +17,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App font-nunito w-[350px] mx-auto md:w-[600px] text-slate-900 grid grid-rows-[auto_1fr_auto] h-screen">
+    <div className="App font-nunito grid grid-rows-[auto_1fr_auto] h-screen mx-auto px-3.5 sm:px-0 sm:w-[500px] md:w-[600px]">
       <div className="row-start-1 row-end-2">
         <QueryField inputEl={inputEl} />
       </div>
