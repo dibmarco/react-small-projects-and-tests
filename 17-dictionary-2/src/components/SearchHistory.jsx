@@ -20,7 +20,7 @@ function SearchHistory({ previousSearches }) {
       <ul className="flex flex-wrap max-w-full overflow-y-auto max-h-[72px] md:max-h-[96px] scrollbar-thin pr-1.5">
         {wordsToShow.map((word) => (
           <li
-            className="capitalize border-r-2 inline-block mx-0.5 px-1.5 cursor-pointer last:border-r-0"
+            className="capitalize border-r-2 inline-block mx-0.5 px-1.5 cursor-pointer last:border-r-0 hover:underline"
             onClick={() => navigateToWord(word)}
             key={word}
           >
