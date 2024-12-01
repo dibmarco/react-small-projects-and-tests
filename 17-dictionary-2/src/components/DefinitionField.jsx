@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import useFetchDefinition from "../hooks/useFetchDefinition";
 
-export function DefinitionField({ previousSearches }) {
+export function DefinitionField() {
   const { wordToFetch } = useParams();
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
 
