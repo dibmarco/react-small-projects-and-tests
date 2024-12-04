@@ -3,3 +3,44 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: auto;
+  height: 60dvh;
+}
+
+.spinner::after {
+  content: "";
+  width: 45px;
+  height: 45px;
+  border: 3.5px solid #f1f1f1cb;
+  border-top-color: #252525;
+  border-radius: 50%;
+  animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.animate-in {
+  animation: transitionIn 0.75s;
+}
+
+@keyframes transitionIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
