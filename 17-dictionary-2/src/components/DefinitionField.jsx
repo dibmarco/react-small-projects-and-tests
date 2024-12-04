@@ -6,6 +6,8 @@ export function DefinitionField() {
   const { wordToFetch } = useParams();
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
 
+  // Separate into smaller components. Avoid using index as the key prop.
+
   return (
     <div className="pl-1 scrollbar-thin pr-1.5 mb-4">
       {isLoading && <Spinner />}
