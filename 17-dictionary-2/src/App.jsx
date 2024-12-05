@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { QueryField } from "./components/QueryField";
-import { DefinitionField } from "./components/DefinitionField";
+import QueryField from "./components/QueryField";
+import WordOfTheDay from "./components/WordOfTheDay";
+import DefinitionField from "./components/DefinitionField";
+import SearchHistory from "./components/SearchHistory";
 
 import useSearchHistory from "./hooks/useSearchHistory";
-import SearchHistory from "./components/SearchHistory";
-import WordOfTheDay from "./components/WordOfTheDay";
 
 function App() {
   const inputEl = useRef(null);

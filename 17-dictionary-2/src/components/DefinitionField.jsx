@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import useFetchDefinition from "../hooks/useFetchDefinition";
 
-export function DefinitionField() {
+function DefinitionField() {
   const { wordToFetch } = useParams();
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
 
@@ -30,3 +30,5 @@ export function DefinitionField() {
     </div>
   );
 }
+
+export default DefinitionField;

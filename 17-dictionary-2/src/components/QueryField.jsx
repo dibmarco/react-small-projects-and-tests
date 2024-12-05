@@ -1,6 +1,6 @@
 import useQuery from "../hooks/useQuery";
 
-export function QueryField({ inputEl }) {
+function QueryField({ inputEl }) {
   const { query, setQuery, navigateToWord, handleKeyPress } = useQuery();
 
   return (
@@ -23,3 +23,5 @@ export function QueryField({ inputEl }) {
     </div>
   );
 }
+
+export default QueryField;

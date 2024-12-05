@@ -15,6 +15,12 @@ function useFetchDefinition(wordToFetch) {
     )
       return;
 
+    if (wordToFetch) {
+      const capitalizedWord =
+        wordToFetch.charAt(0).toUpperCase() + wordToFetch.slice(1);
+      document.title = `Word Lookup: ${capitalizedWord}`;
+    }
+
     async function fetchDefinition() {
       try {
         setIsLoading(true);
