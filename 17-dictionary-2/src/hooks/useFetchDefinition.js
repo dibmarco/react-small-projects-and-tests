@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function useFetchDefinition(wordToFetch) {
+function useFetchDefinition(wordToFetch, isWod = false) {
   const [word, setWord] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -35,6 +35,9 @@ function useFetchDefinition(wordToFetch) {
 
         // !!! Managing local storage to ensure only successful fetches are displayed in the search history !!!
 
+        // Check if it is NOT the WoD component that is calling the useFetchDefinition function
+        if (isWod) return;
+
         // Retrieve existing search history from local storage
         const storedHistory =
           JSON.parse(localStorage.getItem("previousSearches")) || [];
@@ -60,7 +63,7 @@ function useFetchDefinition(wordToFetch) {
     }
 
     fetchDefinition();
-  }, [wordToFetch]);
+  }, [wordToFetch, isWod]);
 
   return { word, isLoading, error };
 }

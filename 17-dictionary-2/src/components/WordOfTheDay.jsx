@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import useFetchDefinition from "../hooks/useFetchDefinition";
 import useQuery from "../hooks/useQuery";
+import Spinner from "./Spinner";
 
 const interestingWords = [
   "serendipity",
@@ -35,10 +36,11 @@ const interestingWords = [
   "incandescent",
   "perennial",
 ];
+const isWod = true;
 
 function WordOfTheDay() {
   const [randomWord, setRandomWord] = useState(null);
-  const { word, isLoading, error } = useFetchDefinition(randomWord);
+  const { word, isLoading, error } = useFetchDefinition(randomWord, isWod);
   const { navigateToWord } = useQuery();
 
   // function getToday() {
@@ -70,7 +72,7 @@ function WordOfTheDay() {
       >
         {randomWord}
       </h2>
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <Spinner />}
       {error && <p>Error: {error}</p>}
       {!isLoading &&
         !error &&
