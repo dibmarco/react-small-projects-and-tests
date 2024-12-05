@@ -49,17 +49,13 @@ function WordOfTheDay() {
   useEffect(() => {
     const today = getToday();
     const lastRunDate = localStorage.getItem("date");
-    const previousWord = localStorage.getItem("randomWord");
 
     if (today !== lastRunDate) {
-      let newWord;
-      do {
-        newWord =
-          interestingWords[Math.floor(Math.random() * interestingWords.length)];
-      } while (newWord === previousWord);
-      setRandomWord(newWord);
+      const selectedRandomWord =
+        interestingWords[Math.floor(Math.random() * interestingWords.length)];
+      setRandomWord(selectedRandomWord);
       localStorage.setItem("date", today);
-      localStorage.setItem("randomWord", newWord);
+      localStorage.setItem("randomWord", selectedRandomWord);
     } else {
       const storedWord = localStorage.getItem("randomWord");
       setRandomWord(storedWord);
