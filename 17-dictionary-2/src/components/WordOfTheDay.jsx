@@ -55,6 +55,10 @@ function WordOfTheDay() {
       interestingWords[Math.floor(Math.random() * interestingWords.length)];
     // console.log(selectedRandomWord);
     setRandomWord(selectedRandomWord);
+
+    const capitalizedWord =
+      selectedRandomWord.charAt(0).toUpperCase() + selectedRandomWord.slice(1);
+    document.title = `Word Lookup: ${capitalizedWord}`;
   }, []);
 
   return (
