@@ -33,25 +33,25 @@ function useFetchDefinition(wordToFetch, isWod = false) {
         setWord(data);
         previousWord.current = wordToFetch;
 
-        // !!! Managing local storage to ensure only successful fetches are displayed in the search history !!!
+        // !!! Manage local storage to ensure only successful fetches are saved in the search history. !!!
 
-        // Check if it is NOT the WoD component that is calling the useFetchDefinition function
+        // Exit if this is called from the Word of the Day (WoD) component.
         if (isWod) return;
 
-        // Retrieve existing search history from local storage
+        // Retrieve the existing search history from local storage.
         const storedHistory =
           JSON.parse(localStorage.getItem("previousSearches")) || [];
 
-        // Check if the word is already in the history
+        // Check if the word is already present in the history.
         if (!storedHistory.includes(wordToFetch.toLowerCase())) {
-          // Add new word to the history
+          // Add the new word to the history.
           const updatedHistory = [wordToFetch.toLowerCase(), ...storedHistory];
-          // Save the updated history to local storage
+          // Save the updated history to local storage.
           localStorage.setItem(
             "previousSearches",
             JSON.stringify(updatedHistory)
           );
-          // Dispatch a storage event for cross-tab synchronization
+          // Dispatch a storage event for synchronization across tabs.
           window.dispatchEvent(new Event("storage"));
         }
       } catch (err) {
