@@ -1,3 +1,36 @@
+export const wordList = [
+  "serendipity",
+  "luminous",
+  "euphoria",
+  "ephemeral",
+  "ineffable",
+  "solitude",
+  "mellifluous",
+  "labyrinthine",
+  "eloquent",
+  "iridescent",
+  "tranquility",
+  "resonance",
+  "effervescent",
+  "aesthetic",
+  "nebulous",
+  "paradox",
+  "luminescence",
+  "alchemy",
+  "zephyr",
+  "reverie",
+  "zenith",
+  "ubiquitous",
+  "wanderlust",
+  "ameliorate",
+  "rhapsody",
+  "resilience",
+  "synergy",
+  "elation",
+  "incandescent",
+  "perennial",
+];
+
 export function getToday() {
   const today = new Date();
 

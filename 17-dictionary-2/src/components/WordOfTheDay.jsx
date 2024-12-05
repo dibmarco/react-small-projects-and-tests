@@ -1,70 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // import Spinner from "./Spinner";
 
+import useWordOfTheDay from "../hooks/useWordOfTheDay";
 import useFetchDefinition from "../hooks/useFetchDefinition";
 import useQuery from "../hooks/useQuery";
 
 import { getToday } from "../utils/helpers";
 
-const interestingWords = [
-  "serendipity",
-  "luminous",
-  "euphoria",
-  "ephemeral",
-  "ineffable",
-  "solitude",
-  "mellifluous",
-  "labyrinthine",
-  "eloquent",
-  "iridescent",
-  "tranquility",
-  "resonance",
-  "effervescent",
-  "aesthetic",
-  "nebulous",
-  "paradox",
-  "luminescence",
-  "alchemy",
-  "zephyr",
-  "reverie",
-  "zenith",
-  "ubiquitous",
-  "wanderlust",
-  "ameliorate",
-  "rhapsody",
-  "resilience",
-  "synergy",
-  "elation",
-  "incandescent",
-  "perennial",
-];
 const isWod = true;
 
 function WordOfTheDay() {
-  const [randomWord, setRandomWord] = useState(null);
+  const randomWord = useWordOfTheDay();
   const { word, isLoading, error } = useFetchDefinition(randomWord, isWod);
   const { navigateToWord } = useQuery();
 
   useEffect(() => {
-    const today = getToday();
-    const lastRunDate = localStorage.getItem("date");
-    const previousWord = localStorage.getItem("randomWord");
-
-    if (today !== lastRunDate) {
-      let newWord;
-      do {
-        newWord =
-          interestingWords[Math.floor(Math.random() * interestingWords.length)];
-      } while (newWord === previousWord);
-      setRandomWord(newWord);
-      localStorage.setItem("date", today);
-      localStorage.setItem("randomWord", newWord);
-    } else {
-      const storedWord = localStorage.getItem("randomWord");
-      setRandomWord(storedWord);
-    }
-
     if (randomWord) {
       const capitalizedWord =
         randomWord.charAt(0).toUpperCase() + randomWord.slice(1);
