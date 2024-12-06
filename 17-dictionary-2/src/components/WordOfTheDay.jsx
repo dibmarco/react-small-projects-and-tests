@@ -6,7 +6,7 @@ import useWordOfTheDay from "../hooks/useWordOfTheDay";
 import useFetchDefinition from "../hooks/useFetchDefinition";
 import useQuery from "../hooks/useQuery";
 
-import { getToday } from "../utils/helpers";
+import { getToday, makeWordsClickable } from "../utils/helpers";
 
 const isWod = true;
 
@@ -40,7 +40,7 @@ function WordOfTheDay() {
           word.meanings[0].definitions && (
             <>
               <p className="text-lg mt-2 leading-tight">
-                {word.meanings[0].definitions[0].definition}
+                {makeWordsClickable(word.meanings[0].definitions[0].definition, navigateToWord)}
               </p>
               <p
                 className="text-blue-500 hover:underline cursor-pointer text-sm mt-3"
