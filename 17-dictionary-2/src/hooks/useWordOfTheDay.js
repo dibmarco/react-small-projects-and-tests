@@ -15,8 +15,8 @@ function useWordOfTheDay() {
         newWord = wordList[Math.floor(Math.random() * wordList.length)];
       } while (newWord === previousWord);
       setRandomWord(newWord);
-      localStorage.setItem("date", today);
       localStorage.setItem("wordOfTheDay", newWord);
+      // localStorage.setItem("date", today);
     } else {
       const storedWord = localStorage.getItem("wordOfTheDay");
       setRandomWord(storedWord);
