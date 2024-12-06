@@ -32,7 +32,7 @@ function WordOfTheDay() {
       <div className="w-[340px] text-center sm:w-[500px]">
         <h1 className="capitalize mt-8 text-3xl font-semibold">{randomWord}</h1>
         {word && word.phonetic && <p className="text-base mb-0.5">{word.phonetic}</p>}
-        {isLoading && <Spinner />}
+        {isLoading && <Spinner type="small" />}
         {error && <p className="text-red-500 mt-2">Error: {error}</p>}
         {!isLoading &&
           !error &&
