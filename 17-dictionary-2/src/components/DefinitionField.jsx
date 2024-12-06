@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
+
 import Spinner from "./Spinner";
-import useFetchDefinition from "../hooks/useFetchDefinition";
 import { PartOfSpeech } from "./PartOfSpeech";
+
+import useFetchDefinition from "../hooks/useFetchDefinition";
 
 function DefinitionField() {
   const { wordToFetch } = useParams();
