@@ -15,7 +15,7 @@ function QueryField({ inputEl }) {
         onKeyDown={handleKeyPress}
       />
       <button
-        className="border py-1 px-3 bg-slate-300 rounded-md mr-2"
+        className="border py-1 px-3 bg-slate-300/75 rounded-md mr-2 hover:bg-slate-300"
         onClick={() => navigateToWord()}
       >
         Search
