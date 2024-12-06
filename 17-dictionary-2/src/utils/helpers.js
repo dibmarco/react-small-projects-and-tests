@@ -39,3 +39,22 @@ export function getToday() {
 
   return formattedDate;
 }
+
+export function makeWordsClickable(content, navigateToWord) {
+  // Regular expression to remove non-alphabetic characters from the beginning and end.
+  const cleanWord = (word) => word.replace(/^[^a-zA-Z]+|[^a-zA-Z]+$/g, "");
+
+  // Split the content into words and wrap each word in a span.
+  const words = content.split(" ");
+
+  const clickableWord = words.map((word, i) => {
+    const cleanedWord = cleanWord(word);
+    return (
+      <span key={i} onDoubleClick={() => navigateToWord(cleanedWord)}>
+        {word}{" "}
+      </span>
+    );
+  });
+
+  return clickableWord;
+}

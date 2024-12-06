@@ -16,7 +16,7 @@ function useWordOfTheDay() {
       } while (newWord === previousWord);
       setRandomWord(newWord);
       localStorage.setItem("wordOfTheDay", newWord);
-      // localStorage.setItem("date", today);
+      // localStorage.setItem("date", today); // This line was causing conflicts with the useSearchHistory hook, which also manages the 'date' key in localStorage.
     } else {
       const storedWord = localStorage.getItem("wordOfTheDay");
       setRandomWord(storedWord);
