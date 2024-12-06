@@ -23,7 +23,7 @@ function useWordOfTheDay() {
     }
   }, []);
 
-  return randomWord;
+  return { randomWord };
 }
 
 export default useWordOfTheDay;

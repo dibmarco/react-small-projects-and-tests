@@ -11,7 +11,7 @@ import { getToday } from "../utils/helpers";
 const isWod = true;
 
 function WordOfTheDay() {
-  const randomWord = useWordOfTheDay();
+  const { randomWord } = useWordOfTheDay();
   const { word, isLoading, error } = useFetchDefinition(randomWord, isWod);
   const { navigateToWord } = useQuery();
 
