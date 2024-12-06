@@ -6,7 +6,7 @@ function QueryField({ inputEl }) {
   return (
     <div className="flex items-center justify-center gap-1 mt-3 w-[350px] mx-auto md:w-[600px] mb-2">
       <input
-        className="border py-1 px-2.5 w-[300px] md:w-[400px] rounded-md"
+        className="border py-1 px-2.5 w-[280px] sm:w-[320px] md:w-[400px] lg:w-[420px] rounded-md"
         type="text"
         value={query}
         ref={inputEl}
@@ -15,7 +15,7 @@ function QueryField({ inputEl }) {
         onKeyDown={handleKeyPress}
       />
       <button
-        className="border py-1 px-3 bg-slate-300 rounded-md"
+        className="border py-1 px-3 bg-slate-300 rounded-md mr-2"
         onClick={() => navigateToWord()}
       >
         Search
