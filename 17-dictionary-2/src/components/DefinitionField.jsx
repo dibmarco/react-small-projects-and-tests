@@ -13,7 +13,10 @@ function DefinitionField() {
       {error && <p>Error: {error}</p>}
       {word && !error && !isLoading && (
         <div className="animate-in md:ml-5">
-          <h1 className="font-bold uppercase text-xl my-2">{word.word}</h1>
+          <div className="flex gap-3 my-2">
+            <h1 className="font-bold uppercase text-xl items-center justify-center">{word.word}</h1>
+            <p className="text-base pt-0.5">{word.phonetic}</p>
+          </div>
           {word.meanings.map((meaning, i) => (
             <PartOfSpeech key={i} meaning={meaning} />
           ))}

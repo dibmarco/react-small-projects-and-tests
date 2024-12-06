@@ -33,7 +33,7 @@ function useFetchDefinition(wordToFetch, isWod = false) {
         // console.log(data);
 
         setWord(data);
-        
+
         previousWord.current = wordToFetch;
 
         // !!! Manage local storage to ensure only successful fetches are saved in the search history. !!!

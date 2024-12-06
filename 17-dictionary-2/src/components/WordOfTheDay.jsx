@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-// import Spinner from "./Spinner";
+import Spinner from "./Spinner";
 
 import useWordOfTheDay from "../hooks/useWordOfTheDay";
 import useFetchDefinition from "../hooks/useFetchDefinition";
@@ -24,14 +24,15 @@ function WordOfTheDay() {
   }, [randomWord]);
 
   return (
-    <div className="flex justify-center items-center h-full w-full flex-col">
+    <div className="animate-in flex justify-center items-center h-full w-full flex-col">
       <div className="flex justify-center items-center flex-col sm:flex-row sm:gap-1">
         <p className="font-bold text-xl">Word of the Day:</p>
         <p className="font-thin text-lg sm:mt-1">{getToday()}</p>
       </div>
       <div className="w-[340px] text-center sm:w-[500px]">
         <h1 className="capitalize mt-8 text-3xl font-semibold">{randomWord}</h1>
-        {/* {isLoading && <Spinner />} */}
+        {word && word.phonetic && <p className="text-base mb-0.5">{word.phonetic}</p>}
+        {isLoading && <Spinner />}
         {error && <p className="text-red-500 mt-2">Error: {error}</p>}
         {!isLoading &&
           !error &&
