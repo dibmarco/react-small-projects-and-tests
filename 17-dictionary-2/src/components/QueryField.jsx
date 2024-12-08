@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import useQuery from "../hooks/useQuery";
 
 function QueryField({ inputEl }) {
@@ -5,6 +6,9 @@ function QueryField({ inputEl }) {
 
   return (
     <div className="flex items-center justify-center gap-1 mt-3 w-[350px] mx-auto md:w-[600px] mb-2">
+      <NavLink className="sm:pr-1 text-slate-900 hover:text-slate-700" to="/">
+        <i className="fa-solid fa-house"></i>
+      </NavLink>
       <input
         className="border py-1 px-2.5 w-[280px] sm:w-[320px] md:w-[400px] lg:w-[420px] rounded-md"
         type="text"
