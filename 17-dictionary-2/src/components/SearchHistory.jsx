@@ -16,7 +16,7 @@ function SearchHistory({ previousSearches }) {
   return (
     <div className="flex flex-col md:flex-row gap-1 pb-4 border-t-2 ">
       <p className="font-semibold min-w-fit">
-      {makeWordsClickable("Search History", navigateToWord)}{previousSearches.length ? ` (${previousSearches.length})` : ""}:
+      {makeWordsClickable("Daily History", navigateToWord)}{previousSearches.length ? ` (${previousSearches.length})` : ""}:
 
       </p>
       <ul className="flex flex-wrap max-w-full overflow-y-auto max-h-[72px] md:max-h-[96px] scrollbar-thin pr-1.5">
