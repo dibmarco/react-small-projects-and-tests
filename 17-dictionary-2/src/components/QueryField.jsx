@@ -7,7 +7,7 @@ function QueryField({ inputEl }) {
   return (
     <div className="flex items-center justify-center gap-1.5 mt-3 w-[350px] mx-auto md:w-[600px] mb-2">
       <NavLink
-        className="sm:pr-[1px] text-slate-900 hover:text-slate-700"
+        className="sm:pr-[1px] text-slate-900 hover:text-slate-700 text-lg"
         to="/"
       >
         <i className="fa-solid fa-house"></i>
