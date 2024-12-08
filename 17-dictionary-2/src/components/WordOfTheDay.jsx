@@ -5,6 +5,7 @@ import Spinner from "./Spinner";
 import useWordOfTheDay from "../hooks/useWordOfTheDay";
 import useFetchDefinition from "../hooks/useFetchDefinition";
 import useQuery from "../hooks/useQuery";
+import useBreakpoint from "../hooks/useBreakPoint";
 
 import { getToday, makeWordsClickable } from "../utils/helpers";
 
@@ -14,6 +15,7 @@ function WordOfTheDay() {
   const { randomWord } = useWordOfTheDay();
   const { word, isLoading, error } = useFetchDefinition(randomWord, isWod);
   const { navigateToWord } = useQuery();
+  const isSmallScreen = useBreakpoint();
 
   useEffect(() => {
     if (randomWord) {
@@ -70,7 +72,9 @@ function WordOfTheDay() {
             <i className="fa-solid fa-hand-pointer"></i>
           </span>
           {makeWordsClickable(
-            "Double-click any word on screen for definition.",
+            `Double-${
+              isSmallScreen ? "tap" : "click"
+            } any word on screen for definition.`,
             navigateToWord
           )}
         </p>
