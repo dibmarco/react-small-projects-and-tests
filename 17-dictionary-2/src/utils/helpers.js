@@ -40,6 +40,10 @@ export function getToday() {
   return formattedDate;
 }
 
+export function capitalizeWord(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 export function makeWordsClickable(content, navigateToWord) {
   // Regular expression to remove non-alphabetic characters from the beginning and end.
   const cleanWord = (word) => word.replace(/^[^a-zA-Z]+|[^a-zA-Z]+$/g, "");

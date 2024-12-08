@@ -7,7 +7,7 @@ import useFetchDefinition from "../hooks/useFetchDefinition";
 import useQuery from "../hooks/useQuery";
 import useBreakpoint from "../hooks/useBreakPoint";
 
-import { getToday, makeWordsClickable } from "../utils/helpers";
+import { capitalizeWord, getToday, makeWordsClickable } from "../utils/helpers";
 
 const isWod = true;
 
@@ -19,9 +19,7 @@ function WordOfTheDay() {
 
   useEffect(() => {
     if (randomWord) {
-      const capitalizedWord =
-        randomWord.charAt(0).toUpperCase() + randomWord.slice(1);
-      document.title = `Word Lookup: ${capitalizedWord}`;
+      document.title = `Word Lookup: ${capitalizeWord(randomWord)}`;
     }
   }, [randomWord]);
 
