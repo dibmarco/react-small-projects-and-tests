@@ -27,7 +27,7 @@ function QueryField({ inputEl }) {
         className="border py-1 px-4 bg-slate-300/75 rounded-md mr-2 hover:bg-slate-300"
         onClick={() => navigateToWord()}
       >
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <i className="fa-solid fa-magnifying-glass"></i>
       </button>
     </div>
   );
