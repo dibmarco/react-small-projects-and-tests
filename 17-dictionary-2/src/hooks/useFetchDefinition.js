@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { capitalizeWord } from "../utils/helpers";
 
 function useFetchDefinition(wordToFetch, isWod = false) {
   const [word, setWord] = useState(null);
@@ -16,9 +17,7 @@ function useFetchDefinition(wordToFetch, isWod = false) {
       return;
 
     if (wordToFetch) {
-      const capitalizedWord =
-        wordToFetch.charAt(0).toUpperCase() + wordToFetch.slice(1);
-      document.title = `Word Lookup: ${capitalizedWord}`;
+      document.title = `Word Lookup: ${capitalizeWord(wordToFetch)}`;
     }
 
     async function fetchDefinition() {
