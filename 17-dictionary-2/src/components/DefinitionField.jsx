@@ -5,26 +5,11 @@ import { PartOfSpeech } from "./PartOfSpeech";
 
 import useFetchDefinition from "../hooks/useFetchDefinition";
 
-import { capitalizeWord } from "../utils/helpers";
+import { shareWord } from "../utils/helpers";
 
 function DefinitionField() {
   const { wordToFetch } = useParams();
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
-
-  const shareWord = {
-    title: "Word Looup App",
-    text: `Word Lookup: ${capitalizeWord(wordToFetch)}`,
-    // url: `https://word-lookup-md.netlify.app/${wordToFetch}`,
-    url: window.location.href,
-  };
-
-  async function handleShareWord() {
-    try {
-      await navigator.share(shareWord);
-    } catch (err) {
-      console.error("Failed sharing word.", err);
-    }
-  }
 
   return (
     <div className="pl-1 scrollbar-thin pr-1.5 mb-4">
@@ -41,7 +26,7 @@ function DefinitionField() {
             </p>
             <p
               className="pt-1 cursor-pointer text-lg text-slate-900 hover:text-slate-700"
-              onClick={handleShareWord}
+              onClick={() => shareWord(wordToFetch)}
             >
               <i className="fa-solid fa-share-nodes"></i>
             </p>
