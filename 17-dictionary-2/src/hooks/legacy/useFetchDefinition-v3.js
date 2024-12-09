@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { capitalizeWord } from "../utils/helpers";
 
-const cache = {};
-
 function useFetchDefinition(wordToFetch, isWod = false) {
   const [word, setWord] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,23 +22,16 @@ function useFetchDefinition(wordToFetch, isWod = false) {
 
     async function fetchDefinition() {
       try {
-        // Check if the word is already in the cache
-        if (cache[wordToFetch.toLowerCase()]) {
-          setWord(cache[wordToFetch.toLowerCase()]);
-        } else {
-          setIsLoading(true);
-          setError(null);
+        setIsLoading(true);
+        setError(null);
 
-          const res = await fetch(`${BASE_URL}${wordToFetch.toLowerCase()}`);
-          if (!res.ok) throw new Error("Failed fetching definition.");
+        const res = await fetch(`${BASE_URL}${wordToFetch.toLowerCase()}`);
+        if (!res.ok) throw new Error("Failed fetching definition.");
 
-          const [data] = await res.json();
+        const [data] = await res.json();
+        // console.log(data);
 
-          setWord(data);
-
-          // Store the fetched data in the cache
-          cache[wordToFetch.toLowerCase()] = data;
-        }
+        setWord(data);
 
         previousWord.current = wordToFetch;
 
