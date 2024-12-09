@@ -26,6 +26,7 @@ function useFetchDefinition(wordToFetch, isWod = false) {
       try {
         // Check if the word is already in the cache
         if (cache[wordToFetch.toLowerCase()]) {
+          setError(null);
           setWord(cache[wordToFetch.toLowerCase()]);
         } else {
           setIsLoading(true);
