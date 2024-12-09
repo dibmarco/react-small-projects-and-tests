@@ -16,7 +16,7 @@ function DefinitionField() {
       {isLoading && <Spinner />}
       {error && <p>Error: {error}</p>}
       {word && !error && !isLoading && (
-        <div className="animate-in md:ml-5">
+        <div className="animate-in md:ml-5" key={word.word}>
           <div className="flex gap-3 my-2">
             <h1 className="font-bold uppercase text-xl items-center justify-center">
               {word.word}
