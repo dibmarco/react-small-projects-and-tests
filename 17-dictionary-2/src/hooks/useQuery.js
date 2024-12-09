@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
+const toastOptions = {
+  className: "mt-12 bg-yellow-200 text-black px-4 py-2 rounded-md shadow-lg",
+  duration: 1500,
+};
 
 function useQuery(initialValue = "") {
   const [query, setQuery] = useState(initialValue);
@@ -8,7 +14,7 @@ function useQuery(initialValue = "") {
   function navigateToWord(word) {
     const searchQuery = word || query;
     if (!searchQuery.trim()) {
-      alert("Enter a word!");
+      toast.error("Please type a word!", toastOptions);
       return;
     }
 
@@ -20,7 +26,7 @@ function useQuery(initialValue = "") {
     if (e.key !== "Enter") return;
 
     if (!query.trim()) {
-      alert("Enter a word!");
+      toast.error("Please type a word!", toastOptions);
       return;
     }
 
