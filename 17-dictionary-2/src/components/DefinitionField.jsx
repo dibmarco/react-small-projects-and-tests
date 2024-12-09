@@ -15,7 +15,15 @@ function DefinitionField() {
     if (error) {
       toast.error("Oops! Word not found.", {
         duration: 2500,
-        className: "mt-12 bg-gray-700 text-red-500 p-4 rounded shadow-lg",
+        style: {
+          marginTop: "3rem",
+          backgroundColor: "#374151", // Equivalent to bg-gray-700
+          color: "#EF4444", // Equivalent to text-red-500
+          padding: "1rem",
+          borderRadius: "0.375rem", // Equivalent to rounded
+          boxShadow:
+            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)", // Equivalent to shadow-lg
+        },
       });
 
       navigate("/"); // Navigate to the root path on error

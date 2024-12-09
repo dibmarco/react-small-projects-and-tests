@@ -2,6 +2,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
+const toastOptions = {
+  message: "Please type a word!",
+  style: {
+    marginTop: "3rem",
+    backgroundColor: "#FEF08A", // Equivalent to bg-yellow-200
+    color: "#000",
+    padding: "0.5rem 1rem",
+    borderRadius: "0.375rem", // Equivalent to rounded-md
+    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)", // Equivalent to shadow-lg
+  },
+  duration: 1500,
+};
+
 function useQuery(initialValue = "") {
   const [query, setQuery] = useState(initialValue);
   const navigate = useNavigate();
@@ -9,10 +22,9 @@ function useQuery(initialValue = "") {
   function navigateToWord(word) {
     const searchQuery = word || query;
     if (!searchQuery.trim()) {
-      toast.error("Please type a word!", {
-        className:
-          "mt-12 bg-yellow-200 text-black px-4 py-2 rounded-md shadow-lg",
-        duration: 1500,
+      toast.error(toastOptions.message, {
+        style: toastOptions.style,
+        duration: toastOptions.duration,
       });
       return;
     }
@@ -25,10 +37,9 @@ function useQuery(initialValue = "") {
     if (e.key !== "Enter") return;
 
     if (!query.trim()) {
-      toast.error("Please type a word!", {
-        className:
-          "mt-12 bg-yellow-200 text-black px-4 py-2 rounded-md shadow-lg",
-        duration: 1500,
+      toast.error(toastOptions.message, {
+        style: toastOptions.style,
+        duration: toastOptions.duration,
       });
       return;
     }
