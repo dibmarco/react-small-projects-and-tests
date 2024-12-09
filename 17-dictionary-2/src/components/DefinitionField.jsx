@@ -17,6 +17,7 @@ function DefinitionField() {
         duration: 2500,
         className: "mt-12 bg-gray-700 text-red-500 p-4 rounded shadow-lg",
       });
+
       navigate("/"); // Navigate to the root path on error
     }
   }, [error, navigate]);
