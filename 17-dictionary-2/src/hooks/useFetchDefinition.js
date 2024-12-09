@@ -12,6 +12,8 @@ function useFetchDefinition(wordToFetch, isWod = false) {
   const BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
   useEffect(() => {
+    setError(null);
+
     if (
       !wordToFetch ||
       wordToFetch.toLowerCase() === previousWord.current?.toLowerCase()
@@ -26,7 +28,6 @@ function useFetchDefinition(wordToFetch, isWod = false) {
       try {
         // Check if the word is already in the cache
         if (cache[wordToFetch.toLowerCase()]) {
-          setError(null);
           setWord(cache[wordToFetch.toLowerCase()]);
         } else {
           setIsLoading(true);
