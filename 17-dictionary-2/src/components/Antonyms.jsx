@@ -6,7 +6,7 @@ function Antonyms({ antonyms }) {
   if (!antonyms.length) return null;
 
   return (
-    <div className="flex gap-1 bg-red-100 py-2 rounded-md mt-2 flex-wrap px-5 mx-5">
+    <div className="flex flex-wrap gap-1 leading-3 text-sm pl-3 pr-4 pt-1.5 pb-2 mt-1 mb-2 text-justify text-slate-800 bg-red-100 max-w-[480px] w-full md:ml-4 md:pl-5 rounded-md md:text-base sm:max-w-[400px] md:max-w-[480px]">
       <p className="font-semibold">
         {antonyms.length > 1 ? "Antonyms" : "Antonym"}:
       </p>

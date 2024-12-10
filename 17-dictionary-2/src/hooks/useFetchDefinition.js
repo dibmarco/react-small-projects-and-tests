@@ -66,7 +66,7 @@ function useFetchDefinition(wordToFetch, isWod = false) {
           if (!res.ok) throw new Error("Failed fetching definition.");
 
           const [data] = await res.json();
-          console.log(data);
+          // console.log(data);
 
           setWord(data);
 

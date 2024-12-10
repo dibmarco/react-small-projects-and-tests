@@ -1,12 +1,10 @@
 import React from "react";
-import useQuery from "../hooks/useQuery";
+
 import Definitions from "./Definitions";
 import Synonyms from "./Synonyms";
 import Antonyms from "./Antonyms";
 
 export function PartOfSpeech({ meaning }) {
-  const { navigateToWord } = useQuery();
-
   return (
     <>
       <div key={meaning.partOfSpeech}>
