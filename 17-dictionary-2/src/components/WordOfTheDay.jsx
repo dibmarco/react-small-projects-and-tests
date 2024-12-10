@@ -29,7 +29,7 @@ function WordOfTheDay() {
         <p className="font-bold text-xl">
           {makeWordsClickable("Word of the Day:", navigateToWord)}
         </p>
-        <p className="font-thin text-lg sm:mt-1">
+        <p className="font-thin text-lg sm:mt-[1px]">
           {makeWordsClickable(getToday(), navigateToWord)}
         </p>
       </div>
@@ -61,7 +61,7 @@ function WordOfTheDay() {
                 className="text-blue-500 hover:underline cursor-pointer text-sm mt-3"
                 onClick={() => navigateToWord(randomWord)}
               >
-                Read full definition
+                See full definition
               </p>
             </>
           )}
@@ -72,7 +72,7 @@ function WordOfTheDay() {
           {makeWordsClickable(
             `Double-${
               isSmallScreen ? "tap" : "click"
-            } any word on screen for definition.`,
+            } any word to explore.`,
             navigateToWord
           )}
         </p>
