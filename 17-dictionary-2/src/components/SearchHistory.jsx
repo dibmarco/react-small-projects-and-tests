@@ -16,8 +16,9 @@ function SearchHistory({ previousSearches }) {
   return (
     <div className="flex flex-col md:flex-row gap-1 pb-4 border-t-2 ">
       <p className="font-semibold min-w-fit">
-      {makeWordsClickable("Daily History", navigateToWord)}{previousSearches.length ? ` (${previousSearches.length})` : ""}:
-
+        {makeWordsClickable("Daily History", navigateToWord)}
+        {previousSearches.length ? ` (${previousSearches.length})` : ""}
+        <span className={!previousSearches.length ? "ml-[-3.5px]" : ""}>:</span>
       </p>
       <ul className="flex flex-wrap max-w-full overflow-y-auto max-h-[72px] md:max-h-[96px] scrollbar-thin pr-1.5">
         {wordsToShow.map((word) => (
@@ -29,7 +30,11 @@ function SearchHistory({ previousSearches }) {
             {word}
           </li>
         ))}
-        {!previousSearches.length && <p className="opacity-60 pl-1.5">Nothing here yet, start your search!</p>}
+        {!previousSearches.length && (
+          <p className="opacity-60 pl-1.5">
+            Nothing here yet, start your search!
+          </p>
+        )}
         {previousSearches.length > displayLimit && (
           <p
             onClick={() => setShowMore(!showMore)}

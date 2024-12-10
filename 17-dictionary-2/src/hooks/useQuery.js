@@ -6,14 +6,39 @@ const toastOptions = {
   message: "Please type a word!",
   style: {
     marginTop: "3rem",
-    backgroundColor: "#FEF08A", // Equivalent to bg-yellow-200
-    color: "#000",
-    padding: "0.5rem 1rem",
-    borderRadius: "0.375rem", // Equivalent to rounded-md
-    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)", // Equivalent to shadow-lg
+    backgroundColor: "#f5f5f5",
+    color: "#374151",
+    padding: "8px 16px",
+    borderRadius: "6px",
+    border: "1px solid #d1d5db",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    fontSize: "16px",
+    fontFamily: "'Nunito', sans-serif",
+    textAlign: "center",
   },
   duration: 1500,
+  icon: (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "24px",
+        height: "24px",
+        fontSize: "18px",
+      }}
+    >
+      ⚠️
+    </span>
+  ),
 };
+
+// Usage example:
+toast.error(toastOptions.message, {
+  style: toastOptions.style,
+  duration: toastOptions.duration,
+  icon: toastOptions.icon,
+});
 
 function useQuery(initialValue = "") {
   const [query, setQuery] = useState(initialValue);
@@ -25,6 +50,7 @@ function useQuery(initialValue = "") {
       toast.error(toastOptions.message, {
         style: toastOptions.style,
         duration: toastOptions.duration,
+        icon: toastOptions.icon,
       });
       return;
     }
@@ -40,6 +66,7 @@ function useQuery(initialValue = "") {
       toast.error(toastOptions.message, {
         style: toastOptions.style,
         duration: toastOptions.duration,
+        icon: toastOptions.icon,
       });
       return;
     }

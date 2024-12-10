@@ -1,42 +1,21 @@
-import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import { PartOfSpeech } from "./PartOfSpeech";
 import useFetchDefinition from "../hooks/useFetchDefinition";
 import { shareWord } from "../utils/helpers";
-import toast from "react-hot-toast";
+import NotFound from "./NotFound";
 
-function DefinitionField() {
+function DefinitionField({ focusInput }) {
   const { wordToFetch } = useParams();
   const { word, isLoading, error } = useFetchDefinition(wordToFetch);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (error) {
-      toast.error("Oops! Word not found.", {
-        duration: 2500,
-        style: {
-          marginTop: "3rem",
-          backgroundColor: "#374151", // Equivalent to bg-gray-700
-          color: "#EF4444", // Equivalent to text-red-500
-          padding: "1rem",
-          borderRadius: "0.375rem", // Equivalent to rounded
-          boxShadow:
-            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)", // Equivalent to shadow-lg
-        },
-      });
-
-      navigate("/"); // Navigate to the root path on error
-    }
-  }, [error, navigate]);
 
   return (
     <div className="pl-1 scrollbar-thin pr-1.5 mb-4">
       {isLoading && <Spinner />}
-      {/* {error && <p>Error: {error}</p>} */}
+      {error && <NotFound focusInput={focusInput} />}
       {word && !error && !isLoading && (
         <div className="animate-in md:ml-5" key={word.word}>
-          <div className="flex gap-3 my-2">
+          <div className="flex gap-3 my-1">
             <h1 className="font-bold uppercase text-xl items-center justify-center">
               {word.word}
             </h1>

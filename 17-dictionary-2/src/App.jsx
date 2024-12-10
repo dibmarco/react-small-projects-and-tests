@@ -12,8 +12,12 @@ function App() {
   const inputEl = useRef(null);
   const { previousSearches } = useSearchHistory();
 
-  useEffect(() => {
+  function focusInput() {
     inputEl.current?.focus();
+  }
+
+  useEffect(() => {
+    focusInput();
   }, []);
 
   return (
@@ -24,7 +28,10 @@ function App() {
       <div className="row-start-2 row-end-3 overflow-y-auto scrollbar-thin">
         <Routes>
           <Route path="/" element={<WordOfTheDay />} />
-          <Route path="/:wordToFetch" element={<DefinitionField />} />
+          <Route
+            path="/:wordToFetch"
+            element={<DefinitionField focusInput={focusInput} />}
+          />
         </Routes>
       </div>
       <div className="row-start-3 row-end-4">
